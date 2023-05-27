@@ -641,16 +641,16 @@ const DrawerNav = () => {
                     component={ApplicantTabNav}
                 />
                 :
-                // <Drawer.Screen
-                //     options={{ headerShown: false }}
-                //     name="AdminTabNav"
-                //     component={AdminTabNav}
-                // />
                 <Drawer.Screen
-                options={{ headerShown: false }}
-                name="AdminTabNav"
-                component={GuardTabNav}
-            />
+                    options={{ headerShown: false }}
+                    name="AdminTabNav"
+                    component={AdminTabNav}
+                />
+            //     <Drawer.Screen
+            //     options={{ headerShown: false }}
+            //     name="AdminTabNav"
+            //     component={GuardTabNav}
+            // />
             }
               <Drawer.Screen
                     options={{ headerShown: false }}
