@@ -1,0 +1,16 @@
+<svg id="tasks-svgrepo-com" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+  <g id="Group_1097" data-name="Group 1097">
+    <path id="Path_969" data-name="Path 969" d="M19.667,17.667h-.333V7a.982.982,0,0,0-1-1H16.667V2.667h0a.122.122,0,0,0-.033-.1V2.533c-.033-.033-.033-.067-.067-.1L14.233.1c-.033-.033-.067-.033-.1-.067H14.1C14.067.033,14.033,0,14,0H4a.315.315,0,0,0-.333.333V6h-2a.982.982,0,0,0-1,1V17.667H.333A.315.315,0,0,0,0,18v1.333A.63.63,0,0,0,.667,20H19.333A.63.63,0,0,0,20,19.333V18A.315.315,0,0,0,19.667,17.667ZM16.667,8h1v8.667h-1ZM15.533,2.333h-1.2v-1.2ZM4.333.667h9.333v2A.315.315,0,0,0,14,3h2V16.667H4.333Zm-2,16V8H3.667v8.667Zm17,2.667H.667v-1H18v-.667H1.333V7a.315.315,0,0,1,.333-.333h2v.667H2a.315.315,0,0,0-.333.333V17A.315.315,0,0,0,2,17.333H18A.315.315,0,0,0,18.333,17V7.667A.315.315,0,0,0,18,7.333H16.667V6.667h1.667A.315.315,0,0,1,18.667,7V18a.315.315,0,0,0,.333.333h.333Z" fill="currentColor"/>
+    <path id="Path_970" data-name="Path 970" d="M19.172,17.689l-.42-.42-.452.452.646.646a.312.312,0,0,0,.452,0l1.616-1.615-.452-.452Z" transform="translate(-12.17 -10.846)" fill="currentColor"/>
+    <rect id="Rectangle_2628" data-name="Rectangle 2628" width="1.547" height="0.387" transform="translate(9.6 5.589)" fill="currentColor"/>
+    <rect id="Rectangle_2629" data-name="Rectangle 2629" width="4.64" height="0.387" transform="translate(9.667 7.185)" fill="currentColor"/>
+    <path id="Path_971" data-name="Path 971" d="M19.172,29.689l-.42-.42-.452.452.646.646a.312.312,0,0,0,.452,0l1.616-1.615-.452-.452Z" transform="translate(-12.17 -18.83)" fill="currentColor"/>
+    <rect id="Rectangle_2630" data-name="Rectangle 2630" width="1.547" height="0.387" transform="translate(9.6 9.581)" fill="currentColor"/>
+    <rect id="Rectangle_2631" data-name="Rectangle 2631" width="4.64" height="0.387" transform="translate(9.667 11.177)" fill="currentColor"/>
+    <path id="Path_972" data-name="Path 972" d="M19.172,40.689l-.42-.42-.452.452.646.646a.312.312,0,0,0,.452,0l1.616-1.615-.452-.452Z" transform="translate(-12.17 -26.149)" fill="currentColor"/>
+    <rect id="Rectangle_2632" data-name="Rectangle 2632" width="1.547" height="0.387" transform="translate(9.6 13.573)" fill="currentColor"/>
+    <rect id="Rectangle_2633" data-name="Rectangle 2633" width="4.64" height="0.387" transform="translate(9.667 14.371)" fill="currentColor"/>
+    <rect id="Rectangle_2634" data-name="Rectangle 2634" width="1.471" height="0.588" transform="translate(6.399 1.547)" fill="currentColor"/>
+    <rect id="Rectangle_2635" data-name="Rectangle 2635" width="2.245" height="0.588" transform="translate(6.409 3.094)" fill="currentColor"/>
+  </g>
+</svg>
