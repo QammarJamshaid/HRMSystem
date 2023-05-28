@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import {
     View, Button, Text, StyleSheet,
     TouchableOpacity, TextInput, Image,
-    FlatList, ScrollView
+    FlatList, ScrollView, ActivityIndicator
 } from "react-native";
 import { useForm, Controller } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
@@ -12,6 +12,7 @@ import Usercircle from '../../../Assets/Svgs/Usercircle.svg';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import AddJobModal from "./AddJobModal";
 import { changeAddJobModal } from "./Store/JobPostSlice";
+import { useGetJobPostedQuery } from "./Services/JobPostApi";
 
 export default function JobPost(props) {
 
@@ -34,6 +35,14 @@ export default function JobPost(props) {
         mode: 'onChange',
         defaultValues: defaultValues,
     });
+    const {
+        data = [],
+        isFetching,
+    } = useGetJobPostedQuery();
+
+    const [jobList, setJobList] = useState([])
+    const [loader, setLoader] = useState(true)
+    console.log("data::::::::::::::::", data)
     const jobsListItems = [
         {
             title: "React Native developer",
@@ -111,14 +120,14 @@ export default function JobPost(props) {
                     borderRadius: 8
                 }}>
                 <View style={{
-                    height: 165, width: "3%",
+                    width: "3%",
                     backgroundColor: item.color,
                     borderTopLeftRadius: 8, borderBottomLeftRadius: 8
                 }}>
 
                 </View>
                 <View style={{
-                    height: 165, width: "15%",
+                    width: "15%",
                     backgroundColor: backgroundDarkerColor,
                     paddingHorizontal: 5
                 }}>
@@ -126,7 +135,7 @@ export default function JobPost(props) {
                         style={{ marginTop: 20, marginLeft: 10 }} />
                 </View>
                 <View style={{
-                    height: 165, width: "82%",
+                    width: "82%",
                     backgroundColor: backgroundDarkerColor, paddingHorizontal: 10,
                     borderTopRightRadius: 5, borderBottomRightRadius: 8
                 }}>
@@ -143,7 +152,7 @@ export default function JobPost(props) {
                             color: textColor, fontSize: 14,
                             fontWeight: "bold"
                         }}>
-                            {item.title}
+                            {item.Title}
                         </Text>
                     </View>
                     <View style={{
@@ -159,7 +168,7 @@ export default function JobPost(props) {
                             color: textColor, fontSize: 14,
 
                         }}>
-                            {item.location}
+                            {item.Location}
                         </Text>
                     </View>
                     <View
@@ -194,11 +203,12 @@ export default function JobPost(props) {
                             color: textColor, fontSize: 14,
 
                         }}>
-                            {item.salary}
+                            {item.Salary}
                         </Text>
                     </View>
                     <View style={{
                         flexDirection: "row", marginTop: 10,
+                        marginBottom: 20
                     }}>
                         <Text style={{
                             color: borderColor, fontSize: 14,
@@ -210,7 +220,7 @@ export default function JobPost(props) {
                             color: textColor, fontSize: 14,
 
                         }}>
-                            {item.vacancy}
+                            {item.noofvacancie}
                         </Text>
                     </View>
 
@@ -220,6 +230,26 @@ export default function JobPost(props) {
         )
 
     }
+
+    const getAllJobs = () => {
+        if (data && data.length !== 0) {
+           const colors = ["#5A93BA", "#62CBCF", "#FE931A", "#46DB77", "#F25454", "#1C212D", "#5A93BA"];
+                    const coloredItems = data.map((item, index) => ({
+                        ...item,
+                        color: colors[index % colors.length],
+                    }));
+                    setJobList(coloredItems);
+                    setLoader(false)
+        }
+        else{
+            setLoader(false)
+        }
+    }
+
+
+    useEffect(() => {
+        getAllJobs()
+    },[data])
 
     return (
         <>
@@ -315,19 +345,26 @@ export default function JobPost(props) {
                             Add Job
                         </Text>
                     </TouchableOpacity>
+                    {
+                        loader ?
+                        <View style={{justifyContent:"center",alignItems:"center"}}>
+                            <ActivityIndicator color={mainColor} size={40}/>
+                        </View>
+                    :
                     <FlatList
-                        data={jobsListItems}
+                        data={jobList}
                         ListFooterComponent={() => <View style={{ height: 20 }} />}
                         renderItem={JobsList}
                         keyExtractor={(item, index) => index}
                         showsVerticalScrollIndicator={false}
                     />
+}
                 </ScrollView>
                 <View style={{ height: 10, width: "100%", backgroundColor: backgroundColor }}>
 
                 </View>
             </View >
-            <AddJobModal/>
+            <AddJobModal />
         </>
     );
 }

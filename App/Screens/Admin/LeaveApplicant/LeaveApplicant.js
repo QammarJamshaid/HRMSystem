@@ -13,6 +13,7 @@ import Usercircle from '../../../Assets/Svgs/Usercircle.svg';
 import ApprovedModal from "./ApprovedModal";
 import { changeAddApprovedModal, changeAddRejectedModal } from "./Store/LeaveSlice";
 import RejectedModal from "./RejectedModal";
+import { useGetLeaveAppQuery } from "./Services/LeaveApi";
 
 
 function LeaveApplicant(props) {
@@ -42,16 +43,8 @@ function LeaveApplicant(props) {
         borderColor,
         blackcolor
     } = useSelector(state => state.styles)
-    const payStatus = [
-        { value: "All", label: "All" },
-        { value: "React", label: "React" },
-        { value: "Ios", label: "Ios " },
-        { value: "Web", label: "Web " },
-    ]
-    const [enableNotificationIcon, setEnableNotificationIcon] = useState(false)
-    // const [selectedChallange, setSelectedChallange] = useState('React');
-    const [isJobPickerOpen, setIsJobPickerOpen] = useState('React')
-    const data = [
+
+    const data1 = [
         {
             jobTitle: 'React',
             applicantName: "Haleema",
@@ -81,6 +74,11 @@ function LeaveApplicant(props) {
 
 
     ];
+        const {
+        data = [],
+        isFetching,
+    } = useGetLeaveAppQuery();
+    console.log("LeaveApplicant:::::::::::::",data)
     function AllAssets() {
         // return data
         // .filter(obj => obj.jobName == isJobPickerOpen)
@@ -115,13 +113,12 @@ function LeaveApplicant(props) {
                                 {"Applicant Name"}
                             </Text>
                             <Text style={{
-                                color: textLightColor
-                                ,
+                                color: borderColor,
                                 fontSize: 14,
                                 width: "60%",
-                                fontWeight: "500"
+                                fontWeight: "500",
                             }}>
-                                {':  ' + item.applicantName}
+                                {":   " + item.Fname + item.Lname}
                             </Text>
                         </View>
                         <View style={{
@@ -135,16 +132,15 @@ function LeaveApplicant(props) {
                                 width: "40%",
                                 fontWeight: "500"
                             }}>
-                                {"Job Title"}
+                                {"Job Role"}
                             </Text>
                             <Text style={{
-                                color: textLightColor
-                                ,
+                                color: borderColor,
                                 fontSize: 14,
                                 width: "60%",
                                 fontWeight: "500"
                             }}>
-                                {':  ' + item.jobTitle}
+                                {':  ' + item.role}
                             </Text>
                         </View>
                         <View style={{
@@ -167,7 +163,7 @@ function LeaveApplicant(props) {
                                 width: "60%",
                                 fontWeight: "500"
                             }}>
-                                {':  ' + item.leaveType}
+                                {':  ' + item.leavetype}
                             </Text>
                         </View>
                         <View style={{

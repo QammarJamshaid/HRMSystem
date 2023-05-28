@@ -8,7 +8,8 @@ import { useForm, Controller } from 'react-hook-form';
 import BackIcon from '../../../Assets/Svgs/BackIcon.svg';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { ScrollView } from 'react-native-gesture-handler';
-import { Divider } from 'react-native-paper';
+import { ActivityIndicator, Divider } from 'react-native-paper';
+import { useGetJobPostedDetailQuery } from './Services/JobPostApi';
 
 function JobPostdetail(props) {
 
@@ -22,7 +23,6 @@ function JobPostdetail(props) {
         mainColor,
         textOffColor,
         backgroundLighterColor,
-        textLightColor,
         backgroundColor, buttoncolor,
         backgroundDarkerColor, borderColor
     } = useSelector(state => state.styles)
@@ -31,7 +31,8 @@ function JobPostdetail(props) {
         mode: 'onChange',
         defaultValues: defaultValues,
     });
-    const [state, setState] = useState(null)
+    const [jobDetail, setJobDetail] = useState(null)
+    const [loader, setLoader] = useState(false)
 
     const jobDetailsItem = [
         {
@@ -57,42 +58,156 @@ function JobPostdetail(props) {
 
 
     ]
+    const {
+        data = [],
+        isFetching,
+    } = useGetJobPostedDetailQuery();
+    console.log("detail::::::", data)
 
-    function JobdetailFunc({ item, index }) {
-        // const { name, website, image } = item
-        return (
-            <View style={{
-                // width:"100%",
-                alignSelf: "center",
-                backgroundColor: backgroundDarkerColor,
-                marginTop: 20,
-                // marginBottom: 10,
-                flexDirection: "row",
-                paddingHorizontal: 20,
-            }}>
-                <Text style={{
-                    color: textLightColor,
-                    fontSize: 12,
-                    width: "40%",
-                    fontWeight: "bold"
-                }}>
-                    {item.Title}
-                </Text>
-                <Text style={{
-                    color: borderColor,
-                    fontSize: 12,
-                    width: "60%",
-                    fontWeight: "500"
-                }}>
-                    {item.value}
-                </Text>
-            </View>
-        )
+    function JobdetailFunc() {
+        return [data].map((item, key) => {
+            // const { name, website, image } = item
+            return (
+                <>
+                    <View
+                        key={key}
+                        style={{
+                            backgroundColor: backgroundDarkerColor, shadowColor: "#000",
+                            paddingHorizontal: 10, borderRadius: 10, shadowOffset: {
+                                width: 0,
+                                height: 2,
+                            }, shadowOpacity: 0.25, shadowRadius: 3.84,
+                            elevation: 5, width: "90%", flex: 1,
+                            marginTop: 10, alignSelf: "center",
+                            height: 200
+                        }}>
+                        <View style={{
+                            width: "82%",
+                            backgroundColor: backgroundDarkerColor, paddingHorizontal: 10,
+                            borderTopRightRadius: 5, borderBottomRightRadius: 8
+                        }}>
+                            <View style={{
+                                flexDirection: "row", marginTop: 20,
+                            }}>
+                                <Text style={{
+                                    color: borderColor, fontSize: 14,
+                                    width: 90,
+                                }}>
+                                    {"Job Title"}
+                                </Text>
+                                <Text style={{
+                                    color: textColor, fontSize: 14,
+                                    fontWeight: "bold"
+                                }}>
+                                    {item.Title}
+                                </Text>
+                            </View>
+                            <View style={{
+                                flexDirection: "row", marginTop: 10,
+                            }}>
+                                <Text style={{
+                                    color: borderColor, fontSize: 14,
+                                    width: 90
+                                }}>
+                                    {"Location"}
+                                </Text>
+                                <Text style={{
+                                    color: textColor, fontSize: 14,
 
+                                }}>
+                                    {item.Location}
+                                </Text>
+                            </View>
+                            <View
+                                style={{
+                                    flexDirection: "row", marginTop: 10,
+                                }}>
+                                <Text style={{
+                                    color: borderColor, fontSize: 14,
+                                    width: 90
+                                }}>
+                                    {"Experience"}
+                                </Text>
+                                <Text style={{
+                                    color: textColor, fontSize: 14,
+                                    // fontWeight: "bold",
+                                    //  textDecorationLine: "underline",
+                                    // textDecorationColor: "#1C41F9"
+                                }}>
+                                    {item.experience}
+                                </Text>
+                            </View>
+                            <View style={{
+                                flexDirection: "row", marginTop: 10,
+                            }}>
+                                <Text style={{
+                                    color: borderColor, fontSize: 14,
+                                    width: 90
+                                }}>
+                                    {"Salary"}
+                                </Text>
+                                <Text style={{
+                                    color: textColor, fontSize: 14,
+
+                                }}>
+                                    {item.Salary}
+                                </Text>
+                            </View>
+                            <View style={{
+                                flexDirection: "row", marginTop: 10,
+                            }}>
+                                <Text style={{
+                                    color: borderColor, fontSize: 14,
+                                    width: 90
+                                }}>
+                                    {"Qualification"}
+                                </Text>
+                                <Text style={{
+                                    color: textColor, fontSize: 14,
+
+                                }}>
+                                    {item.qualification}
+                                </Text>
+                            </View>
+                            <View style={{
+                                flexDirection: "row", marginTop: 10,
+                                marginBottom: 20
+                            }}>
+                                <Text style={{
+                                    color: borderColor, fontSize: 14,
+                                    width: 90
+                                }}>
+                                    {"Vacancy"}
+                                </Text>
+                                <Text style={{
+                                    color: textColor, fontSize: 14,
+
+                                }}>
+                                    {item.noofvacancie}
+                                </Text>
+                            </View>
+
+                        </View>
+                    </View>
+
+                </>
+            )
+        })
     }
 
-    useEffect(() => {
-    }, [])
+    // const getJobDetail = () => {
+    //     if (data) {
+    //         setJobDetail([data])
+    //         setLoader(false)
+    //     }
+    //     else{
+    //         setLoader(false)
+    //     }
+    // }
+
+    // useEffect(() => {
+    //     getJobDetail()
+    // }, [])
 
     return (
         <View style={{ flex: 1, backgroundColor: backgroundColor }}>
@@ -126,7 +241,7 @@ function JobPostdetail(props) {
                             fontSize: 16,
                             fontWeight: "bold",
                             color: textColor,
-                            marginRight:15
+                            marginRight: 15
                         }}
                     >
                         {"Job Details"}
@@ -152,27 +267,31 @@ function JobPostdetail(props) {
                 }}>
                     <View
                         style={{
-                            width: "90%", backgroundColor: "#fff",
-                            alignSelf: "center", marginTop: 15,
-                            shadowColor: "#000",
-                            shadowOffset: { width: 2, height: 2 },
-                            shadowOpacity: 0.3,
-                            shadowRadius: 2,
-                            elevation: 3,
-                            borderRadius: 8, paddingBottom: 10,
-                            paddingTop: 10
+                            width: "100%", backgroundColor: backgroundColor,
+                            alignSelf: "center",
+                            flex: 1,
+                            // shadowColor: "#000",
+                            // shadowOffset: { width: 2, height: 2 },
+                            // shadowOpacity: 0.3,
+                            // shadowRadius: 2,
+                            // elevation: 3,
+                            borderRadius: 8,
+                            // paddingTop: 10
                         }}>
-                        <FlatList
-                            data={jobDetailsItem}
-                            ListFooterComponent={() => <View style={{ height: 20 }} />}
-                            renderItem={JobdetailFunc}
-                            keyExtractor={(item, index) => index}
-                            showsVerticalScrollIndicator={false}
-                        />
+                        {
+                            loader ?
+                                <View style={{ justifyContent: "center", alignItems: "center" }}>
+                                    <ActivityIndicator color={mainColor} size={40} />
+                                </View>
+                                :
+                                <View style={{ marginTop: 10, backgroundColor: "#fff", }}>
+                                    {JobdetailFunc()}
+                                </View>
+                        }
                     </View>
                 </View>
-                <View style={{
-                    marginTop: 40,
+                {/* <View style={{
+                    marginTop: 10,
                     paddingHorizontal: 20,
                 }}>
                     <TouchableOpacity
@@ -183,7 +302,7 @@ function JobPostdetail(props) {
                             width: "27%",
                             alignSelf: "flex-end",
                             borderRadius: 8,
-                            justifyContent:"center"
+                            justifyContent: "center"
 
                         }}
                     >
@@ -197,7 +316,7 @@ function JobPostdetail(props) {
                             Apply
                         </Text>
                     </TouchableOpacity>
-                </View>
+                </View> */}
             </ScrollView>
             <View style={{
                 height: 10,

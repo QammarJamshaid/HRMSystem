@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 // import { SearchBar } from 'react-native-elements';
-import ThreeDotIcon from '../../../Assets/Svgs/ThreeDotIcon.svg'
+import PlusCircle from '../../../Assets/Svgs/PlusCircle.svg'
 import Usercircle from '../../../Assets/Svgs/Usercircle.svg'
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
@@ -20,9 +20,10 @@ import {
     MenuOption,
     MenuTrigger,
 } from "react-native-popup-menu";
-import AttendenceStatusModal from './AttendenceStatusModal';
-import { changeAttendenceStatusModal } from './Store/AttendenceSlice';
-function Attendence(props) {
+import { useGetAllMemberQuery } from './Services/CommitteeApi';
+
+// import AttendenceStatusModal from './AttendenceStatusModal';
+function AllMembers(props) {
     const defaultValues = {
         locationIds: [],
         conditionIds: [],
@@ -77,6 +78,11 @@ function Attendence(props) {
 
 
     ];
+    const {
+        data = [],
+        isFetching,
+    } = useGetAllMemberQuery();
+    console.log("AllMemberdata:::::::::",data)
     function renderItems({ item, index }) {
         return (
             <View style={{
@@ -92,45 +98,10 @@ function Attendence(props) {
                 paddingHorizontal: 10
                 // padding: 15
             }}>
-                <View style={{
-                    width: 50, alignSelf: "flex-end",
-                    height: 50,
-                    flexDirection: "row", zIndex: 100,
-                }}>
-                    <MenuProvider style={{
-                        height: 50, alignSelf: "flex-end",
-                        justifyContent: "center"
-                    }}>
-                        <Menu style={{ backgroundColor: backgroundColor }}>
-                            <MenuTrigger
-                                customStyles={{
-                                    triggerWrapper: {
-                                        marginTop: -10,
-                                        zIndex: 100,
-                                        with: 100, backgroundColor: backgroundColor
-                                    },
-                                }}
-                            >
-                                <ThreeDotIcon color={{ mainColor }} height={16} width={16} style={{}} />
-                            </MenuTrigger>
-                            <MenuOptions
-                                optionsContainerStyle={{
-                                    // borderColor: 'gray', borderWidth: 1,
-                                    flex: 1, backgroundColor: "lightgray",
-                                }}
-                            >
-                                <MenuOption onSelect={() => {
-                                    dispatch(changeAttendenceStatusModal(true))
-                                }
-                                } text="View" />
-                                {/* <MenuOption onSelect={() => alert(`Delete`)} text="Delete" /> */}
-                            </MenuOptions>
-                        </Menu>
-                    </MenuProvider>
-                </View>
+
                 <View style={{
                     flexDirection: "row", justifyContent: "space-between",
-                    marginBottom: 10, alignItems: "center", marginTop: -30
+                    alignItems: "center", marginTop: 10
                 }}>
                     <TouchableOpacity
                         style={{ width: "15%" }}
@@ -138,7 +109,7 @@ function Attendence(props) {
                     >
                         <Usercircle color={{ mainColor }} height={50} width={50} style={{}} />
                     </TouchableOpacity>
-                    <View style={{ width: "83%", marginTop: 5 }}>
+                    <View style={{ width: "83%", marginTop: 5, left: 5 }}>
                         <View style={{ flexDirection: "row", }}>
                             <Text style={{
                                 color: textColor, fontSize: 14,
@@ -158,15 +129,39 @@ function Attendence(props) {
                             }}>
                                 {item.type}
                             </Text>
-                            <Text style={{
+                            {/* <Text style={{
                                 color: textLightColor, fontSize: 12,
                                 fontWeight: "500",
                             }}>
                                 {"01/23/2023"}
-                            </Text>
+                            </Text> */}
                         </View>
                     </View>
+
                 </View>
+                <TouchableOpacity
+                    // onPress={() => dispatch(changeAddApprovedModal(true))}
+                    style={{
+                        backgroundColor: mainColor,
+                        height: 35,
+                        width: 140,
+                        alignSelf: "flex-end",
+                        borderRadius: 8,
+                        justifyContent: "center",
+                        marginRight: 5,
+                        marginBottom:10
+                    }}
+                >
+                    <Text
+                        style={{
+                            fontSize: 12,
+                            color: "#fff",
+                            fontWeight: 'bold',
+                            alignSelf: "center",
+                        }}>
+                        Add To Committee
+                    </Text>
+                </TouchableOpacity>
             </View>
         )
     }
@@ -214,7 +209,7 @@ function Attendence(props) {
                                 color: textColor
                             }}
                         >
-                            Attendence Report
+                            All Members
                         </Text>
                         <View style={{
                             flexDirection: "row", justifyContent: "center",
@@ -240,9 +235,9 @@ function Attendence(props) {
                     />
                 </View>
             </View>
-            <AttendenceStatusModal />
+            {/* <AttendenceStatusModal /> */}
         </>
     )
 }
 
-export default Attendence
+export default AllMembers

@@ -6,7 +6,10 @@ import { baseUrl } from '../Config/baseURL'
 
 export const api = createApi({
     tagTypes: [
-
+        "Job",
+        "Leave",
+        "AdminJobApp",
+        "Committee",
     ],
     baseQuery: fetchBaseQuery({
         baseUrl,

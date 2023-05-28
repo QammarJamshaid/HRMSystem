@@ -7,11 +7,10 @@ import {
 import { ScrollView } from 'react-native-gesture-handler';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
-import { useDispatch, useSelector } from 'react-redux';
-import Delete from '../../Assets/Svgs/Delete.svg';
-import EditIcon from '../../Assets/Svgs/EditIcon.svg';
+import { useDispatch, useSelector } from 'react-redux'
 import DropDownPicker from 'react-native-dropdown-picker';
-import Usercircle from '../../Assets/Svgs/Usercircle.svg';
+import Usercircle from '../../../Assets/Svgs/Usercircle.svg';
+import { useGetAdminJobAppQuery } from "./Services/AdminJobAppApi";
 
 
 function AdminJobApplications(props) {
@@ -33,7 +32,7 @@ function AdminJobApplications(props) {
         backgroundColor,
         textColor,
         textOffColor,
-        textLightColor, buttoncolor,
+        buttoncolor,
         backgroundDarkerColor,
         greenColor,
         lightbluecolor,
@@ -47,10 +46,8 @@ function AdminJobApplications(props) {
         { value: "2", label: "Ios " },
         { value: "3", label: "Web " },
     ]
-    const [enableNotificationIcon, setEnableNotificationIcon] = useState(false)
-    // const [selectedChallange, setSelectedChallange] = useState('React');
     const [isJobPickerOpen, setIsJobPickerOpen] = useState(false)
-    const data = [
+    const data1 = [
         {
             jobName: 'React',
             applicantName: "Haleema",
@@ -77,6 +74,11 @@ function AdminJobApplications(props) {
 
 
     ];
+    const {
+        data = [],
+        isFetching,
+    } = useGetAdminJobAppQuery();
+    console.log("AdminJobAppdata:::::::",data)
     function AllAssets() {
         // return data
         // .filter(obj => obj.jobName == isJobPickerOpen)
@@ -86,7 +88,9 @@ function AdminJobApplications(props) {
 
             return (
                 <>
-                    <View style={{
+                    <View 
+                    key={key}
+                    style={{
                         backgroundColor: backgroundDarkerColor, shadowColor: "#000",
                         paddingHorizontal: 10, borderRadius: 10, shadowOffset: {
                             width: 0,
@@ -111,13 +115,12 @@ function AdminJobApplications(props) {
                                 {"Job Title"}
                             </Text>
                             <Text style={{
-                                color: textLightColor
-                                ,
+                                color: borderColor,
                                 fontSize: 14,
                                 width: "60%",
                                 fontWeight: "500"
                             }}>
-                                {':  ' + item.jobName}
+                                {':  ' + item.Title}
                             </Text>
                         </View>
                         <View style={{
@@ -140,7 +143,7 @@ function AdminJobApplications(props) {
                                 width: "60%",
                                 fontWeight: "500"
                             }}>
-                                {':  ' + item.applicantName}
+                                {':  ' + item.Fname + item.Lname}
                             </Text>
                         </View>
                     </View>

@@ -14,12 +14,23 @@ import { useDispatch, useSelector } from 'react-redux';
 import { changeAddJobModal } from "./Store/JobPostSlice";
 import Entypo from 'react-native-vector-icons/Entypo';
 import DropDownPicker from 'react-native-dropdown-picker';
+import { usePostJobMutation } from "./Services/JobPostApi";
+import Toast from 'react-native-toast-message';
 
 export default function AddJobModal({
     props
 }) {
     const defaultValues = {
-        propertyId: null,
+        // Title: "",
+        // Qualification:"",
+        Salary:"",
+        experience:"",
+        // LastDateOfApply:"",
+        Location:"",
+        Description:"",
+        noofvacancie:"",
+        jobstatus:""
+
     }
     const dispatch = useDispatch()
 
@@ -83,29 +94,37 @@ export default function AddJobModal({
         addJobModal
     } = useSelector(state => state.jobPost) || {}
 
+    const [postJob, { isLoading }] = usePostJobMutation()
 
-    console.log("addJobModal===>", addJobModal)
-    const showDatepicker = () => {
-        showMode('date');
-    };
-    const payStatus = [
-        { value: "0", label: "Professor" },
-        { value: "1", label: "Doctor" },
-        { value: "2", label: "Guard" },
-        { value: "3", label: "Lab Attendent" },
-    ]
+    const handleAddJob = handleSubmit(async data => {
+        console.log("Finaldata:::::::::::::::::", data)
 
-    const [isJobPickerOpen, setIsJobPickerOpen] = useState(false)
-    const qualificationStatus = [
-        { value: "0", label: "Matric" },
-        { value: "1", label: "Inter" },
-        { value: "2", label: "Bachelors" },
-        { value: "3", label: "Master" },
-    ]
+        let response = await postJob({
+            ...data,
+            jobstatus: "active",
+            LastDateOfApply:"12/02/2020",
+           
+        })
 
-    const [isQualificationPickerOpen, setIsQualificationPickerOpen] = useState(false)
+        console.log("response===>", response)
 
+        const { error, data: respData } = response || {}
 
+        if (respData) {
+            Toast.show({
+                text1: 'Success Message',
+                text2: 'Job is Added Successfully',
+                position: 'top',
+            })
+            dispatch(changeAddJobModal(false))
+        }
+        else if (error)
+            Toast.show({
+                text1: 'Request Failed',
+                text2: 'Invalid Password',
+                position: 'top',
+            })
+    })
     return (
         <Modal
             transparent
@@ -147,119 +166,81 @@ export default function AddJobModal({
                     <View style={{
                         zIndex: 100,
                         alignSelf: "center",
-                        width:"100%",
-                        marginTop:20
+                        width: "90%",
+                        marginTop: 20
                     }}>
                         <Controller
                             control={control}
                             rules={{
                                 required: true,
                             }}
-                            render={({ field: { onChange, value } }) => (
-                                <DropDownPicker
-                                    items={payStatus}
-                                    open={isJobPickerOpen}
-                                    placeholder="Job Title"
-                                    containerStyle={{
-                                    }}
+                            render={({ field: { onChange, onBlur, value } }) => (
+                                <TextInput
+                                    onChangeText={onChange}
+                                    onBlur={onBlur}
+                                    value={value}
+                                    // error={errors.fullName}
+                                    placeholder="Job title"
+                                    placeholderTextColor={borderColor}
                                     style={{
                                         backgroundColor: backgroundColor,
-                                        color: textColor,
-                                        // paddingLeft: 10,
+                                        padding: 0,
+                                        zIndex: 10,
+                                        height: 35,
                                         borderRadius: 5,
-                                        minHeight: 40,
-                                        alignSelf:"center",
-                                        borderColor: textOffColor,
-                                        borderWidth: 1,
-                                        width: "90%",
-                                        padding: 0
+                                        paddingLeft: 13,
+                                        color: textLightColor,
+                                        fontSize: 14,
+                                        width: "100%",
+                                        borderWidth: 0.5,
+                                        borderColor: textLightColor
                                     }}
-                                    textStyle={{ color: textColor }}
-                                    labelProps={{
-                                        style: { color: borderColor, fontWeight: "bold" }
-                                    }}
-                                    dropDownContainerStyle={{
-                                        backgroundColor: "#FFFFFF",
-                                        borderColor: textOffColor,
-                                        borderWidth: 1,
-                                        alignSelf:"center",
-                                        flex: 1,
-                                        width: "90%",
-                                    }}
-                                    theme="DARK"
-                                    dropDownStyle={{ backgroundColor: mainColor }}
-                                    setOpen={(open) => {
-                                        setIsJobPickerOpen(open)
-                                    }}
-                                    value={value}
-                                    setValue={(value) => {
-                                        onChange(value(payStatus))
-                                    }}
-                                    zIndex={30}
                                 />
                             )}
-                            name="attendence"
+                            name="Title"
+                            defaultValue=""
                         />
-                        {errors.attendence && <Text style={{ color: "red" }}>Select a attendence Status</Text>
+                        {errors.Title && <Text style={{ color: "red" }}>Select a Title</Text>
                         }
                     </View>
                     <View style={{
-                        zIndex: 80,
+                        zIndex: 100,
                         alignSelf: "center",
-                        width:"100%",
-                        marginTop:20
+                        width: "90%",
+                        marginTop: 20
                     }}>
                         <Controller
                             control={control}
                             rules={{
                                 required: true,
                             }}
-                            render={({ field: { onChange, value } }) => (
-                                <DropDownPicker
-                                    items={qualificationStatus}
-                                    open={isQualificationPickerOpen}
-                                    placeholder="Qualification"
-                                    containerStyle={{
-                                    }}
+                            render={({ field: { onChange, onBlur, value } }) => (
+                                <TextInput
+                                    onChangeText={onChange}
+                                    onBlur={onBlur}
+                                    value={value}
+                                    // error={errors.fullName}
+                                    placeholder="qualification"
+                                    placeholderTextColor={borderColor}
                                     style={{
                                         backgroundColor: backgroundColor,
-                                        color: borderColor,
-                                        // paddingLeft: 10,
+                                        padding: 0,
+                                        zIndex: 10,
+                                        height: 35,
                                         borderRadius: 5,
-                                        minHeight: 40,
-                                        alignSelf:"center",
-                                        borderColor: textOffColor,
-                                        borderWidth: 1,
-                                        width: "90%",
-                                        padding: 0
+                                        paddingLeft: 13,
+                                        color: textLightColor,
+                                        fontSize: 14,
+                                        width: "100%",
+                                        borderWidth: 0.5,
+                                        borderColor: textLightColor
                                     }}
-                                    textStyle={{ color: borderColor }}
-                                    labelProps={{
-                                        style: { color: borderColor, fontWeight: "bold" }
-                                    }}
-                                    dropDownContainerStyle={{
-                                        backgroundColor: "#FFFFFF",
-                                        borderColor: textOffColor,
-                                        borderWidth: 1,
-                                        alignSelf:"center",
-                                        flex: 1,
-                                        width: "90%",
-                                    }}
-                                    theme="DARK"
-                                    dropDownStyle={{ backgroundColor: mainColor }}
-                                    setOpen={(open) => {
-                                        setIsQualificationPickerOpen(open)
-                                    }}
-                                    value={value}
-                                    setValue={(value) => {
-                                        onChange(value(qualificationStatus))
-                                    }}
-                                    zIndex={30}
                                 />
                             )}
-                            name="qualification"
+                            name="Qualification"
+                            defaultValue=""
                         />
-                        {errors.qualification && <Text style={{ color: "red" }}>Select a attendence Status</Text>
+                        {errors.Qualification && <Text style={{ color: "red" }}>Select a Qualification</Text>
                         }
                     </View>
                     <View style={{
@@ -295,9 +276,11 @@ export default function AddJobModal({
                                     }}
                                 />
                             )}
-                            name="salary"
+                            name="Salary"
                             defaultValue=""
                         />
+                        {errors.Salary && <Text style={{ color: "red" }}>Select a Qualification</Text>
+                        }
 
                     </View>
                     <View style={{
@@ -336,6 +319,8 @@ export default function AddJobModal({
                             name="experience"
                             defaultValue=""
                         />
+                        {errors.experience && <Text style={{ color: "red" }}>Select a Qualification</Text>
+                        }
 
                     </View>
                     <View style={{
@@ -371,9 +356,11 @@ export default function AddJobModal({
                                     }}
                                 />
                             )}
-                            name="startDate"
+                            name="LastDateOfApply"
                             defaultValue=""
                         />
+                        {errors.LastDateOfApply && <Text style={{ color: "red" }}>Select a LastDateOfApply</Text>
+                        }
 
                     </View>
                     <View style={{
@@ -409,10 +396,11 @@ export default function AddJobModal({
                                     }}
                                 />
                             )}
-                            name="location"
+                            name="Location"
                             defaultValue=""
                         />
-
+                        {errors.Location && <Text style={{ color: "red" }}>Select a Location</Text>
+                        }
                     </View>
                     <View style={{
                         alignSelf: "center",
@@ -447,9 +435,11 @@ export default function AddJobModal({
                                     }}
                                 />
                             )}
-                            name="description"
+                            name="Description"
                             defaultValue=""
                         />
+                         {errors.Description && <Text style={{ color: "red" }}>Select a Description</Text>
+                        }
 
                     </View>
                     <View style={{
@@ -485,9 +475,11 @@ export default function AddJobModal({
                                     }}
                                 />
                             )}
-                            name="noOfVacancies"
+                            name="noofvacancie"
                             defaultValue=""
                         />
+                            {errors.noofvacancie && <Text style={{ color: "red" }}>Select a noofvacancie</Text>
+                        }
 
                     </View>
                     <View style={{
@@ -496,7 +488,7 @@ export default function AddJobModal({
                         marginTop: 20
                     }}>
                         <TouchableOpacity
-                            onPress={() => dispatch(changeAddJobModal(false))}
+                            onPress={handleAddJob}
                             style={{
                                 backgroundColor: mainColor,
                                 height: 35,
