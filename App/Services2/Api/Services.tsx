@@ -175,6 +175,19 @@ class GApiServices {
                 })
         })
     }
+
+    getJobApplication = (id: any) => {
+        return new Promise((resolve, reject) => {
+            Api.get(`${EndPoints.getJobApplication}?appid=${id}`)
+                .then((res) => {
+                    resolve(res?.data)
+                })
+                .catch((error: any) => {
+                    console.log('error while getting job application =>', error)
+                    reject('')
+                })
+        })
+    }
 }
 
 

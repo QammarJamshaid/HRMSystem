@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from 'react-hook-form';
 import {
     Text,
@@ -11,8 +11,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import Delete from '../../Assets/Svgs/Delete.svg';
 import EditIcon from '../../Assets/Svgs/EditIcon.svg';
 import Usercircle from '../../Assets/Svgs/Usercircle.svg';
+import { ApiServices, useGlobalContext } from '../../Services2'
 
 function JobApplications(props) {
+
+    const { user } = useGlobalContext()
 
     const defaultValues = {
         Quantity: "",
@@ -64,9 +67,17 @@ function JobApplications(props) {
             color: "#FD3E3E",
             status: "Rejected",
         },
-
-
     ];
+
+    const getJobApplication = () => {
+        ApiServices.getJobApplication(user?.Uid).then((res) => {
+            console.log(res)
+        })
+    }
+
+    useEffect(() => {
+        getJobApplication()
+    }, [])
     function AllAssets() {
 
         return data.map((item, key) => {
@@ -82,7 +93,7 @@ function JobApplications(props) {
                         elevation: 5, width: "100%", flex: 1,
                         marginTop: 10
                     }}>
-                     
+
                         <View style={{
                             marginTop: 20,
                             marginBottom: 10,
@@ -182,7 +193,7 @@ function JobApplications(props) {
                                     color: textColor
                                 }}
                             >
-                               Jobs Applications
+                                Jobs Applications
                             </Text>
                             <View style={{
                                 flexDirection: "row", justifyContent: "center",
@@ -199,7 +210,7 @@ function JobApplications(props) {
                         justifyContent: "space-between",
                         marginTop: 30, width: "95%", alignSelf: "center"
                     }}>
-                
+
                         <View style={{
                             backgroundColor: backgroundColor,
                             marginBottom: 10, marginTop: 10
