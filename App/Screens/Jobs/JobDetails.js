@@ -10,10 +10,15 @@ import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Divider } from 'react-native-paper';
 import { ModalLoader } from '../../Components';
-import { ApiServices } from '../../Services2';
+import { ApiServices, useGlobalContext } from '../../Services2';
 
 function JobDetails(props) {
-    const [loader, setLoader] = useState(true)
+    const { user } = useGlobalContext()
+    const [loader, setLoader] = useState({
+        visible: true,
+        message: 'Loading...'
+    })
+
     const [jobDetail, setJobDetail] = useState(null)
     const defaultValues = {
         Quantity: "",
@@ -34,32 +39,7 @@ function JobDetails(props) {
         mode: 'onChange',
         defaultValues: defaultValues,
     });
-    const [state, setState] = useState(null)
 
-    const jobDetailsItem = [
-        {
-            Title: "Job Title :",
-            value: "React Native Developer",
-        },
-        {
-            Title: "Location :",
-            value: "Rawalpindi",
-        },
-        {
-            Title: "Salary :",
-            value: "50K to 80K",
-        },
-        {
-            Title: "Last Date :",
-            value: "12/04/2024",
-        },
-        {
-            Title: "Description :",
-            value: "Muestra tu marca en cada mail con el correo electrónico profesional de GoDaddy.GoDaddy",
-        },
-
-
-    ]
 
     function JobdetailFunc({ item, index }) {
         return (
@@ -93,18 +73,36 @@ function JobDetails(props) {
 
     }
 
-    const hideLoader = () => setLoader(false)
+    const hideLoader = () => setLoader({
+        visible: false,
+        message: 'Loading...'
+    })
 
     const getJobDetail = () => {
-        setLoader(false)
         const jobId = props?.route?.params?.jobId
         ApiServices.getJobDetail(jobId).then((res) => {
             setJobDetail(res)
-            setLoader(false)
+            hideLoader()
         })
             .catch(hideLoader)
     }
 
+    const onApplyPress = () => {
+        setLoader({
+            visible: true,
+            message: 'Applying...'
+        })
+        const data = {
+            Uid: user?.Uid,
+            Jid: props?.route?.params?.jobId,
+            name: jobDetail?.Title,
+            shortlist: ''
+        }
+        ApiServices.applyJob(data).then(() => {
+            hideLoader()
+        })
+            .catch(hideLoader)
+    }
 
     useEffect(() => {
         getJobDetail()
@@ -113,7 +111,8 @@ function JobDetails(props) {
     return (
         <View style={{ flex: 1, backgroundColor: backgroundColor }}>
             <ModalLoader
-                visible={loader}
+                visible={loader?.visible}
+                message={loader?.message}
                 useModalLayout={true}
             />
             <View style={{
@@ -183,7 +182,7 @@ function JobDetails(props) {
                             paddingTop: 10
                         }}>
                         {
-                            !loader && jobDetail ?
+                            !loader.visible && jobDetail ?
                                 <FlatList
                                     data={Object.entries(jobDetail).map(([key, value]) => ({ field: key, value }))}
                                     ListFooterComponent={() => <View style={{ height: 20 }} />}
@@ -200,7 +199,7 @@ function JobDetails(props) {
                     paddingHorizontal: 20,
                 }}>
                     <TouchableOpacity
-                        // onPress={() => props.navigation.navigate("PowerQualityAsset")}
+                        onPress={onApplyPress}
                         style={{
                             backgroundColor: mainColor,
                             height: 40,

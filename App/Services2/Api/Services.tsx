@@ -129,7 +129,7 @@ class GApiServices {
         })
     }
 
-    updateUser = (Uid: any, data: any) => {
+    updateUser = (data: any) => {
         return new Promise((resolve, reject) => {
             Api.put(
                 `${EndPoints.updateUser}`,
@@ -155,6 +155,23 @@ class GApiServices {
                 .catch((error: any) => {
                     console.log('error while getting job detail =>', error)
                     reject('')
+                })
+        })
+    }
+
+    applyJob = (params: any) => {
+        return new Promise((resolve, reject) => {
+            Api.post(
+                EndPoints.applyJob,
+                params,
+            ).then(async res => {
+                flashSuccessMessage('Successfully Applied to job')
+                resolve(res?.data?.results)
+            })
+                .catch((error) => {
+                    flashErrorMessage()
+                    reject('')
+                    console.log('error while applying to job  =>', error)
                 })
         })
     }

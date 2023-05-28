@@ -68,7 +68,7 @@ export default function EditProfile(props) {
             // role: user?.role,
             // password: '123456'
         }
-        ApiServices.updateUser(user?.Uid, data).then(async () => {
+        ApiServices.updateUser(data).then(async () => {
             user.Fname = firstName,
                 user.Lname = lastName,
                 user.cnic = cnic,
