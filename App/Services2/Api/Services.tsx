@@ -1,4 +1,4 @@
-import { flashErrorMessage } from "../FlashMessages";
+import { flashErrorMessage, flashSuccessMessage } from "../FlashMessages";
 import EndPoints from "./EndPoints";
 import { Api } from "./Middleware";
 
@@ -27,8 +27,69 @@ class GApiServices {
                     resolve(res?.data)
                 })
                 .catch((error: any) => {
-                    flashErrorMessage()
                     console.log('error while getting all jobs =>', error)
+                    reject('')
+                })
+        })
+    }
+
+
+    getAllEducation = (uid: any) => {
+        return new Promise((resolve, reject) => {
+            Api.get(`${EndPoints.getAllEducation}?uid=${uid}`)
+                .then((res) => {
+                    resolve(res?.data)
+                })
+                .catch((error: any) => {
+                    console.log('error while getting all educations =>', error)
+                    reject('')
+                })
+        })
+    }
+
+    getAllExperiences = (uid: any) => {
+        return new Promise((resolve, reject) => {
+            Api.get(`${EndPoints.getAllExperiences}?uid=${uid}`)
+                .then((res) => {
+                    resolve(res?.data)
+                })
+                .catch((error: any) => {
+                    console.log('error while getting all experiences =>', error)
+                    reject('')
+                })
+        })
+    }
+
+    addExperience = (params: any) => {
+        return new Promise((resolve, reject) => {
+            Api.post(
+                EndPoints.addExperience,
+                params,
+            ).then(async res => {
+                flashSuccessMessage('Experience added')
+                resolve(res?.data?.results)
+            })
+                .catch((error) => {
+                    flashErrorMessage()
+                    reject('')
+                    console.log('error while adding experience =>', error)
+                })
+        })
+    }
+
+
+    deleteExperience = (id: any) => {
+        return new Promise((resolve, reject) => {
+            Api.delete(
+                `${EndPoints.deleteExperience}?ExpID=${id}`
+            )
+                .then(() => {
+                    resolve('')
+                    flashSuccessMessage('Deleted')
+                })
+                .catch((error) => {
+                    console.log('error while deleting experience =>', error)
+                    flashErrorMessage()
                     reject('')
                 })
         })

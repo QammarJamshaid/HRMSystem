@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from 'react-hook-form';
 import {
+    ActivityIndicator,
     Text,
-    TouchableOpacity, View
+    TouchableOpacity, View, ViewBase
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
@@ -13,8 +14,13 @@ import EditIcon from '../../Assets/Svgs/EditIcon.svg';
 import { changeAddEducationModal } from "./Store/MyProfileSlice";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AddEducationModal from "./AddEducationModal";
+import { ApiServices, useGlobalContext } from "../../Services2";
+import { hp } from "../../Global";
 
 function Education(props) {
+    const { user } = useGlobalContext()
+    const [loader, setLoader] = useState(true)
+    const [educationList, setEducationList] = useState([])
 
     const defaultValues = {
         Quantity: "",
@@ -66,148 +72,218 @@ function Education(props) {
             color: "#5FAF67",
             status: "Paid",
         },
-
-
     ];
+
+    const hideLoader = () => setLoader(false)
+
+    const getAllEducation = () => {
+        ApiServices.getAllEducation(user?.Uid).then((res) => {
+            setEducationList(res)
+            setLoader(false)
+        })
+            .catch(hideLoader)
+    }
+
+
+
+    useEffect(() => {
+        getAllEducation()
+    }, []
+
+    )
     function AllAssets() {
 
-        return data.map((item, key) => {
-
-            return (
-                <>
-                    <View style={{
-                        backgroundColor: backgroundDarkerColor, shadowColor: "#000",
-                        paddingHorizontal: 10, borderRadius: 10, shadowOffset: {
-                            width: 0,
-                            height: 2,
-                        }, shadowOpacity: 0.25, shadowRadius: 3.84,
-                        elevation: 5, width: "100%", flex: 1,
-                        marginTop: 10
-                    }}>
-                        <View style={{
-                            marginTop: 20,
-                            marginBottom: 10,
-                            flexDirection: "row",
-                            paddingHorizontal: 10,
-                            justifyContent: "space-between"
-                        }}>
-                            <Text style={{
-                                color: textLightColor,
-                                // backgroundColor:"red",
-                                fontSize: 14,
-                                width: "40%",
-                                fontWeight: "500"
-                            }}>
-                                {"Title :"}
-                            </Text>
-                            <Text style={{
-                                color: borderColor,
-                                fontSize: 12,
-                                width: "40%",
-                                fontWeight: "500"
-                            }}>
-                                {"BSCS"}
-                            </Text>
+        if(educationList?.length === 0) {
+            return null
+        }
+        else {
+            if(loader) {
+                return <View style={{ marginTop: hp(20) }}>
+                    <ActivityIndicator color={'#000'} />
+                </View>
+            }
+            else {
+                return educationList?.map((item, key) => {
+                    return (
+                        <>
                             <View style={{
-                                flexDirection: "row", width: "20%",
-                                justifyContent: "flex-end",marginTop:-10
+                                backgroundColor: backgroundDarkerColor, shadowColor: "#000",
+                                paddingHorizontal: 10, borderRadius: 10, shadowOffset: {
+                                    width: 0,
+                                    height: 2,
+                                }, shadowOpacity: 0.25, shadowRadius: 3.84,
+                                elevation: 5, width: "100%", flex: 1,
+                                marginTop: 10
                             }}>
-                                <TouchableOpacity
-                                    // onPress={() => props.navigation.navigate('EditProfile')}
-                                    style={{
-                                        height: 25, width: 25,
-                                        borderRadius: 100, justifyContent: "center",
-                                        alignItems: "center",
-                                        backgroundColor: "lightgray", marginRight: 5
+                                <View style={{
+                                    marginTop: 20,
+                                    marginBottom: 10,
+                                    flexDirection: "row",
+                                    paddingHorizontal: 10,
+                                    justifyContent: "space-between"
+                                }}>
+                                    <Text style={{
+                                        color: textLightColor,
+                                        fontSize: 14,
+                                        width: "40%",
+                                        fontWeight: "500"
                                     }}>
-                                    <EditIcon color={mainColor} height={12} width={12} style={{}} />
-                                </TouchableOpacity>
-                                <TouchableOpacity
-                                    // onPress={() => props.navigation.navigate('EditProfile')}
-                                    style={{
-                                        height: 25, width: 25,
-                                        borderRadius: 100, justifyContent: "center",
-                                        alignItems: "center",
-                                        backgroundColor: "lightgray"
+                                        {"Board :"}
+                                    </Text>
+                                    <Text style={{
+                                        color: borderColor,
+                                        fontSize: 12,
+                                        width: "40%",
+                                        fontWeight: "500"
                                     }}>
-                                    <Delete color={"#FF3B3B"} height={14} width={14} style={{}} />
-                                </TouchableOpacity>
+                                        {item?.Board}
+                                    </Text>
+                                    <View style={{
+                                        flexDirection: "row", width: "20%",
+                                        justifyContent: "flex-end", marginTop: -10
+                                    }}>
+                                        <TouchableOpacity
+                                            // onPress={() => props.navigation.navigate('EditProfile')}
+                                            style={{
+                                                height: 25, width: 25,
+                                                borderRadius: 100, justifyContent: "center",
+                                                alignItems: "center",
+                                                backgroundColor: "lightgray", marginRight: 5
+                                            }}>
+                                            <EditIcon color={mainColor} height={12} width={12} style={{}} />
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                            // onPress={() => props.navigation.navigate('EditProfile')}
+                                            style={{
+                                                height: 25, width: 25,
+                                                borderRadius: 100, justifyContent: "center",
+                                                alignItems: "center",
+                                                backgroundColor: "lightgray"
+                                            }}>
+                                            <Delete color={"#FF3B3B"} height={14} width={14} style={{}} />
+                                        </TouchableOpacity>
+                                    </View>
+                                </View>
+                                <View style={{
+                                    // marginTop: 10,
+                                    marginBottom: 10,
+                                    flexDirection: "row",
+                                    paddingHorizontal: 10,
+                                }}>
+                                    <Text style={{
+                                        color: textLightColor,
+                                        fontSize: 12,
+                                        width: "40%",
+                                        fontWeight: "500"
+                                    }}>
+                                        {"Degree"}
+                                    </Text>
+                                    <Text style={{
+                                        color: borderColor,
+                                        fontSize: 12,
+                                        width: "60%",
+                                        fontWeight: "500"
+                                    }}>
+                                        {item?.Degree}
+                                    </Text>
+                                </View>
+                                <View style={{
+                                    // marginTop: 10,
+                                    marginBottom: 10,
+                                    flexDirection: "row",
+                                    paddingHorizontal: 10,
+                                }}>
+                                    <Text style={{
+                                        color: textLightColor,
+                                        fontSize: 12,
+                                        width: "40%",
+                                        fontWeight: "500"
+                                    }}>
+                                        {"StartDate"}
+                                    </Text>
+                                    <Text style={{
+                                        color: borderColor,
+                                        fontSize: 12,
+                                        width: "60%",
+                                        fontWeight: "500"
+                                    }}>
+                                        {item?.Startdate}
+                                    </Text>
+                                </View>
+                                <View style={{
+                                    // marginTop: 10,
+                                    marginBottom: 10,
+                                    flexDirection: "row",
+                                    paddingHorizontal: 10,
+                                }}>
+                                    <Text style={{
+                                        color: textLightColor,
+                                        fontSize: 12,
+                                        width: "40%",
+                                        fontWeight: "500"
+                                    }}>
+                                        {"EndDate"}
+                                    </Text>
+                                    <Text style={{
+                                        color: borderColor,
+                                        fontSize: 12,
+                                        width: "60%",
+                                        fontWeight: "500"
+                                    }}>
+                                        {item?.Enddate}
+                                    </Text>
+                                </View>
+                                <View style={{
+                                    marginBottom: 10,
+                                    flexDirection: "row",
+                                    paddingHorizontal: 10,
+                                }}>
+                                    <Text style={{
+                                        color: textLightColor,
+                                        fontSize: 12,
+                                        width: "40%",
+                                        fontWeight: "500"
+                                    }}>
+                                        {"Institute"}
+                                    </Text>
+                                    <Text style={{
+                                        color: borderColor,
+                                        fontSize: 12,
+                                        width: "60%",
+                                        fontWeight: "500"
+                                    }}>
+                                        {item?.Institute}
+                                    </Text>
+                                </View>
+                                <View style={{
+                                    marginBottom: 20,
+                                    flexDirection: "row",
+                                    paddingHorizontal: 10,
+                                }}>
+                                    <Text style={{
+                                        color: textLightColor,
+                                        fontSize: 12,
+                                        width: "40%",
+                                        fontWeight: "500"
+                                    }}>
+                                        {"Major"}
+                                    </Text>
+                                    <Text style={{
+                                        color: borderColor,
+                                        fontSize: 12,
+                                        width: "60%",
+                                        fontWeight: "500"
+                                    }}>
+                                        {item?.major}
+                                    </Text>
+                                </View>
                             </View>
-                        </View>
-                        <View style={{
-                            // marginTop: 10,
-                            marginBottom: 10,
-                            flexDirection: "row",
-                            paddingHorizontal: 10,
-                        }}>
-                            <Text style={{
-                                color: textLightColor,
-                                fontSize: 12,
-                                width: "40%",
-                                fontWeight: "500"
-                            }}>
-                                {"Institute"}
-                            </Text>
-                            <Text style={{
-                                color: borderColor,
-                                fontSize: 12,
-                                width: "60%",
-                                fontWeight: "500"
-                            }}>
-                                {"BIIT"}
-                            </Text>
-                        </View>
-                        <View style={{
-                            // marginTop: 10,
-                            marginBottom: 10,
-                            flexDirection: "row",
-                            paddingHorizontal: 10,
-                        }}>
-                            <Text style={{
-                                color: textLightColor,
-                                fontSize: 12,
-                                width: "40%",
-                                fontWeight: "500"
-                            }}>
-                                {"StartDate"}
-                            </Text>
-                            <Text style={{
-                                color: borderColor,
-                                fontSize: 12,
-                                width: "60%",
-                                fontWeight: "500"
-                            }}>
-                                {"10/04/2016"}
-                            </Text>
-                        </View>
-                        <View style={{
-                            // marginTop: 10,
-                            marginBottom: 20,
-                            flexDirection: "row",
-                            paddingHorizontal: 10,
-                        }}>
-                            <Text style={{
-                                color: textLightColor,
-                                fontSize: 12,
-                                width: "40%",
-                                fontWeight: "500"
-                            }}>
-                                {"EndDate"}
-                            </Text>
-                            <Text style={{
-                                color: borderColor,
-                                fontSize: 12,
-                                width: "60%",
-                                fontWeight: "500"
-                            }}>
-                                {"10/04/2020"}
-                            </Text>
-                        </View>
-                    </View>
 
-                </>
-            )
-        })
+                        </>
+                    )
+                })
+            }
+        }
     }
 
     return (

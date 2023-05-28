@@ -2,7 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import {
     View, Button, Text, StyleSheet,
     TouchableOpacity, TextInput, Image,
-    FlatList
+    FlatList,
+    ActivityIndicator
 } from "react-native";
 import { useForm, Controller } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
@@ -12,6 +13,7 @@ import Usercircle from '../../Assets/Svgs/Usercircle.svg';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import Experience from "../Profile/Experience";
 import { ApiServices } from "../../Services2";
+import { hp } from "../../Global";
 
 export default function Jobs(props) {
 
@@ -41,12 +43,18 @@ export default function Jobs(props) {
     const hideLoader = () => setLoader(false)
 
     const getAllJobs = () => {
-        //@Saad do this later
-        // ApiServices.getAllJobs().then((res) => {
-        //     setJobsListItems(res)
-        //     setLoader(false)
-        // })
-        //     .catch(hideLoader)
+        const colors = ["#5A93BA", "#62CBCF", "#FE931A", "#46DB77", "#F25454", "#1C212D", "#5A93BA"];
+        ApiServices.getAllJobs()
+            .then((res) => {
+                const coloredItems = res.map((item, index) => ({
+                    ...item,
+                    color: colors[index % colors.length],
+                }));
+                setJobsListItems(coloredItems);
+                setLoader(false);
+            })
+            .catch(hideLoader);
+
     }
 
     useEffect(() => {
@@ -68,7 +76,7 @@ export default function Jobs(props) {
                     elevation: 3, flexDirection: "row",
                     borderRadius: 8
                 }}>
-                {/* <View style={{
+                <View style={{
                     height: 170, width: "3%",
                     backgroundColor: item.color,
                     borderTopLeftRadius: 8, borderBottomLeftRadius: 8
@@ -100,7 +108,7 @@ export default function Jobs(props) {
                             color: textColor, fontSize: 14,
                             fontWeight: "bold"
                         }}>
-                            {item.title}
+                            {item?.Title}
                         </Text>
                     </View>
                     <View style={{
@@ -116,7 +124,7 @@ export default function Jobs(props) {
                             color: textColor, fontSize: 14,
 
                         }}>
-                            {item.location}
+                            {item?.Location}
                         </Text>
                     </View>
                     <View
@@ -132,7 +140,7 @@ export default function Jobs(props) {
                         <Text style={{
                             color: textColor, fontSize: 14,
                         }}>
-                            {item.experience}
+                            {item?.experience}
                         </Text>
                     </View>
                     <View style={{
@@ -148,7 +156,7 @@ export default function Jobs(props) {
                             color: textColor, fontSize: 14,
 
                         }}>
-                            {item.salary}
+                            {item?.Salary}
                         </Text>
                     </View>
                     <View style={{
@@ -164,11 +172,11 @@ export default function Jobs(props) {
                             color: textColor, fontSize: 14,
 
                         }}>
-                            {item.vacancy}
+                            {item?.noofvacancie}
                         </Text>
                     </View>
 
-                </View> */}
+                </View>
 
             </TouchableOpacity>
         )
@@ -239,13 +247,20 @@ export default function Jobs(props) {
                 }
                 }
             >
-                <FlatList
-                    data={jobsListItems}
-                    ListFooterComponent={() => <View style={{ height: 20 }} />}
-                    renderItem={JobsList}
-                    keyExtractor={(item, index) => index}
-                    showsVerticalScrollIndicator={false}
-                />
+                {
+                    loader ?
+                        <View style={{ marginTop: hp(30) }}>
+                            <ActivityIndicator color={'#000'} />
+                        </View>
+                        :
+                        <FlatList
+                            data={jobsListItems}
+                            ListFooterComponent={() => <View style={{ height: 20 }} />}
+                            renderItem={JobsList}
+                            keyExtractor={(item, index) => index}
+                            showsVerticalScrollIndicator={false}
+                        />
+                }
             </View>
             <View style={{ height: 10, width: "100%", backgroundColor: backgroundColor }}>
 

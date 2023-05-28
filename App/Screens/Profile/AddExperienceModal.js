@@ -7,21 +7,45 @@ import {
     Text,
     TouchableOpacity,
     View,
-    TextInput
+    TextInput,
+    ActivityIndicator
 } from "react-native";
 import { Divider } from 'react-native-elements';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeAddExperienceModal } from "./Store/MyProfileSlice";
 import Entypo from 'react-native-vector-icons/Entypo';
 import CheckBoxIcon from '../../Assets/Svgs/CheckBoxIcon.svg';
+import { DateTimePicker } from "../../Components";
+import moment from "moment";
+import { ApiServices, useGlobalContext } from "../../Services2";
 
-export default function AddExperienceModal({
-    props
-}) {
+export default function AddExperienceModal(props) {
+    const { user } = useGlobalContext()
+    const [addLoader, setAddLoader] = useState(false)
+    const {
+        visible = false,
+        onClose = () => null,
+        onSuccess = () => null
+    } = props
+
+
     const defaultValues = {
-        propertyId: null,
+        jobTitle: '',
+        company: ''
     }
     const dispatch = useDispatch()
+    const [startDate, setStartDate] = useState(null)
+    const [jobTitle, setJobTitle] = useState('')
+    const [company, setCompany] = useState('')
+    const [endDate, setEndDate] = useState(null)
+    const [showDateTimePicker, setShowDateTimePicker] = useState({
+        from: '',
+        visible: false
+    })
+
+
+    const onChangeCompany = (text) => setCompany(text)
+    const onChangeJobTitle = (text) => setJobTitle(text)
 
     const styles = StyleSheet.create({
         container: {
@@ -40,9 +64,6 @@ export default function AddExperienceModal({
             shadowRadius: 3.84,
             elevation: 10,
             marginTop: 20, alignSelf: "center"
-
-
-
         },
         contentContainer: {
             flexDirection: 'column',
@@ -84,21 +105,61 @@ export default function AddExperienceModal({
     } = useSelector(state => state.myProfile) || {}
 
 
-    console.log("addEducationModal===>", addExperienceModal)
     const showDatepicker = () => {
         showMode('date');
     };
 
 
 
+    const onDatePress = (from) => {
+        setShowDateTimePicker({
+            visible: true,
+            from: from
+        })
+    }
+
+    const hideDateTimePicker = () => {
+        setShowDateTimePicker({
+            visible: false,
+            from: ''
+        })
+    }
+
+    const onDateSelection = (date) => {
+        if(showDateTimePicker.from === 'startDate') {
+            setStartDate(moment(date).format('YYYY-MM-DD'))
+        }
+        else {
+            setEndDate(moment(date).format('YYYY-MM-DD'))
+        }
+    }
+
+
+    const onAddPress = () => {
+        setAddLoader(true)
+        const data = {
+            Title: jobTitle,
+            Company: company,
+            Startdate: startDate,
+            Enddate: endDate,
+            Uid: user?.Uid
+        }
+        setStartDate(null)
+        setEndDate(null)
+        ApiServices.addExperience(data).then(() => {
+            setAddLoader(false)
+            props?.onSuccess && props.onSuccess()
+        })
+            .catch(() => setAddLoader(false))
+    }
+
     return (
         <Modal
             transparent
             animationType="fade"
-            visible={addExperienceModal === true}
-            onRequestClose={() => {
-                dispatch(changeAddExperienceModal(false))
-            }}>
+            visible={visible}
+            onRequestClose={onClose}>
+
             <View style={styles.contentContainer}>
                 <View style={styles.content}>
                     <View style={{
@@ -110,6 +171,7 @@ export default function AddExperienceModal({
                         alignSelf: "center",
                         flexDirection: "row",
                     }}>
+
                         <Text style={{
                             color: textColor,
                             fontSize: 18,
@@ -117,8 +179,9 @@ export default function AddExperienceModal({
                         }}>
                             Add Experience
                         </Text>
+
                         <TouchableOpacity
-                            onPress={() => dispatch(changeAddExperienceModal(false))}
+                            onPress={onClose}
                             style={{}}
                         >
                             <Entypo
@@ -134,36 +197,24 @@ export default function AddExperienceModal({
                         width: "90%",
                         marginTop: 20
                     }}>
-                        <Controller
-                            control={control}
-                            rules={{
-                                required: true,
+                        <TextInput
+                            onChangeText={onChangeJobTitle}
+                            value={jobTitle}
+                            placeholder="Job Title"
+                            placeholderTextColor={textLightColor}
+                            style={{
+                                backgroundColor: mainLighterColor,
+                                padding: 0,
+                                zIndex: 10,
+                                height: 35,
+                                borderRadius: 5,
+                                paddingLeft: 13,
+                                color: textLightColor,
+                                fontSize: 14,
+                                width: "100%",
+                                borderWidth: 0.5,
+                                borderColor: textLightColor
                             }}
-                            render={({ field: { onChange, onBlur, value } }) => (
-                                <TextInput
-                                    onChangeText={onChange}
-                                    onBlur={onBlur}
-                                    value={value}
-                                    // error={errors.fullName}
-                                    placeholder="Job Title"
-                                    placeholderTextColor={textLightColor}
-                                    style={{
-                                        backgroundColor: mainLighterColor,
-                                        padding: 0,
-                                        zIndex: 10,
-                                        height: 35,
-                                        borderRadius: 5,
-                                        paddingLeft: 13,
-                                        color: textLightColor,
-                                        fontSize: 14,
-                                        width: "100%",
-                                        borderWidth: 0.5,
-                                        borderColor: textLightColor
-                                    }}
-                                />
-                            )}
-                            name="jobTitle "
-                            defaultValue=""
                         />
 
                     </View>
@@ -172,36 +223,24 @@ export default function AddExperienceModal({
                         width: "90%",
                         marginTop: 20
                     }}>
-                        <Controller
-                            control={control}
-                            rules={{
-                                required: true,
+                        <TextInput
+                            onChangeText={onChangeCompany}
+                            value={company}
+                            placeholder="Company"
+                            placeholderTextColor={textLightColor}
+                            style={{
+                                backgroundColor: mainLighterColor,
+                                padding: 0,
+                                zIndex: 10,
+                                height: 35,
+                                borderRadius: 5,
+                                paddingLeft: 13,
+                                color: textLightColor,
+                                fontSize: 14,
+                                width: "100%",
+                                borderWidth: 0.5,
+                                borderColor: textLightColor
                             }}
-                            render={({ field: { onChange, onBlur, value } }) => (
-                                <TextInput
-                                    onChangeText={onChange}
-                                    onBlur={onBlur}
-                                    value={value}
-                                    // error={errors.fullName}
-                                    placeholder="Company"
-                                    placeholderTextColor={textLightColor}
-                                    style={{
-                                        backgroundColor: mainLighterColor,
-                                        padding: 0,
-                                        zIndex: 10,
-                                        height: 35,
-                                        borderRadius: 5,
-                                        paddingLeft: 13,
-                                        color: textLightColor,
-                                        fontSize: 14,
-                                        width: "100%",
-                                        borderWidth: 0.5,
-                                        borderColor: textLightColor
-                                    }}
-                                />
-                            )}
-                            name="company"
-                            defaultValue=""
                         />
 
                     </View>
@@ -210,78 +249,58 @@ export default function AddExperienceModal({
                         width: "90%",
                         marginTop: 20
                     }}>
-                        <Controller
-                            control={control}
-                            rules={{
-                                required: true,
-                            }}
-                            render={({ field: { onChange, onBlur, value } }) => (
-                                <TextInput
-                                    onChangeText={onChange}
-                                    onBlur={onBlur}
-                                    value={value}
-                                    // error={errors.fullName}
-                                    placeholder="StartDate"
-                                    placeholderTextColor={textLightColor}
-                                    style={{
-                                        backgroundColor: mainLighterColor,
-                                        padding: 0,
-                                        zIndex: 10,
-                                        height: 35,
-                                        borderRadius: 5,
-                                        paddingLeft: 13,
-                                        color: textLightColor,
-                                        fontSize: 14,
-                                        width: "100%",
-                                        borderWidth: 0.5,
-                                        borderColor: textLightColor
-                                    }}
-                                />
-                            )}
-                            name="startDate"
-                            defaultValue=""
-                        />
 
+                        <TouchableOpacity style={{
+                            backgroundColor: mainLighterColor,
+                            padding: 0,
+                            zIndex: 10,
+                            height: 35,
+                            borderRadius: 5,
+                            paddingLeft: 13,
+                            color: textLightColor,
+                            fontSize: 14,
+                            width: "100%",
+                            borderWidth: 0.5,
+                            borderColor: textLightColor,
+                            justifyContent: 'center'
+                        }}
+                            onPress={onDatePress.bind(null, 'startDate')}
+                        >
+
+                            <Text style={{ color: textLightColor, fontSize: 14, }}>
+                                {!startDate ? 'Start Date' : startDate}
+                            </Text>
+                        </TouchableOpacity>
                     </View>
                     <View style={{
                         alignSelf: "center",
                         width: "90%",
                         marginTop: 20
                     }}>
-                        <Controller
-                            control={control}
-                            rules={{
-                                required: true,
-                            }}
-                            render={({ field: { onChange, onBlur, value } }) => (
-                                <TextInput
-                                    onChangeText={onChange}
-                                    onBlur={onBlur}
-                                    value={value}
-                                    // error={errors.fullName}
-                                    placeholder="EndDate"
-                                    placeholderTextColor={textLightColor}
-                                    style={{
-                                        backgroundColor: mainLighterColor,
-                                        padding: 0,
-                                        zIndex: 10,
-                                        height: 35,
-                                        borderRadius: 5,
-                                        paddingLeft: 13,
-                                        color: textLightColor,
-                                        fontSize: 14,
-                                        width: "100%",
-                                        borderWidth: 0.5,
-                                        borderColor: textLightColor
-                                    }}
-                                />
-                            )}
-                            name="startDate"
-                            defaultValue=""
-                        />
 
+                        <TouchableOpacity style={{
+                            backgroundColor: mainLighterColor,
+                            padding: 0,
+                            zIndex: 10,
+                            height: 35,
+                            borderRadius: 5,
+                            paddingLeft: 13,
+                            color: textLightColor,
+                            fontSize: 14,
+                            width: "100%",
+                            borderWidth: 0.5,
+                            borderColor: textLightColor,
+                            justifyContent: 'center'
+                        }}
+                            onPress={onDatePress.bind(null, 'endDate')}
+                        >
+
+                            <Text style={{ color: textLightColor, fontSize: 14, }}>
+                                {!endDate ? 'End Date' : endDate}
+                            </Text>
+                        </TouchableOpacity>
                     </View>
-                    <View style={{ flexDirection: "row", paddingHorizontal: 20, marginTop: 20 }}>
+                    {/* <View style={{ flexDirection: "row", paddingHorizontal: 20, marginTop: 20 }}>
                         <CheckBoxIcon color={textOffColor} height={18} width={18} style={{}} />
                         <Text style={{
                             color: textLightColor,
@@ -291,14 +310,14 @@ export default function AddExperienceModal({
                         }}>
                             Working Now
                         </Text>
-                    </View>
+                    </View> */}
                     <View style={{
                         paddingHorizontal: 10,
                         marginBottom: 20,
                         marginTop: 20
                     }}>
                         <TouchableOpacity
-                            onPress={() => dispatch(changeAddExperienceModal(false))}
+                            onPress={onAddPress}
                             style={{
                                 backgroundColor: mainColor,
                                 height: 35,
@@ -310,19 +329,33 @@ export default function AddExperienceModal({
                                 marginRight: 5
                             }}
                         >
-                            <Text
-                                style={{
-                                    fontSize: 14,
-                                    color: "#fff",
-                                    fontWeight: 'bold',
-                                    alignSelf: "center",
-                                }}>
-                                Add
-                            </Text>
+                            {
+                                addLoader ?
+                                    <ActivityIndicator color={'#fff'} />
+                                    :
+                                    <Text
+                                        style={{
+                                            fontSize: 14,
+                                            color: "#fff",
+                                            fontWeight: 'bold',
+                                            alignSelf: "center",
+                                        }}>
+                                        Add
+                                    </Text>
+                            }
                         </TouchableOpacity>
                     </View>
                 </View>
             </View>
+            {
+                showDateTimePicker?.visible &&
+                <DateTimePicker
+                    mode='date'
+                    visible={true}
+                    onClose={hideDateTimePicker}
+                    selectedDate={onDateSelection}
+                />
+            }
         </Modal>
     );
 }
