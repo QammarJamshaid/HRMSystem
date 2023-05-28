@@ -6,8 +6,7 @@ class GApiServices {
 
     login = (email: any, password: any) => {
         return new Promise((resolve, reject) => {
-            Api.get(`${EndPoints.login}?email=${'uznain11@gmail.com'}&password=${'uznain@786'}`)
-                // Api.get(`${EndPoints.login}?email=${email}&password=${password}`)
+            Api.get(`${EndPoints.login}?email=${email}&password=${password}`)
                 .then((res) => {
                     resolve(res?.data)
                 })

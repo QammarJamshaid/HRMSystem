@@ -46,6 +46,8 @@ import EmployeesList from '../Guard/Dashboard/EmployeesList'
 import GuardList from '../Guard/Dashboard/GuardList'
 import Professor from '../Guard/Dashboard/Professor'
 import { StorageManager } from '../../Services2'
+import AllMembers from '../Admin/Committee/AllMembers'
+import CommitteeMembers from '../Admin/Committee/CommitteeMembers'
 
 const { height, width } = Dimensions.get('window')
 
@@ -660,31 +662,31 @@ const DrawerNav = () => {
                         />
                         : null
             }
-              <Drawer.Screen
-                    options={{ headerShown: false }}
-                    name="JobPost"
-                    component={JobPost}
-                />
-              <Drawer.Screen
-                    options={{ headerShown: false }}
-                    name="Attendence"
-                    component={Attendence}
-                />
-              <Drawer.Screen
-                    options={{ headerShown: false }}
-                    name="LeaveApplicant"
-                    component={LeaveApplicant}
-                />
-              <Drawer.Screen
-                    options={{ headerShown: false }}
-                    name="AllMembers"
-                    component={AllMembers}
-                />
-              <Drawer.Screen
-                    options={{ headerShown: false }}
-                    name="CommitteeMembers"
-                    component={CommitteeMembers}
-                />
+            <Drawer.Screen
+                options={{ headerShown: false }}
+                name="JobPost"
+                component={JobPost}
+            />
+            <Drawer.Screen
+                options={{ headerShown: false }}
+                name="Attendence"
+                component={Attendence}
+            />
+            <Drawer.Screen
+                options={{ headerShown: false }}
+                name="LeaveApplicant"
+                component={LeaveApplicant}
+            />
+            <Drawer.Screen
+                options={{ headerShown: false }}
+                name="AllMembers"
+                component={AllMembers}
+            />
+            <Drawer.Screen
+                options={{ headerShown: false }}
+                name="CommitteeMembers"
+                component={CommitteeMembers}
+            />
         </Drawer.Navigator>
     )
 }
