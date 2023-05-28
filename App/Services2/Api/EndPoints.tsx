@@ -1,6 +1,8 @@
 const EndPoints = {
     login: '/User/newlogin',
+    updateUser: '/User/UpdateUser',
     getAllJobs: 'Job/NewJobGet',
+    getJobDetail: 'Job/NewJobDetailGet',
     getAllEducation: 'Education/NewEducationGet',
     addEducation: 'Education/EducationPost',
     deleteEducation: 'Education/DeleteEducation',

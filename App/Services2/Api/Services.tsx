@@ -128,6 +128,36 @@ class GApiServices {
                 })
         })
     }
+
+    updateUser = (Uid: any, data: any) => {
+        return new Promise((resolve, reject) => {
+            Api.put(
+                `${EndPoints.updateUser}`,
+                data
+            )
+                .then(() => {
+                    resolve('')
+                    flashSuccessMessage('Updated')
+                })
+                .catch((error) => {
+                    // console.log('error while updating user =>', error)
+                    reject('')
+                })
+        })
+    }
+
+    getJobDetail = (jid: any) => {
+        return new Promise((resolve, reject) => {
+            Api.get(`${EndPoints.getJobDetail}?jid=${jid}`)
+                .then((res) => {
+                    resolve(res?.data)
+                })
+                .catch((error: any) => {
+                    console.log('error while getting job detail =>', error)
+                    reject('')
+                })
+        })
+    }
 }
 
 

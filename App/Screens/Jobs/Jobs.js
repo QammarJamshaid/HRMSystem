@@ -62,10 +62,9 @@ export default function Jobs(props) {
     }, [])
 
     function JobsList({ item, index }) {
-
         return (
             <TouchableOpacity
-                onPress={() => props.navigation.navigate("JobDetails")}
+                onPress={() => props.navigation.navigate("JobDetails", { jobId: item?.Jid })}
                 style={{
                     flex: 1, width: "95%", backgroundColor: backgroundDarkerColor,
                     alignSelf: "center", marginTop: 20,

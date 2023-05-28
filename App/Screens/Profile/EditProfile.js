@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { View, Button, Text, StyleSheet, TouchableOpacity, TextInput, Image } from "react-native";
+import { View, Button, Text, StyleSheet, TouchableOpacity, TextInput, Image, ActivityIndicator } from "react-native";
 import { useForm, Controller } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -7,9 +7,13 @@ import { Divider } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { ApiServices, StorageManager, flashSuccessMessage, useGlobalContext } from '../../Services2'
+import { DateTimePicker } from "../../Components";
+import moment from "moment";
 
 export default function EditProfile(props) {
-
+    const { updateUser, user } = useGlobalContext()
+    const { setData, storageKeys } = StorageManager
 
     const defaultValues = {
         Quantity: "",
@@ -32,6 +36,72 @@ export default function EditProfile(props) {
         mode: 'onChange',
         defaultValues: defaultValues,
     });
+    const [showDatePicker, setShowDatePicker] = useState(false)
+    const [saveChangeLoader, setSaveChangeLoader] = useState(false)
+
+    const [firstName, setFirstName] = useState(user?.Fname)
+    const [lastName, setLastName] = useState(user?.Lname)
+    const [phoneNumber, setPhoneNumber] = useState(user?.mobile)
+    const [address, setAddress] = useState(user?.address)
+    const [cnic, setCnic] = useState(user?.cnic)
+    const [dob, setDob] = useState(user?.dob)
+
+    const onChangeFirstName = (text) => setFirstName(text)
+    const onChangeLastName = (text) => setLastName(text)
+    const onChangePhoneNumber = (text) => setPhoneNumber(text)
+    const onChangeCnic = (text) => setCnic(text)
+    const onChangeAddress = (text) => setAddress(text)
+
+    const hideSaveChangeLoader = () => setSaveChangeLoader(false)
+
+    const onSavePress = () => {
+        setSaveChangeLoader(true)
+        const data = {
+            Fname: firstName,
+            Lname: lastName,
+            cnic: cnic,
+            mobile: phoneNumber,
+            dob: dob,
+            address: address,
+            Uid: user?.Uid,
+            // gender: 'Female',
+            // role: user?.role,
+            // password: '123456'
+        }
+        ApiServices.updateUser(user?.Uid, data).then(async () => {
+            user.Fname = firstName,
+                user.Lname = lastName,
+                user.cnic = cnic,
+                user.mobile = phoneNumber,
+                user.dob = dob,
+                user.address = address
+            updateUser(user)
+            await setData(storageKeys.USER, user)
+            setSaveChangeLoader(false)
+            flashSuccessMessage('Updated')
+        })
+            .catch(async () => {
+                user.Fname = firstName,
+                    user.Lname = lastName,
+                    user.cnic = cnic,
+                    user.mobile = phoneNumber,
+                    user.dob = dob,
+                    user.address = address
+                updateUser(user)
+                await setData(storageKeys.USER, user)
+                setSaveChangeLoader(false)
+                flashSuccessMessage('Updated')
+            })
+    }
+
+    const onDatePickerVisible = () => setShowDatePicker(true)
+    const onDatePickerInVisible = () => setShowDatePicker(false)
+
+    const onDobSelection = (date) => {
+        setShowDatePicker(false)
+        setDob(moment(date).format('YYYY-MM-DD'))
+    }
+
     return (
         <View
             style={{
@@ -136,35 +206,23 @@ export default function EditProfile(props) {
                                     First Name:
                                 </Text>
                                 <View style={{ alignSelf: "center", width: "65%", }}>
-                                    <Controller
-                                        control={control}
-                                        rules={{
-                                            required: true,
+                                    <TextInput
+                                        onChangeText={onChangeFirstName}
+                                        value={firstName}
+                                        placeholder="First Name"
+                                        placeholderTextColor={textDarkColor}
+                                        style={{
+                                            backgroundColor: "#fff",
+                                            zIndex: 10,
+                                            height: 35,
+                                            borderRadius: 5,
+                                            paddingLeft: 13,
+                                            color: textColor,
+                                            fontSize: 13,
+                                            width: "100%",
+                                            borderWidth: 0.5,
+                                            borderColor: textDarkColor
                                         }}
-                                        render={({ field: { onChange, onBlur, value } }) => (
-                                            <TextInput
-                                                onChangeText={onChange}
-                                                onBlur={onBlur}
-                                                value={value}
-                                                // error={errors.fullName}
-                                                placeholder="First Name"
-                                                placeholderTextColor={textDarkColor}
-                                                style={{
-                                                    backgroundColor: "#fff",
-                                                    zIndex: 10,
-                                                    height: 35,
-                                                    borderRadius: 5,
-                                                    paddingLeft: 13,
-                                                    color: textColor,
-                                                    fontSize: 13,
-                                                    width: "100%",
-                                                    borderWidth: 0.5,
-                                                    borderColor: textDarkColor
-                                                }}
-                                            />
-                                        )}
-                                        name="firstname"
-                                        defaultValue=""
                                     />
                                 </View>
                             </View>
@@ -173,220 +231,125 @@ export default function EditProfile(props) {
                                     Last Name :
                                 </Text>
                                 <View style={{ alignSelf: "center", width: "65%", }}>
-                                    <Controller
-                                        control={control}
-                                        rules={{
-                                            required: true,
+                                    <TextInput
+                                        onChangeText={onChangeLastName}
+                                        value={lastName}
+                                        placeholder="Last Name"
+                                        placeholderTextColor={textDarkColor}
+                                        style={{
+                                            backgroundColor: "#fff",
+                                            zIndex: 10,
+                                            height: 35,
+                                            borderRadius: 5,
+                                            paddingLeft: 13,
+                                            color: textColor,
+                                            fontSize: 13,
+                                            width: "100%",
+                                            borderWidth: 0.5,
+                                            borderColor: textDarkColor
                                         }}
-                                        render={({ field: { onChange, onBlur, value } }) => (
-                                            <TextInput
-                                                onChangeText={onChange}
-                                                onBlur={onBlur}
-                                                value={value}
-                                                // error={errors.fullName}
-                                                placeholder="Last Name"
-                                                placeholderTextColor={textDarkColor}
-                                                style={{
-                                                    backgroundColor: "#fff",
-                                                    zIndex: 10,
-                                                    height: 35,
-                                                    borderRadius: 5,
-                                                    paddingLeft: 13,
-                                                    color: textColor,
-                                                    fontSize: 13,
-                                                    width: "100%",
-                                                    borderWidth: 0.5,
-                                                    borderColor: textDarkColor
-                                                }}
-                                            />
-                                        )}
-                                        name="lastname"
-                                        defaultValue=""
                                     />
                                 </View>
                             </View>
                             <View style={{ flexDirection: "row", marginTop: 20, alignItems: "center" }}>
                                 <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, width: "35%" }}>
-                                    Phone :
+                                    Cnic :
                                 </Text>
                                 <View style={{ alignSelf: "center", width: "65%", }}>
-                                    <Controller
-                                        control={control}
-                                        rules={{
-                                            required: true,
+                                    <TextInput
+                                        onChangeText={onChangeCnic}
+                                        value={cnic}
+                                        placeholder="Cnic"
+                                        placeholderTextColor={textDarkColor}
+                                        style={{
+                                            backgroundColor: "#fff",
+                                            zIndex: 10,
+                                            height: 35,
+                                            borderRadius: 5,
+                                            paddingLeft: 13,
+                                            color: textColor,
+                                            fontSize: 13,
+                                            width: "100%",
+                                            borderWidth: 0.5,
+                                            borderColor: textDarkColor
                                         }}
-                                        render={({ field: { onChange, onBlur, value } }) => (
-                                            <TextInput
-                                                onChangeText={onChange}
-                                                onBlur={onBlur}
-                                                value={value}
-                                                // error={errors.fullName}
-                                                placeholder="Phone"
-                                                placeholderTextColor={textDarkColor}
-                                                style={{
-                                                    backgroundColor: "#fff",
-                                                    zIndex: 10,
-                                                    height: 35,
-                                                    borderRadius: 5,
-                                                    paddingLeft: 13,
-                                                    color: textColor,
-                                                    fontSize: 13,
-                                                    width: "100%",
-                                                    borderWidth: 0.5,
-                                                    borderColor: textDarkColor
-                                                }}
-                                            />
-                                        )}
-                                        name="phone"
-                                        defaultValue=""
                                     />
                                 </View>
                             </View>
+                            <View style={{ flexDirection: "row", marginTop: 20, alignItems: "center" }}>
+                                <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, width: "35%" }}>
+                                    Phone Number :
+                                </Text>
+                                <View style={{ alignSelf: "center", width: "65%", }}>
+                                    <TextInput
+                                        onChangeText={onChangePhoneNumber}
+                                        value={phoneNumber}
+                                        placeholder="Phone number"
+                                        placeholderTextColor={textDarkColor}
+                                        style={{
+                                            backgroundColor: "#fff",
+                                            zIndex: 10,
+                                            height: 35,
+                                            borderRadius: 5,
+                                            paddingLeft: 13,
+                                            color: textColor,
+                                            fontSize: 13,
+                                            width: "100%",
+                                            borderWidth: 0.5,
+                                            borderColor: textDarkColor
+                                        }}
+                                    />
+                                </View>
+                            </View>
+
+                            <View style={{ flexDirection: "row", marginTop: 20, alignItems: "center" }}>
+                                <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, width: "35%" }}>
+                                    Dob :
+                                </Text>
+                                <View style={{ alignSelf: "center", width: "65%", }}>
+                                    <TouchableOpacity
+                                        style={{
+                                            backgroundColor: "#fff",
+                                            zIndex: 10,
+                                            height: 35,
+                                            borderRadius: 5,
+                                            paddingLeft: 13,
+                                            width: "100%",
+                                            borderWidth: 0.5,
+                                            borderColor: textDarkColor,
+                                            justifyContent: 'center'
+                                        }}
+                                        onPress={onDatePickerVisible}
+                                    >
+                                        <Text style={{ color: !dob ? textDarkColor : textColor, fontSize: 13 }}>
+                                            {!dob ? 'Date of birth' : dob}
+                                        </Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+
                             <View style={{ flexDirection: "row", marginTop: 20, alignItems: "center" }}>
                                 <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, width: "35%" }}>
                                     Address :
                                 </Text>
                                 <View style={{ alignSelf: "center", width: "65%", }}>
-                                    <Controller
-                                        control={control}
-                                        rules={{
-                                            required: true,
+                                    <TextInput
+                                        onChangeText={onChangeAddress}
+                                        value={address}
+                                        placeholder="Address"
+                                        placeholderTextColor={textDarkColor}
+                                        style={{
+                                            backgroundColor: "#fff",
+                                            zIndex: 10,
+                                            height: 35,
+                                            borderRadius: 5,
+                                            paddingLeft: 13,
+                                            color: textColor,
+                                            fontSize: 13,
+                                            width: "100%",
+                                            borderWidth: 0.5,
+                                            borderColor: textDarkColor
                                         }}
-                                        render={({ field: { onChange, onBlur, value } }) => (
-                                            <TextInput
-                                                onChangeText={onChange}
-                                                onBlur={onBlur}
-                                                value={value}
-                                                // error={errors.fullName}
-                                                placeholder="Address"
-                                                placeholderTextColor={textDarkColor}
-                                                style={{
-                                                    backgroundColor: "#fff",
-                                                    zIndex: 10,
-                                                    height: 35,
-                                                    borderRadius: 5,
-                                                    paddingLeft: 13,
-                                                    color: textColor,
-                                                    fontSize: 13,
-                                                    width: "100%",
-                                                    borderWidth: 0.5,
-                                                    borderColor: textDarkColor
-                                                }}
-                                            />
-                                        )}
-                                        name="address"
-                                        defaultValue=""
-                                    />
-                                </View>
-                            </View>
-                            <View style={{ flexDirection: "row", marginTop: 20, alignItems: "center" }}>
-                                <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, width: "35%" }}>
-                                    City :
-                                </Text>
-                                <View style={{ alignSelf: "center", width: "65%", }}>
-                                    <Controller
-                                        control={control}
-                                        rules={{
-                                            required: true,
-                                        }}
-                                        render={({ field: { onChange, onBlur, value } }) => (
-                                            <TextInput
-                                                onChangeText={onChange}
-                                                onBlur={onBlur}
-                                                value={value}
-                                                // error={errors.fullName}
-                                                placeholder="City"
-                                                placeholderTextColor={textDarkColor}
-                                                style={{
-                                                    backgroundColor: "#fff",
-                                                    zIndex: 10,
-                                                    height: 35,
-                                                    borderRadius: 5,
-                                                    paddingLeft: 13,
-                                                    color: textColor,
-                                                    fontSize: 13,
-                                                    width: "100%",
-                                                    borderWidth: 0.5,
-                                                    borderColor: textDarkColor
-                                                }}
-                                            />
-                                        )}
-                                        name="city"
-                                        defaultValue=""
-                                    />
-                                </View>
-                            </View>
-                            <View style={{ flexDirection: "row", marginTop: 20, alignItems: "center" }}>
-                                <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, width: "35%" }}>
-                                    State :
-                                </Text>
-                                <View style={{ alignSelf: "center", width: "65%", }}>
-                                    <Controller
-                                        control={control}
-                                        rules={{
-                                            required: true,
-                                        }}
-                                        render={({ field: { onChange, onBlur, value } }) => (
-                                            <TextInput
-                                                onChangeText={onChange}
-                                                onBlur={onBlur}
-                                                value={value}
-                                                // error={errors.fullName}
-                                                placeholder="State"
-                                                placeholderTextColor={textDarkColor}
-                                                style={{
-                                                    backgroundColor: "#fff",
-                                                    zIndex: 10,
-                                                    height: 35,
-                                                    borderRadius: 5,
-                                                    paddingLeft: 13,
-                                                    color: textColor,
-                                                    fontSize: 13,
-                                                    width: "100%",
-                                                    borderWidth: 0.5,
-                                                    borderColor: textDarkColor
-                                                }}
-                                            />
-                                        )}
-                                        name="state"
-                                        defaultValue=""
-                                    />
-                                </View>
-                            </View>
-                            <View style={{ flexDirection: "row", marginTop: 20, alignItems: "center" }}>
-                                <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, width: "35%" }}>
-                                    Postal Code :
-                                </Text>
-                                <View style={{ alignSelf: "center", width: "65%", }}>
-                                    <Controller
-                                        control={control}
-                                        rules={{
-                                            required: true,
-                                        }}
-                                        render={({ field: { onChange, onBlur, value } }) => (
-                                            <TextInput
-                                                onChangeText={onChange}
-                                                onBlur={onBlur}
-                                                value={value}
-                                                // error={errors.fullName}
-                                                placeholder="Postal Code"
-                                                placeholderTextColor={textDarkColor}
-                                                style={{
-                                                    backgroundColor: "#fff",
-                                                    zIndex: 10,
-                                                    height: 35,
-                                                    borderRadius: 5,
-                                                    paddingLeft: 13,
-                                                    color: textColor,
-                                                    fontSize: 13,
-                                                    width: "100%",
-                                                    borderWidth: 0.5,
-                                                    borderColor: textDarkColor
-                                                }}
-                                            />
-                                        )}
-                                        name="postalCode"
-                                        defaultValue=""
                                     />
                                 </View>
                             </View>
@@ -415,16 +378,30 @@ export default function EditProfile(props) {
                         justifyContent: "center", height: 40,
                         width: 120, paddingLeft: 10,
                         borderRadius: 5, backgroundColor: mainColor
-                    }}>
+                    }}
+                        onPress={onSavePress}
+                    >
                         <Text style={{
                             fontSize: 14, fontWeight: '500',
                             color: "#fff", alignSelf: "center"
                         }}>
-                            {"Save Changes"}
+                            {
+                                saveChangeLoader ? <ActivityIndicator color={'#fff'} size={'small'} />
+                                    :
+                                    "Save Changes"
+                            }
                         </Text>
                     </TouchableOpacity>
                 </View>
             </ScrollView>
+            {
+                showDatePicker &&
+                <DateTimePicker
+                    visible={true}
+                    onClose={onDatePickerInVisible}
+                    selectedDate={onDobSelection}
+                />
+            }
         </View >
 
     );

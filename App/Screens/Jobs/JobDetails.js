@@ -9,9 +9,12 @@ import BackIcon from '../../Assets/Svgs/BackIcon.svg';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Divider } from 'react-native-paper';
+import { ModalLoader } from '../../Components';
+import { ApiServices } from '../../Services2';
 
 function JobDetails(props) {
-
+    const [loader, setLoader] = useState(true)
+    const [jobDetail, setJobDetail] = useState(null)
     const defaultValues = {
         Quantity: "",
         MarketValue: "",
@@ -59,7 +62,6 @@ function JobDetails(props) {
     ]
 
     function JobdetailFunc({ item, index }) {
-        // const { name, website, image } = item
         return (
             <View style={{
                 // width:"100%",
@@ -76,7 +78,7 @@ function JobDetails(props) {
                     width: "40%",
                     fontWeight: "bold"
                 }}>
-                    {item.Title}
+                    {item.field}
                 </Text>
                 <Text style={{
                     color: borderColor,
@@ -91,11 +93,29 @@ function JobDetails(props) {
 
     }
 
+    const hideLoader = () => setLoader(false)
+
+    const getJobDetail = () => {
+        setLoader(false)
+        const jobId = props?.route?.params?.jobId
+        ApiServices.getJobDetail(jobId).then((res) => {
+            setJobDetail(res)
+            setLoader(false)
+        })
+            .catch(hideLoader)
+    }
+
+
     useEffect(() => {
+        getJobDetail()
     }, [])
 
     return (
         <View style={{ flex: 1, backgroundColor: backgroundColor }}>
+            <ModalLoader
+                visible={loader}
+                useModalLayout={true}
+            />
             <View style={{
                 height: getStatusBarHeight() + 50,
                 backgroundColor: backgroundColor,
@@ -126,7 +146,7 @@ function JobDetails(props) {
                             fontSize: 16,
                             fontWeight: "bold",
                             color: textColor,
-                            marginRight:15
+                            marginRight: 15
                         }}
                     >
                         {"Job Details"}
@@ -162,13 +182,17 @@ function JobDetails(props) {
                             borderRadius: 8, paddingBottom: 10,
                             paddingTop: 10
                         }}>
-                        <FlatList
-                            data={jobDetailsItem}
-                            ListFooterComponent={() => <View style={{ height: 20 }} />}
-                            renderItem={JobdetailFunc}
-                            keyExtractor={(item, index) => index}
-                            showsVerticalScrollIndicator={false}
-                        />
+                        {
+                            !loader && jobDetail ?
+                                <FlatList
+                                    data={Object.entries(jobDetail).map(([key, value]) => ({ field: key, value }))}
+                                    ListFooterComponent={() => <View style={{ height: 20 }} />}
+                                    renderItem={JobdetailFunc}
+                                    keyExtractor={(item, index) => index}
+                                    showsVerticalScrollIndicator={false}
+                                />
+                                : null
+                        }
                     </View>
                 </View>
                 <View style={{
@@ -183,7 +207,7 @@ function JobDetails(props) {
                             width: "27%",
                             alignSelf: "flex-end",
                             borderRadius: 8,
-                            justifyContent:"center"
+                            justifyContent: "center"
 
                         }}
                     >
