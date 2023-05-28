@@ -94,6 +94,40 @@ class GApiServices {
                 })
         })
     }
+
+    addEducation = (params: any) => {
+        return new Promise((resolve, reject) => {
+            Api.post(
+                EndPoints.addEducation,
+                params,
+            ).then(async res => {
+                flashSuccessMessage('Education added')
+                resolve(res?.data?.results)
+            })
+                .catch((error) => {
+                    flashErrorMessage()
+                    reject('')
+                    console.log('error while adding education =>', error)
+                })
+        })
+    }
+
+    deleteEducation = (id: any) => {
+        return new Promise((resolve, reject) => {
+            Api.delete(
+                `${EndPoints.deleteEducation}?EduID=${id}`
+            )
+                .then(() => {
+                    resolve('')
+                    flashSuccessMessage('Deleted')
+                })
+                .catch((error) => {
+                    console.log('error while deleting education =>', error)
+                    flashErrorMessage()
+                    reject('')
+                })
+        })
+    }
 }
 
 

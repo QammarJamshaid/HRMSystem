@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useReducer } from "react";
 import { useForm } from 'react-hook-form';
 import {
     ActivityIndicator,
@@ -16,11 +16,21 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import AddEducationModal from "./AddEducationModal";
 import { ApiServices, useGlobalContext } from "../../Services2";
 import { hp } from "../../Global";
+import { ModalLoader } from "../../Components";
+import _ from 'lodash'
 
 function Education(props) {
+    const [, forceUpdate] = useReducer((x) => x + 1, 0);
     const { user } = useGlobalContext()
     const [loader, setLoader] = useState(true)
     const [educationList, setEducationList] = useState([])
+    const [showAddEduModal, setShowAddEduModal] = useState(false)
+
+    const [modalLoader, setModalLoader] = useState({
+        visible: false,
+        message: ''
+    })
+
 
     const defaultValues = {
         Quantity: "",
@@ -76,6 +86,10 @@ function Education(props) {
 
     const hideLoader = () => setLoader(false)
 
+
+    const hideAddEduModal = () => setShowAddEduModal(false)
+    const addEduModalVisible = () => setShowAddEduModal(true)
+
     const getAllEducation = () => {
         ApiServices.getAllEducation(user?.Uid).then((res) => {
             setEducationList(res)
@@ -84,6 +98,33 @@ function Education(props) {
             .catch(hideLoader)
     }
 
+    const onAddEducationSuccess = () => {
+        setLoader(true)
+        setShowAddEduModal(false)
+        getAllEducation()
+    }
+
+
+    const hideModalLoader = () => {
+        setModalLoader({
+            visible: false,
+            message: ''
+        })
+    }
+
+    const onDeleteEducationItem = (item) => {
+        setModalLoader({
+            visible: true,
+            message: 'Deleting...'
+        })
+        ApiServices.deleteEducation(item?.EduID).then(() => {
+            _.remove(educationList, element => _.isEqual(element?.EduID, item?.EduID));
+            forceUpdate()
+            hideModalLoader()
+            setEducationList(educationList)
+        })
+            .catch(hideModalLoader)
+    }
 
 
     useEffect(() => {
@@ -153,7 +194,7 @@ function Education(props) {
                                             <EditIcon color={mainColor} height={12} width={12} style={{}} />
                                         </TouchableOpacity>
                                         <TouchableOpacity
-                                            // onPress={() => props.navigation.navigate('EditProfile')}
+                                            onPress={onDeleteEducationItem.bind(null, item)}
                                             style={{
                                                 height: 25, width: 25,
                                                 borderRadius: 100, justifyContent: "center",
@@ -289,6 +330,11 @@ function Education(props) {
     return (
         <>
             <View style={{ flex: 1, backgroundColor: backgroundColor }}>
+                <ModalLoader
+                    visible={modalLoader.visible}
+                    message={modalLoader.message}
+                    useModalLayout={true}
+                />
                 <ScrollView
                     contentContainerStyle={{
                         backgroundColor: backgroundColor,
@@ -315,10 +361,7 @@ function Education(props) {
                                 </Text>
                             </View>
                             <TouchableOpacity
-                                onPress={() => {
-                                    console.log("sdfs")
-                                    dispatch(changeAddEducationModal(true))
-                                }}
+                                onPress={addEduModalVisible}
                                 style={{
                                     backgroundColor: mainColor,
                                     height: 40,
@@ -349,7 +392,11 @@ function Education(props) {
                 </ScrollView>
                 <View style={{ backgroundColor: backgroundColor, height: 15 }} />
             </View>
-            <AddEducationModal />
+            <AddEducationModal
+                visible={showAddEduModal}
+                onClose={hideAddEduModal}
+                onSuccess={onAddEducationSuccess}
+            />
         </>
     );
 };

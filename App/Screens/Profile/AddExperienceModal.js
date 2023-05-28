@@ -25,7 +25,6 @@ export default function AddExperienceModal(props) {
     const {
         visible = false,
         onClose = () => null,
-        onSuccess = () => null
     } = props
 
 
@@ -128,9 +127,11 @@ export default function AddExperienceModal(props) {
     const onDateSelection = (date) => {
         if(showDateTimePicker.from === 'startDate') {
             setStartDate(moment(date).format('YYYY-MM-DD'))
+            hideDateTimePicker()
         }
         else {
             setEndDate(moment(date).format('YYYY-MM-DD'))
+            hideDateTimePicker()
         }
     }
 

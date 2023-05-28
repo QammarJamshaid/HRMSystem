@@ -7,16 +7,38 @@ import {
     Text,
     TouchableOpacity,
     View,
-    TextInput
+    TextInput,
+    ActivityIndicator
 } from "react-native";
 import { Divider } from 'react-native-elements';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeAddEducationModal } from "./Store/MyProfileSlice";
 import Entypo from 'react-native-vector-icons/Entypo';
+import { DateTimePicker } from "../../Components";
+import moment from "moment";
+import { ApiServices, useGlobalContext } from '../../Services2'
 
-export default function AddEducationModal({
-    props
-}) {
+export default function AddEducationModal(props) {
+    const { user } = useGlobalContext()
+    const [board, setBoard] = useState('')
+    const [degree, setDegree] = useState('')
+    const [institute, setInstitute] = useState('')
+    const [major, setMajor] = useState('')
+
+    const [startDate, setStartDate] = useState(null)
+    const [endDate, setEndDate] = useState(null)
+    const [addLoader, setAddLoader] = useState(false)
+    const [showDateTimePicker, setShowDateTimePicker] = useState({
+        from: '',
+        visible: false
+    })
+
+
+    const {
+        visible = false,
+        onClose = () => null,
+    } = props
+
     const defaultValues = {
         propertyId: null,
     }
@@ -39,9 +61,6 @@ export default function AddEducationModal({
             shadowRadius: 3.84,
             elevation: 10,
             marginTop: 20, alignSelf: "center"
-
-
-
         },
         contentContainer: {
             flexDirection: 'column',
@@ -62,7 +81,6 @@ export default function AddEducationModal({
         space: {
             marginTop: 12,
         },
-
     })
     const {
         textColor,
@@ -83,21 +101,69 @@ export default function AddEducationModal({
     } = useSelector(state => state.myProfile) || {}
 
 
-    console.log("addEducationModal===>", addEducationModal)
+    const onChangeInstitude = (text) => setInstitute(text)
+    const onChangeBoard = (text) => setBoard(text)
+    const onChangeDegree = (text) => setDegree(text)
+    const onChangeMajor = (text) => setMajor(text)
+
+
     const showDatepicker = () => {
         showMode('date');
     };
 
+
+    const onDatePress = (from) => {
+        setShowDateTimePicker({
+            visible: true,
+            from: from
+        })
+    }
+
+    const hideDateTimePicker = () => {
+        setShowDateTimePicker({
+            visible: false,
+            from: ''
+        })
+    }
+
+    const onDateSelection = (date) => {
+        hideDateTimePicker()
+        if(showDateTimePicker.from === 'startDate') {
+            setStartDate(moment(date).format('YYYY-MM-DD'))
+        }
+        else {
+            setEndDate(moment(date).format('YYYY-MM-DD'))
+        }
+    }
+
+    const onAddEducationPress = () => {
+        setAddLoader(true)
+        const data = {
+            Board: board,
+            Degree: degree,
+            Institute: institute,
+            major: major,
+            Startdate: startDate,
+            Enddate: endDate,
+            Uid: user?.Uid
+        }
+        setStartDate(null)
+        setEndDate(null)
+        ApiServices.addEducation(data).then(() => {
+            setAddLoader(false)
+            props?.onSuccess && props.onSuccess()
+        })
+            .catch(() => setAddLoader(false))
+    }
 
 
     return (
         <Modal
             transparent
             animationType="fade"
-            visible={addEducationModal === true}
-            onRequestClose={() => {
-                dispatch(changeAddEducationModal(false))
-            }}>
+            visible={visible}
+            onRequestClose={onClose}>
+
             <View style={styles.contentContainer}>
                 <View style={styles.content}>
                     <View style={{
@@ -117,7 +183,7 @@ export default function AddEducationModal({
                             Add Education
                         </Text>
                         <TouchableOpacity
-                            onPress={() => dispatch(changeAddEducationModal(false))}
+                            onPress={onClose}
                             style={{}}
                         >
                             <Entypo
@@ -133,37 +199,26 @@ export default function AddEducationModal({
                         width: "90%",
                         marginTop: 20
                     }}>
-                        <Controller
-                            control={control}
-                            rules={{
-                                required: true,
+                        <TextInput
+                            onChangeText={onChangeBoard}
+                            value={board}
+                            placeholder="Board"
+                            placeholderTextColor={textLightColor}
+                            style={{
+                                backgroundColor: mainLighterColor,
+                                padding: 0,
+                                zIndex: 10,
+                                height: 35,
+                                borderRadius: 5,
+                                paddingLeft: 13,
+                                color: textLightColor,
+                                fontSize: 14,
+                                width: "100%",
+                                borderWidth: 0.5,
+                                borderColor: textLightColor
                             }}
-                            render={({ field: { onChange, onBlur, value } }) => (
-                                <TextInput
-                                    onChangeText={onChange}
-                                    onBlur={onBlur}
-                                    value={value}
-                                    // error={errors.fullName}
-                                    placeholder="Education Title"
-                                    placeholderTextColor={textLightColor}
-                                    style={{
-                                        backgroundColor: mainLighterColor,
-                                        padding: 0,
-                                        zIndex: 10,
-                                        height: 35,
-                                        borderRadius: 5,
-                                        paddingLeft: 13,
-                                        color: textLightColor,
-                                        fontSize: 14,
-                                        width: "100%",
-                                        borderWidth: 0.5,
-                                        borderColor: textLightColor
-                                    }}
-                                />
-                            )}
-                            name="educationTitle "
-                            defaultValue=""
                         />
+
 
                     </View>
                     <View style={{
@@ -171,115 +226,140 @@ export default function AddEducationModal({
                         width: "90%",
                         marginTop: 20
                     }}>
-                        <Controller
-                            control={control}
-                            rules={{
-                                required: true,
+                        <TextInput
+                            onChangeText={onChangeDegree}
+                            value={degree}
+                            placeholder="Degree"
+                            placeholderTextColor={textLightColor}
+                            style={{
+                                backgroundColor: mainLighterColor,
+                                padding: 0,
+                                zIndex: 10,
+                                height: 35,
+                                borderRadius: 5,
+                                paddingLeft: 13,
+                                color: textLightColor,
+                                fontSize: 14,
+                                width: "100%",
+                                borderWidth: 0.5,
+                                borderColor: textLightColor
                             }}
-                            render={({ field: { onChange, onBlur, value } }) => (
-                                <TextInput
-                                    onChangeText={onChange}
-                                    onBlur={onBlur}
-                                    value={value}
-                                    // error={errors.fullName}
-                                    placeholder="Institute"
-                                    placeholderTextColor={textLightColor}
-                                    style={{
-                                        backgroundColor: mainLighterColor,
-                                        padding: 0,
-                                        zIndex: 10,
-                                        height: 35,
-                                        borderRadius: 5,
-                                        paddingLeft: 13,
-                                        color: textLightColor,
-                                        fontSize: 14,
-                                        width: "100%",
-                                        borderWidth: 0.5,
-                                        borderColor: textLightColor
-                                    }}
-                                />
-                            )}
-                            name="institute"
-                            defaultValue=""
                         />
-
                     </View>
+
                     <View style={{
                         alignSelf: "center",
                         width: "90%",
                         marginTop: 20
                     }}>
-                        <Controller
-                            control={control}
-                            rules={{
-                                required: true,
+                        <TextInput
+                            onChangeText={onChangeInstitude}
+                            value={institute}
+                            placeholder="Institute"
+                            placeholderTextColor={textLightColor}
+                            style={{
+                                backgroundColor: mainLighterColor,
+                                padding: 0,
+                                zIndex: 10,
+                                height: 35,
+                                borderRadius: 5,
+                                paddingLeft: 13,
+                                color: textLightColor,
+                                fontSize: 14,
+                                width: "100%",
+                                borderWidth: 0.5,
+                                borderColor: textLightColor
                             }}
-                            render={({ field: { onChange, onBlur, value } }) => (
-                                <TextInput
-                                    onChangeText={onChange}
-                                    onBlur={onBlur}
-                                    value={value}
-                                    // error={errors.fullName}
-                                    placeholder="StartDate"
-                                    placeholderTextColor={textLightColor}
-                                    style={{
-                                        backgroundColor: mainLighterColor,
-                                        padding: 0,
-                                        zIndex: 10,
-                                        height: 35,
-                                        borderRadius: 5,
-                                        paddingLeft: 13,
-                                        color: textLightColor,
-                                        fontSize: 14,
-                                        width: "100%",
-                                        borderWidth: 0.5,
-                                        borderColor: textLightColor
-                                    }}
-                                />
-                            )}
-                            name="startDate"
-                            defaultValue=""
                         />
-
                     </View>
+
                     <View style={{
                         alignSelf: "center",
                         width: "90%",
                         marginTop: 20
                     }}>
-                        <Controller
-                            control={control}
-                            rules={{
-                                required: true,
+                        <TextInput
+                            onChangeText={onChangeMajor}
+                            value={major}
+                            placeholder="major"
+                            placeholderTextColor={textLightColor}
+                            style={{
+                                backgroundColor: mainLighterColor,
+                                padding: 0,
+                                zIndex: 10,
+                                height: 35,
+                                borderRadius: 5,
+                                paddingLeft: 13,
+                                color: textLightColor,
+                                fontSize: 14,
+                                width: "100%",
+                                borderWidth: 0.5,
+                                borderColor: textLightColor
                             }}
-                            render={({ field: { onChange, onBlur, value } }) => (
-                                <TextInput
-                                    onChangeText={onChange}
-                                    onBlur={onBlur}
-                                    value={value}
-                                    // error={errors.fullName}
-                                    placeholder="EndDate"
-                                    placeholderTextColor={textLightColor}
-                                    style={{
-                                        backgroundColor: mainLighterColor,
-                                        padding: 0,
-                                        zIndex: 10,
-                                        height: 35,
-                                        borderRadius: 5,
-                                        paddingLeft: 13,
-                                        color: textLightColor,
-                                        fontSize: 14,
-                                        width: "100%",
-                                        borderWidth: 0.5,
-                                        borderColor: textLightColor
-                                    }}
-                                />
-                            )}
-                            name="startDate"
-                            defaultValue=""
                         />
-
                     </View>
+
+
+                    <View style={{
+                        alignSelf: "center",
+                        width: "90%",
+                        marginTop: 20
+                    }}>
+
+                        <TouchableOpacity style={{
+                            backgroundColor: mainLighterColor,
+                            padding: 0,
+                            zIndex: 10,
+                            height: 35,
+                            borderRadius: 5,
+                            paddingLeft: 13,
+                            color: textLightColor,
+                            fontSize: 14,
+                            width: "100%",
+                            borderWidth: 0.5,
+                            borderColor: textLightColor,
+                            justifyContent: 'center'
+                        }}
+                            onPress={onDatePress.bind(null, 'startDate')}
+                        >
+
+                            <Text style={{ color: textLightColor, fontSize: 14, }}>
+                                {!startDate ? 'Start Date' : startDate}
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+
+
+                    <View style={{
+                        alignSelf: "center",
+                        width: "90%",
+                        marginTop: 20
+                    }}>
+
+                        <TouchableOpacity style={{
+                            backgroundColor: mainLighterColor,
+                            padding: 0,
+                            zIndex: 10,
+                            height: 35,
+                            borderRadius: 5,
+                            paddingLeft: 13,
+                            color: textLightColor,
+                            fontSize: 14,
+                            width: "100%",
+                            borderWidth: 0.5,
+                            borderColor: textLightColor,
+                            justifyContent: 'center'
+                        }}
+                            onPress={onDatePress.bind(null, 'endDate')}
+                        >
+
+                            <Text style={{ color: textLightColor, fontSize: 14, }}>
+                                {!endDate ? 'End Date' : endDate}
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+
+
                     <View style={{ marginTop: 20, paddingHorizontal: 20 }}>
                         <Text style={{
                             color: textLightColor,
@@ -298,23 +378,23 @@ export default function AddEducationModal({
 
                     }}>
                         {/* <FileuploadIcon color={textOffColor} height={20} width={20} style={{}} /> */}
-                        <View style={{flexDirection:"row"}}>
-                        <Text style={{
-                            color: textLightColor,
-                            fontSize: 12,
-                            marginTop:5,
-                            fontWeight: "500"
-                        }}>
-                            Drag and drop your files here or
-                        </Text>
-                        <Text style={{
-                            color: mainColor,
-                            fontSize: 12,
-                            marginTop:5,
-                            fontWeight: "500"
-                        }}>
-                            choose file
-                        </Text>
+                        <View style={{ flexDirection: "row" }}>
+                            <Text style={{
+                                color: textLightColor,
+                                fontSize: 12,
+                                marginTop: 5,
+                                fontWeight: "500"
+                            }}>
+                                Drag and drop your files here or
+                            </Text>
+                            <Text style={{
+                                color: mainColor,
+                                fontSize: 12,
+                                marginTop: 5,
+                                fontWeight: "500"
+                            }}>
+                                choose file
+                            </Text>
                         </View>
                     </View>
                     <View style={{
@@ -323,7 +403,7 @@ export default function AddEducationModal({
                         marginTop: 20
                     }}>
                         <TouchableOpacity
-                            onPress={() => dispatch(changeAddEducationModal(false))}
+                            onPress={onAddEducationPress}
                             style={{
                                 backgroundColor: mainColor,
                                 height: 35,
@@ -335,19 +415,33 @@ export default function AddEducationModal({
                                 marginRight: 5
                             }}
                         >
-                            <Text
-                                style={{
-                                    fontSize: 14,
-                                    color: "#fff",
-                                    fontWeight: 'bold',
-                                    alignSelf: "center",
-                                }}>
-                                Add
-                            </Text>
+                            {
+                                addLoader ?
+                                    <ActivityIndicator color={'#fff'} />
+                                    :
+                                    <Text
+                                        style={{
+                                            fontSize: 14,
+                                            color: "#fff",
+                                            fontWeight: 'bold',
+                                            alignSelf: "center",
+                                        }}>
+                                        Add
+                                    </Text>
+                            }
                         </TouchableOpacity>
                     </View>
                 </View>
             </View>
+            {
+                showDateTimePicker?.visible &&
+                <DateTimePicker
+                    mode='date'
+                    visible={true}
+                    onClose={hideDateTimePicker}
+                    selectedDate={onDateSelection}
+                />
+            }
         </Modal>
     );
 }
