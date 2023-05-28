@@ -8,9 +8,11 @@ import { ScrollView } from "react-native-gesture-handler";
 import CamerIcon from '../../Assets/Svgs/CamerIcon.svg';
 import EditIcon from '../../Assets/Svgs/EditIcon.svg';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useGlobalContext } from '../../Services2'
+import { wp } from "../../Global";
 
 export default function Profile(props) {
-
+    const { user } = useGlobalContext()
 
     const defaultValues = {
         Quantity: "",
@@ -32,6 +34,8 @@ export default function Profile(props) {
         mode: 'onChange',
         defaultValues: defaultValues,
     });
+
+
     return (
         <View
             style={{
@@ -39,9 +43,9 @@ export default function Profile(props) {
                 backgroundColor: backgroundColor
             }}
         >
-            <ScrollView 
-            showsVerticalScrollIndicator={false}
-                contentContainerStyle={{ width: "100%",paddingBottom:50 }}>
+            <ScrollView
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={{ width: "100%", paddingBottom: 50 }}>
                 <View style={{
                     height: 140, width: "100%",
                     backgroundColor: backgroundColor,
@@ -113,7 +117,7 @@ export default function Profile(props) {
                                 </View>
                                 <View style={{ justifyContent: "center", }}>
                                     <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, }}>
-                                        {"Kisten"}
+                                        {user?.Fname}
                                     </Text>
                                 </View>
                             </View>
@@ -128,7 +132,7 @@ export default function Profile(props) {
                                 </View>
                                 <View style={{ justifyContent: "center", }}>
                                     <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, }}>
-                                        {"Hanbay"}
+                                        {user?.Lname}
                                     </Text>
                                 </View>
                             </View>
@@ -143,7 +147,7 @@ export default function Profile(props) {
                                 </View>
                                 <View style={{ justifyContent: "center", }}>
                                     <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, }}>
-                                        {"Kristen@gmail.com"}
+                                        {user?.email}
                                     </Text>
                                 </View>
                             </View>
@@ -158,7 +162,7 @@ export default function Profile(props) {
                                 </View>
                                 <View style={{ justifyContent: "center", }}>
                                     <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, }}>
-                                        {"+1 000 000"}
+                                        {user?.mobile}
                                     </Text>
                                 </View>
                             </View>
@@ -172,53 +176,8 @@ export default function Profile(props) {
                                     </Text>
                                 </View>
                                 <View style={{ justifyContent: "center", }}>
-                                    <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, }}>
-                                        {"112 hawkin street"}
-                                    </Text>
-                                </View>
-                            </View>
-                            <View style={{ flexDirection: "row", marginTop: 20, }}>
-                                <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, opacity: 0.4, width: 120 }}>
-                                    City:
-                                </Text>
-                                <View style={{ justifyContent: "center" }}>
-                                    <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, opacity: 0.6, width: 50 }}>
-                                        {":"}
-                                    </Text>
-                                </View>
-                                <View style={{ justifyContent: "center", }}>
-                                    <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, }}>
-                                        {"California"}
-                                    </Text>
-                                </View>
-                            </View>
-                            <View style={{ flexDirection: "row", marginTop: 20, }}>
-                                <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, opacity: 0.4, width: 120 }}>
-                                    State:
-                                </Text>
-                                <View style={{ justifyContent: "center" }}>
-                                    <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, opacity: 0.6, width: 50 }}>
-                                        {":"}
-                                    </Text>
-                                </View>
-                                <View style={{ justifyContent: "center", }}>
-                                    <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, }}>
-                                        {"LA"}
-                                    </Text>
-                                </View>
-                            </View>
-                            <View style={{ flexDirection: "row", marginTop: 20, }}>
-                                <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, opacity: 0.4, width: 120 }}>
-                                    Postal Code:
-                                </Text>
-                                <View style={{ justifyContent: "center" }}>
-                                    <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, opacity: 0.6, width: 50 }}>
-                                        {":"}
-                                    </Text>
-                                </View>
-                                <View style={{ justifyContent: "center", }}>
-                                    <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, }}>
-                                        {"0000"}
+                                    <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, width: wp(45) }} numberOfLines={3}>
+                                        {user?.address}
                                     </Text>
                                 </View>
                             </View>

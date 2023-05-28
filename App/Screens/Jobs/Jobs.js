@@ -11,8 +11,12 @@ import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import Usercircle from '../../Assets/Svgs/Usercircle.svg';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import Experience from "../Profile/Experience";
+import { ApiServices } from "../../Services2";
 
 export default function Jobs(props) {
+
+    const [jobsListItems, setJobsListItems] = useState([])
+    const [loader, setLoader] = useState(true)
 
     const defaultValues = {
         Quantity: "",
@@ -33,65 +37,21 @@ export default function Jobs(props) {
         mode: 'onChange',
         defaultValues: defaultValues,
     });
-    const jobsListItems = [
-        {
-            title: "React Native developer",
-            location: "Rawalpindi",
-            salary: "40K to 70K",
-            experience: "1Year",
-            color: "#5A93BA",
-            vacancy: "(02)"
-        },
-        {
-            title: "IOS Developer",
-            location: "Rawalpindi",
-            salary: "40K to 70K",
-            experience: "1Year",
-            color: "#62CBCF",
-            vacancy: "(02)"
-        },
-        {
-            title: "WEB Developer",
-            location: "Rawalpindi",
-            salary: "40K to 70K",
-            experience: "1Year",
-            color: "#FE931A",
-            vacancy: "(02)"
-        },
-        {
-            title: "Software engineer",
-            location: "Rawalpindi",
-            salary: "40K to 70K",
-            experience: "1Year",
-            color: "#46DB77",
-            vacancy: "(02)"
-        },
-        {
-            title: "MobileApp Developer",
-            location: "Rawalpindi",
-            salary: "40K to 70K",
-            experience: "1Year",
-            color: "#F25454",
-            vacancy: "(02)"
-        },
-        {
-            title: "PHP developer",
-            location: "Rawalpindi",
-            salary: "40K to 70K",
-            experience: "1Year",
-            color: "#1C212D",
-            vacancy: "(02)"
-        },
-        {
-            title: "Python Developer",
-            location: "Rawalpindi",
-            salary: "40K to 70K",
-            experience: "1Year",
-            color: "#5A93BA",
-            vacancy: "(02)"
-        },
 
-    ]
+    const hideLoader = () => setLoader(false)
+
+    const getAllJobs = () => {
+        //@Saad do this later
+        // ApiServices.getAllJobs().then((res) => {
+        //     setJobsListItems(res)
+        //     setLoader(false)
+        // })
+        //     .catch(hideLoader)
+    }
+
+    useEffect(() => {
+        getAllJobs()
+    }, [])
 
     function JobsList({ item, index }) {
 
@@ -108,7 +68,7 @@ export default function Jobs(props) {
                     elevation: 3, flexDirection: "row",
                     borderRadius: 8
                 }}>
-                <View style={{
+                {/* <View style={{
                     height: 170, width: "3%",
                     backgroundColor: item.color,
                     borderTopLeftRadius: 8, borderBottomLeftRadius: 8
@@ -154,7 +114,7 @@ export default function Jobs(props) {
                         </Text>
                         <Text style={{
                             color: textColor, fontSize: 14,
-                            
+
                         }}>
                             {item.location}
                         </Text>
@@ -171,9 +131,6 @@ export default function Jobs(props) {
                         </Text>
                         <Text style={{
                             color: textColor, fontSize: 14,
-                            // fontWeight: "bold",
-                            //  textDecorationLine: "underline",
-                            // textDecorationColor: "#1C41F9"
                         }}>
                             {item.experience}
                         </Text>
@@ -189,7 +146,7 @@ export default function Jobs(props) {
                         </Text>
                         <Text style={{
                             color: textColor, fontSize: 14,
-                            
+
                         }}>
                             {item.salary}
                         </Text>
@@ -205,13 +162,13 @@ export default function Jobs(props) {
                         </Text>
                         <Text style={{
                             color: textColor, fontSize: 14,
-                            
+
                         }}>
                             {item.vacancy}
                         </Text>
                     </View>
 
-                </View>
+                </View> */}
 
             </TouchableOpacity>
         )

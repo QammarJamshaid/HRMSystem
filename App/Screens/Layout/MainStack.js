@@ -5,7 +5,8 @@ import {
     NavigationContainer
 } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
-import React, { useRef } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
+import { useGlobalContext } from '../../Services2'
 import {
     Animated,
     Dimensions,
@@ -44,6 +45,7 @@ import Dashboard from '../Guard/Dashboard/Dashboard'
 import EmployeesList from '../Guard/Dashboard/EmployeesList'
 import GuardList from '../Guard/Dashboard/GuardList'
 import Professor from '../Guard/Dashboard/Professor'
+import { StorageManager } from '../../Services2'
 
 const { height, width } = Dimensions.get('window')
 
@@ -625,53 +627,59 @@ function GuardTabNav(props) {
 }
 
 const DrawerNav = () => {
-    const {
-        user,
-    } = useSelector(state => state.auth)
+
+    const { user } = useGlobalContext()
+    // const {
+    //     user,
+    // } = useSelector(state => state.auth)
 
     return (
         <Drawer.Navigator
             initialRouteName="AccountTabNav"
             drawerContent={props => <DrawerContent {...props} />}
         >
-            {user?.userRoles?.[0] == "Admin" ?
+            {user?.role == "applicant" ?
                 <Drawer.Screen
                     options={{ headerShown: false }}
                     name="AccountTabNav"
                     component={ApplicantTabNav}
                 />
                 :
-                <Drawer.Screen
-                    options={{ headerShown: false }}
-                    name="AdminTabNav"
-                    component={AdminTabNav}
-                />
-            //     <Drawer.Screen
-            //     options={{ headerShown: false }}
-            //     name="AdminTabNav"
-            //     component={GuardTabNav}
-            // />
+                user?.role == "hr" ?
+                    <Drawer.Screen
+                        options={{ headerShown: false }}
+                        name="AdminTabNav"
+                        component={AdminTabNav}
+                    />
+                    :
+                    user?.role == "guard" ?
+                        <Drawer.Screen
+                            options={{ headerShown: false }}
+                            name="AdminTabNav"
+                            component={GuardTabNav}
+                        />
+                        : null
             }
-              <Drawer.Screen
-                    options={{ headerShown: false }}
-                    name="AdminProfile"
-                    component={AdminProfile}
-                />
-              <Drawer.Screen
-                    options={{ headerShown: false }}
-                    name="JobPost"
-                    component={JobPost}
-                />
-              <Drawer.Screen
-                    options={{ headerShown: false }}
-                    name="Attendence"
-                    component={Attendence}
-                />
-              <Drawer.Screen
-                    options={{ headerShown: false }}
-                    name="LeaveApplicant"
-                    component={LeaveApplicant}
-                />
+            <Drawer.Screen
+                options={{ headerShown: false }}
+                name="AdminProfile"
+                component={AdminProfile}
+            />
+            <Drawer.Screen
+                options={{ headerShown: false }}
+                name="JobPost"
+                component={JobPost}
+            />
+            <Drawer.Screen
+                options={{ headerShown: false }}
+                name="Attendence"
+                component={Attendence}
+            />
+            <Drawer.Screen
+                options={{ headerShown: false }}
+                name="LeaveApplicant"
+                component={LeaveApplicant}
+            />
         </Drawer.Navigator>
     )
 }
@@ -686,9 +694,23 @@ const MyTheme = {
     },
 }
 
-export default function App() {
+export default App = () => {
+    const { updateUser, user } = useGlobalContext()
+    // const { user } = useSelector(state => state.auth)
 
-    const { user } = useSelector(state => state.auth)
+
+
+    const getUser = async () => {
+        const user = await StorageManager.getData(StorageManager.storageKeys.USER)
+        if(user) {
+            updateUser(user)
+        }
+    }
+
+
+    useEffect(() => {
+        getUser()
+    }, [])
 
     return (
         <NavigationContainer

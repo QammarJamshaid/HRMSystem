@@ -32,7 +32,7 @@ const persistConfig = {
 const persistedReducer = persistReducer(persistConfig, reducers);
 
 const middlewares = [authApi.middleware]
-if (__DEV__) {
+if(__DEV__) {
     const createDebugger = require('redux-flipper').default;
     middlewares.push(createDebugger());
 }

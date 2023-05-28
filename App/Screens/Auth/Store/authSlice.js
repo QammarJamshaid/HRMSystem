@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { authApi } from '../Services/authApi';
 
 const authSlice = createSlice({
     name: 'auth',
@@ -10,7 +11,8 @@ const authSlice = createSlice({
             state.user = action.payload
         }
     },
-    extraReducers: {
+    extraReducers: () => {
+
     },
 });
 

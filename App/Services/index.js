@@ -6,14 +6,14 @@ import { baseUrl } from '../Config/baseURL'
 
 export const api = createApi({
     tagTypes: [
-        
+
     ],
     baseQuery: fetchBaseQuery({
         baseUrl,
         prepareHeaders: (headers, { getState }) => {
             const token = getState().auth.user?.token
 
-            if (token)
+            if(token)
                 headers.set('authorization', `Bearer ${token}`)
 
             return headers

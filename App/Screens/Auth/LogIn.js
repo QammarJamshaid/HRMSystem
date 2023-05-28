@@ -18,9 +18,14 @@ import PasswordIcon from '../../Assets/Svgs/PasswordIcon.svg';
 import Eyeicon from '../../Assets/Svgs/Eyeicon.svg';
 import Eyeofficon from '../../Assets/Svgs/EyeOfficon.svg';
 import GoogleIcon from '../../Assets/Svgs/GoogleIcon.svg';
+import { ModalLoader } from "../../Components";
+import { ApiServices, flashSuccessMessage } from "../../Services2";
+import { StorageManager, useGlobalContext } from '../../Services2'
 
 function LogIn(props) {
-
+    const { updateUser } = useGlobalContext()
+    const { setData, storageKeys } = StorageManager
+    const [loginLoader, setLoginLoader] = useState(false)
     const dispatch = useDispatch()
 
     const { control, handleSubmit, formState: { errors } } = useForm({
@@ -48,11 +53,29 @@ function LogIn(props) {
     } = useSelector(state => state.styles)
     const [secureTextEntry, ChangeSecureTextEntry] = useState(true);
 
+    const hideLoginLoader = () => setLoginLoader(false)
+
+    const handleSignIn = handleSubmit(async data => {
+        setLoginLoader(true)
+        const { email, password } = data
+        ApiServices.login(email, password).then(async (res) => {
+            flashSuccessMessage('Logged in')
+            await setData(storageKeys.USER, res)
+            updateUser(res)
+            setLoginLoader(false)
+        })
+            .catch(hideLoginLoader)
+    })
+
+
     return (
         <View style={{
             flex: 1, backgroundColor: backgroundColor,
             paddingHorizontal: 30, justifyContent: "space-between"
         }}>
+            <ModalLoader
+                visible={loginLoader}
+            />
             <View>
                 <TouchableOpacity
                     onPress={() => props.navigation.goBack()}
@@ -63,12 +86,12 @@ function LogIn(props) {
                 >
                     <BackIcon color={{}} height={16} width={16} style={{}} />
                 </TouchableOpacity>
-                <View style={{  marginTop: 70 }}>
+                <View style={{ marginTop: 70 }}>
                     <Text style={{ color: textColor, fontSize: 20, fontWeight: "bold" }}>
                         {"LogIn to Your Account"}
                     </Text>
                 </View>
-                <View style={{marginTop:20}}>
+                <View style={{ marginTop: 20 }}>
                     <View style={{ flexDirection: "row", marginTop: 20, alignItems: "center" }}>
                         <EmailIcon color={{}} height={16} width={16} style={{}} />
                         <Text style={{
@@ -189,7 +212,7 @@ function LogIn(props) {
             </View>
             <View style={{ top: -40 }}>
                 <TouchableOpacity
-                    onPress={handleSubmit(data => dispatch(ChangeUser(data)))}
+                    onPress={handleSignIn}
                     style={{
                         height: 40, width: "100%", marginTop: 20,
                         backgroundColor: "purple", borderRadius: 5,

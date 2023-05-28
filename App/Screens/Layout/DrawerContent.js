@@ -27,9 +27,10 @@ import Usercircle from '../../Assets/Svgs/Usercircle.svg';
 import { container, space, textStyle } from '../../Styles/CustomStyles';
 import { ChangeUser } from '../Auth/Store/authSlice';
 import JobPost from '../Admin/JobPost/JobPost';
+import { StorageManager, useGlobalContext } from '../../Services2';
 
 export default function DrawerContent({ navigation, state }) {
-
+    const { updateUser, user } = useGlobalContext()
     const dispatch = useDispatch()
     const {
         textColor,
@@ -44,10 +45,14 @@ export default function DrawerContent({ navigation, state }) {
 
     var { index, routes } = state;
     var currentPage = routes[index].name;
-    const {
-        user,
-    } = useSelector(state => state.auth)
 
+
+
+    const onLogout = async () => {
+        dispatch(ChangeUser(null))
+        await StorageManager.deleteAll()
+        updateUser(null)
+    }
     return (
         <>
             {Platform.OS == 'ios' && (
@@ -58,7 +63,7 @@ export default function DrawerContent({ navigation, state }) {
                         height: getStatusBarHeight() + 30,
                     }}></View>
             )}
-            {user?.userRoles?.[0] == "Admin" ?
+            {user?.role == "admin" ?
                 <View style={{}}>
                     <TouchableOpacity onPress={() => navigation.navigate("ProfileTopBar")}
                         style={
@@ -184,7 +189,7 @@ export default function DrawerContent({ navigation, state }) {
                                 inactiveBackgroundColor="transparent"
                                 inactiveTintColor="#000"
                                 focused={currentPage == 'login'}
-                                onPress={() => dispatch(ChangeUser(null))}
+                                onPress={onLogout}
                                 labelStyle={[textStyle.p, { color: { textColor }, marginLeft: -12, fontWeight: "bold", fontSize: 16 }]}
                                 icon={() => (
                                     <MaterialIcons
@@ -202,8 +207,8 @@ export default function DrawerContent({ navigation, state }) {
                 :
 
                 <View style={{}}>
-                    <TouchableOpacity 
-                    // onPress={() => navigation.navigate("ProfileTopBar")}
+                    <TouchableOpacity
+                        // onPress={() => navigation.navigate("ProfileTopBar")}
                         style={
                             {
                                 backgroundColor: mainColor,
@@ -327,7 +332,7 @@ export default function DrawerContent({ navigation, state }) {
                                 inactiveBackgroundColor="transparent"
                                 inactiveTintColor="#000"
                                 focused={currentPage == 'login'}
-                                onPress={() => dispatch(ChangeUser(null))}
+                                onPress={onLogout}
                                 labelStyle={[textStyle.p, { color: { textColor }, marginLeft: -12, fontWeight: "bold", fontSize: 16 }]}
                                 icon={() => (
                                     <MaterialIcons
