@@ -13,15 +13,9 @@ import {
     useForm,
     Controller
 } from 'react-hook-form';
-import {
-    Menu,
-    MenuProvider,
-    MenuOptions,
-    MenuOption,
-    MenuTrigger,
-} from "react-native-popup-menu";
 import AttendenceStatusModal from './AttendenceStatusModal';
 import { changeAttendenceStatusModal } from './Store/AttendenceSlice';
+import { useGetAllMemberQuery } from '../Committee/Services/CommitteeApi';
 function Attendence(props) {
     const defaultValues = {
         locationIds: [],
@@ -84,9 +78,16 @@ function Attendence(props) {
 
 
     ];
+    const {
+        data = [],
+        isFetching,
+    } = useGetAllMemberQuery(65);
+    console.log("All EMployees Data::::::::",data)
     function renderItems({ item, index }) {
         return (
-            <View style={{
+            <TouchableOpacity 
+            onPress={()=>props.navigation.navigate("AttendenceReport")}
+            style={{
                 flex: 1, width: "90%", alignSelf: "center",
                 backgroundColor: backgroundColor,
                 borderColor: 'red', borderWidth: 0,
@@ -100,44 +101,8 @@ function Attendence(props) {
                 // padding: 15
             }}>
                 <View style={{
-                    width: 50, alignSelf: "flex-end",
-                    height: 50,
-                    flexDirection: "row", zIndex: 100,
-                }}>
-                    <MenuProvider style={{
-                        height: 50, alignSelf: "flex-end",
-                        justifyContent: "center"
-                    }}>
-                        <Menu style={{ backgroundColor: backgroundColor }}>
-                            <MenuTrigger
-                                customStyles={{
-                                    triggerWrapper: {
-                                        marginTop: -10,
-                                        zIndex: 100,
-                                        with: 100, backgroundColor: backgroundColor
-                                    },
-                                }}
-                            >
-                                <ThreeDotIcon color={{ mainColor }} height={16} width={16} style={{}} />
-                            </MenuTrigger>
-                            <MenuOptions
-                                optionsContainerStyle={{
-                                    // borderColor: 'gray', borderWidth: 1,
-                                    flex: 1, backgroundColor: "lightgray",
-                                }}
-                            >
-                                <MenuOption onSelect={() => {
-                                    dispatch(changeAttendenceStatusModal(true))
-                                }
-                                } text="View" />
-                                {/* <MenuOption onSelect={() => alert(`Delete`)} text="Delete" /> */}
-                            </MenuOptions>
-                        </Menu>
-                    </MenuProvider>
-                </View>
-                <View style={{
                     flexDirection: "row", justifyContent: "space-between",
-                    marginBottom: 10, alignItems: "center", marginTop: -30
+                    marginBottom: 15, alignItems: "center", marginTop: 15
                 }}>
                     <TouchableOpacity
                         style={{ width: "15%" }}
@@ -151,7 +116,7 @@ function Attendence(props) {
                                 color: textColor, fontSize: 14,
                                 fontWeight: "700", width: "67%"
                             }}>
-                                {item.name}
+                                {item.Fname + item.Lname}
                             </Text>
                         </View>
                         <View style={{
@@ -163,18 +128,18 @@ function Attendence(props) {
                                 color: borderColor, fontSize: 12,
                                 fontWeight: "500", width: "67%"
                             }}>
-                                {item.type}
+                                {item.email}
                             </Text>
                             <Text style={{
                                 color: textLightColor, fontSize: 12,
                                 fontWeight: "500",
                             }}>
-                                {"01/23/2023"}
+                                {item.role}
                             </Text>
                         </View>
                     </View>
                 </View>
-            </View>
+            </TouchableOpacity>
         )
     }
     useEffect(() => {
@@ -239,7 +204,7 @@ function Attendence(props) {
                     marginTop: 20
                 }}>
                     <FlatList
-                        data={itemData}
+                        data={data}
                         ListFooterComponent={() => <View style={{ height: 20 }} />}
                         renderItem={renderItems}
                         keyExtractor={(item, index) => index}

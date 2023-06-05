@@ -15,7 +15,8 @@ import { changeAttendenceStatusModal } from "./Store/AttendenceSlice";
 import Entypo from 'react-native-vector-icons/Entypo';
 import CheckBoxIcon from '../../../Assets/Svgs/CheckBoxIcon.svg';
 import Calender from '../../../Assets/Svgs/Calender.svg'
-
+import DateTimePicker from '@react-native-community/datetimepicker' 
+import moment from "moment";
 export default function AttendenceStatusModal({
     props
 }) {
@@ -23,6 +24,7 @@ export default function AttendenceStatusModal({
         propertyId: null,
     }
     const dispatch = useDispatch()
+    const [attend , setattend] = useState([])
 
     const styles = StyleSheet.create({
         container: {
@@ -90,8 +92,10 @@ export default function AttendenceStatusModal({
         showMode('date');
     };
 
-
-
+    const [showDate , setshowDate] = useState(false)
+    const [date , setdate] = useState(new Date("2022-03-25"))
+    const [showDatefrom , setshowDatefrom] = useState(false)
+    const [datefrom , setdatefrom] = useState(new Date("2022-03-25"))
     return (
         <Modal
             transparent
@@ -166,7 +170,7 @@ export default function AttendenceStatusModal({
                                         alignItems: "center"
                                     }}>
                                     {/* {Platform.OS == "android" && */}
-                                    <TextInput
+                                    {/* <TextInput
                                         editable={false}
                                         placeholder={"13/02/2023"}
                                         placeholderTextColor={borderColor}
@@ -182,26 +186,26 @@ export default function AttendenceStatusModal({
                                             // marginBottom: 5,
                                             width: "90%"
                                         }}
-                                    // value={moment(date).format('DD MMMM YYYY')}
-                                    />
+                                    value={moment(date).format('DD MMMM YYYY')}
+                                    /> */}
 
-                                    {/* {(showDate || Platform.OS == "ios") && (
+                                    {(showDate || Platform.OS == "ios") && (
                                     <DateTimePicker
                                         // minimumDate={new Date()}
                                         value={date}
-                                        mode={mode}
+                                        mode={'date'}
                                         is24Hour={true}
-                                        style={{ backgroundColor: "transparent" }}
-                                        onChange={(event, selectedDate) => onChange(selectedDate)}
+                                        // style={{ backgroundColor: "transparent" }}
+                                        onChange={(event, selectedDate) => setdate(selectedDate)}
                                         accentColor={textLightColor}
                                         textColor={textLightColor}
                                     />
-                                )} */}
+                                )}
                                     <View style={{
                                         width: '10%', height: 37, alignSelf: "center",
                                         justifyContent: "center", alignItems: "center"
                                     }}>
-                                        <Calender color={mainColor} height={18} width={18} style={{ right: 10 }} />
+                                        <Calender onPress={()=> setshowDate(!showDate)} color={mainColor} height={18} width={18} style={{ right: 10 }} />
                                     </View>
                                 </TouchableOpacity>
                             )}
@@ -239,7 +243,7 @@ export default function AttendenceStatusModal({
                                         alignItems: "center"
                                     }}>
                                     {/* {Platform.OS == "android" && */}
-                                    <TextInput
+                                    {/* <TextInput
                                         editable={false}
                                         placeholder={"12/02/2023"}
                                         placeholderTextColor={borderColor}
@@ -256,7 +260,19 @@ export default function AttendenceStatusModal({
                                             width: "90%"
                                         }}
                                     // value={moment(date).format('DD MMMM YYYY')}
+                                    /> */}
+                                      {(showDatefrom || Platform.OS == "ios") && (
+                                    <DateTimePicker
+                                        // minimumDate={new Date()}
+                                        value={datefrom}
+                                        mode={'date'}
+                                        is24Hour={true}
+                                        // style={{ backgroundColor: "transparent" }}
+                                        onChange={(event, selectedDate) => setdatefrom(selectedDate)}
+                                        accentColor={textLightColor}
+                                        textColor={textLightColor}
                                     />
+                                )}
 
                                     {/* {(showDate || Platform.OS == "ios") && (
                                     <DateTimePicker
@@ -283,15 +299,15 @@ export default function AttendenceStatusModal({
                         {errors.purchaseDateTo && <Text style={{ color: 'red', marginLeft: 10, marginBottom: 8 }}>Purchase Date is required</Text>}
 
                     </View>
-                    <View style={{ marginTop: 10, paddingHorizontal: 20 }}>
+                    {/* <View style={{ marginTop: 10, paddingHorizontal: 20 }}>
                         <Text style={{
                             fontWeight: "bold",
                             color: textColor, fontSize: 16
                         }}>
                             {"Status:"}
                         </Text>
-                    </View>
-                    <View style={{
+                    </View> */}
+                    {/* <View style={{
                         alignSelf: "center",
                         width: "90%",
                         marginTop: 10
@@ -328,7 +344,7 @@ export default function AttendenceStatusModal({
                             defaultValue=""
                         />
 
-                    </View>
+                    </View> */}
  
                     <View style={{
                         paddingHorizontal: 10,
@@ -355,7 +371,7 @@ export default function AttendenceStatusModal({
                                     fontWeight: 'bold',
                                     alignSelf: "center",
                                 }}>
-                                Add
+                                 Attendance
                             </Text>
                         </TouchableOpacity>
                     </View>

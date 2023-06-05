@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import {
     Text, View, TouchableOpacity,
-    FlatList,Image
+    FlatList, Image
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
@@ -12,10 +12,13 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { ms, mvs, s, vs } from 'react-native-size-matters';
 import { ScrollView } from 'react-native-gesture-handler';
-import { useGetAllMemberQuery } from './Services/CommitteeApi';
+import { useGetAllMemberQuery } from '../../Admin/Committee/Services/CommitteeApi';
 import { baseUrl } from '../../../Config/baseURL';
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import Usercircle from '../../../Assets/Svgs/Usercircle.svg';
+import { SearchBar } from 'react-native-elements';
 
-function AllMembers(props) {
+function EmployeesList(props) {
     const defaultValues = {
         locationIds: [],
         conditionIds: [],
@@ -43,39 +46,9 @@ function AllMembers(props) {
         borderColor,
         greenColor,
     } = useSelector(state => state.styles)
-
+    const [search, setSearch] = useState('')
     useEffect(() => {
     }, [])
-    const ReportData = [
-        {
-            // icon: <ClockIcon color={{}} height={40} width={40} style={{}} />,
-            title: 'Clock In /Clock Out',
-        },
-        {
-            // icon: <ClockIcon color={{}} height={40} width={40} style={{}} />,
-            title: 'Clock In /Clock Out',
-        },
-        {
-            // icon: <ClockIcon color={{}} height={40} width={40} style={{}} />,
-            title: 'Clock In /Clock Out',
-        },
-        {
-            // icon: <ClockIcon color={{}} height={40} width={40} style={{}} />,
-            title: 'Clock In /Clock Out',
-        },
-        {
-            // icon: <ClockIcon color={{}} height={40} width={40} style={{}} />,
-            title: 'Clock In /Clock Out',
-        },
-        {
-            // icon: <ClockIcon color={{}} height={40} width={40} style={{}} />,
-            title: 'Clock In /Clock Out',
-        },
-        {
-            // icon: <ClockIcon color={{}} height={40} width={40} style={{}} />,
-            title: 'Clock In /Clock Out',
-        },
-    ]
     const {
         data = [],
         isFetching,
@@ -88,7 +61,7 @@ function AllMembers(props) {
             // const { name, website, image } = item
             return (
                 <TouchableOpacity
-                    onPress={() => props.navigation.navigate("EmployeeDetail",{item:item})}
+                    onPress={() => props.navigation.navigate("CheckInAttendance", { item:item })}
                     style={{
                         height: s(90), width: s(145),
                         marginLeft: s(15),
@@ -139,57 +112,93 @@ function AllMembers(props) {
                 <View style={{
                     height: getStatusBarHeight() + 50,
                     backgroundColor: backgroundColor,
-                    justifyContent: 'flex-end'
+                    justifyContent: 'flex-end',
+                    paddingHorizontal: 10,
                 }}>
+
                     <View
                         style={{
-                            // marginTop: 50,
+                            marginBottom: 10,
                             flexDirection: "row",
                             justifyContent: "space-between",
-                            paddingHorizontal: 20,
+                            paddingHorizontal: 10,
                             borderColor: 'red', borderWidth: 0,
-                            alignItems: "center"
                         }}
                     >
                         <View style={{
-                            flexDirection: "row",
-                            justifyContent: "center",
-                            alignItems: "center", marginBottom: 10
-                        }}>
-                            <View style={{
-                                flexDirection: "row",
-                                justifyContent: "center", alignItems: "center"
-                            }}>
-                                <TouchableOpacity
-                                    onPress={() => props.navigation.goBack()}
-                                >
-                                    <Ionicons
-                                        name="chevron-back"
-                                        size={24}
-                                        color={borderColor}
-                                    // style={{marginLeft:10}}
-                                    />
-                                </TouchableOpacity>
-                            </View>
-                            <Text
-                                style={{
-                                    fontSize: 20,
-                                    fontWeight: "700",
-                                    color: textColor,
-                                    marginLeft: 10
-                                }}
-                            >
-                                All Employees
-                            </Text>
-                        </View>
-                        <View style={{
-                            flexDirection: "row",
-                            justifyContent: "center",
+                            flexDirection: "row", justifyContent: "center",
                             alignItems: "center"
                         }}>
+                            <TouchableOpacity
+                                onPress={() => props.navigation.openDrawer()}
+                            >
+                                <EvilIcons
+                                    name="navicon"
+                                    size={26}
+                                    color={"purple"}
+                                // style={{marginLeft:10}}
+                                />
+                            </TouchableOpacity>
                         </View>
+                        <Text
+                            style={{
+                                fontSize: 20,
+                                fontWeight: "700",
+                                color: textColor
+                            }}
+                        >
+                            Employees
+                        </Text>
+                        <View style={{
+                            flexDirection: "row", justifyContent: "center",
+                            alignItems: "center"
+                        }}>
+                            <Usercircle color={'#fff'} height={24} width={24} style={{}} />
+                        </View>
+
+
                     </View>
                 </View>
+                <View
+                style={{
+                    borderWidth: 0.5,
+                    height: 40,
+                    width: "90%",
+                    borderColor: "lightgray",
+                    // marginLeft: 15,
+                    shadowColor: "#000",
+                    shadowOffset: { width: 1, height: 1 },
+                    shadowOpacity: 0.1,
+                    shadowRadius: 0.2,
+                    elevation: 2, marginTop: 10,
+                    backgroundColor: "#FFFFFF",
+                    borderRadius: 8,
+                    alignSelf: "center",
+                }}
+            >
+                <SearchBar
+                    placeholder="Search....."
+                    containerStyle={{
+                        backgroundColor: "transparent",
+                        borderBottomColor: 'transparent',
+                        borderTopColor: 'transparent',
+                        paddingBottom: 10, paddingLeft: 10,
+                        height: 0, width: 0, marginTop: 10,
+                    }}
+                    inputContainerStyle={{
+                        backgroundColor: "transparent", right: 10,
+                        height: 35, width: 320, bottom: 15,
+                    }}
+                    inputStyle={{
+                        color: textColor,
+                        fontSize: 15,
+                    }}
+                    round
+                    searchIcon={{ size: 24 }}
+                    onChangeText={(text) => setSearch(text)}
+                    value={search}
+                />
+            </View>
                 <ScrollView
                     contentContainerStyle={{
                         paddingBottom: 50,
@@ -215,4 +224,4 @@ function AllMembers(props) {
     )
 }
 
-export default AllMembers
+export default EmployeesList

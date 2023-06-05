@@ -9,6 +9,7 @@ import BackIcon from '../../Assets/Svgs/BackIcon.svg';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Divider } from 'react-native-paper';
+import { SearchBar } from 'react-native-elements';
 import { ModalLoader } from '../../Components';
 import { ApiServices, useGlobalContext } from '../../Services2';
 
@@ -34,7 +35,7 @@ function JobDetails(props) {
         backgroundColor, buttoncolor,
         backgroundDarkerColor, borderColor
     } = useSelector(state => state.styles)
-    const [secureTextEntry, ChangeSecureTextEntry] = useState(true);
+
     const { control, handleSubmit, reset, formState: { errors } } = useForm({
         mode: 'onChange',
         defaultValues: defaultValues,
@@ -158,6 +159,7 @@ function JobDetails(props) {
                     </View>
                 </View>
             </View>
+           
             <ScrollView
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{

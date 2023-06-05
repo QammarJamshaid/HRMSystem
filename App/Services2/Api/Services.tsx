@@ -31,6 +31,18 @@ class GApiServices {
                 })
         })
     }
+    getBestMatch = (uid: any) => {
+        return new Promise((resolve, reject) => {
+            Api.get(`${EndPoints.bestmatch}?uid=${uid}`)
+                .then((res) => {
+                    resolve(res?.data)
+                })
+                .catch((error: any) => {
+                    console.log('error while getting all jobs =>', error)
+                    reject('')
+                })
+        })
+    }
 
 
     getAllEducation = (uid: any) => {

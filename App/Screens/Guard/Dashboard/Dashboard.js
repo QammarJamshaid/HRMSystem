@@ -144,7 +144,7 @@ function Dashboard(props) {
                     alignSelf: "center"
                 }}>
                     <TouchableOpacity
-                        onPress={() => props.navigation.navigate("FindWork")}
+                        // onPress={() => props.navigation.navigate("FindWork")}
                         style={{
                             height: 150, width: "48%", backgroundColor: "#fff",
                             borderColor: 'red', borderWidth: 0, shadowColor: "#000",
@@ -194,7 +194,7 @@ function Dashboard(props) {
 
                     </TouchableOpacity>
                     <TouchableOpacity
-                        onPress={() => props.navigation.navigate("EmployeesList")}
+                        // onPress={() => props.navigation.navigate("EmployeesList")}
                         style={{
                             height: 150, width: "48%", backgroundColor: "#fff",
                             borderColor: 'red', borderWidth: 0,
@@ -251,7 +251,7 @@ function Dashboard(props) {
                     alignSelf: "center", paddingBottom: 50
                 }}>
                     <TouchableOpacity
-                        onPress={() => props.navigation.navigate("Professor")}
+                        // onPress={() => props.navigation.navigate("Professor")}
                         style={{
                             height: 150, width: "48%",
                             backgroundColor: "#fff",
@@ -300,7 +300,7 @@ function Dashboard(props) {
 
                     </TouchableOpacity>
                     <TouchableOpacity
-                        onPress={() => props.navigation.navigate("GuardList")}
+                        // onPress={() => props.navigation.navigate("GuardList")}
                         style={{
                             height: 150, width: "48%",
                             backgroundColor: "#fff",

@@ -20,6 +20,7 @@ import { useSelector } from 'react-redux'
 import ChatIcon from '../../Assets/Svgs/ChatIcon.svg'
 import HomeIcon from '../../Assets/Svgs/HomeIcon.svg'
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import user from '../../Assets/Svgs/RewardIcon.svg'
 import LogIn from '../Auth/LogIn'
@@ -42,12 +43,22 @@ import JobPostdetail from '../Admin/JobPost/JobPostdetail'
 import GuardProfile from '../Guard/GuardProfile/GuardProfile'
 import GuardEditProfile from '../Guard/GuardProfile/GuardEditProfile'
 import Dashboard from '../Guard/Dashboard/Dashboard'
-import EmployeesList from '../Guard/Dashboard/EmployeesList'
+import EmployeesList from '../Guard/GuardEmployees/EmployeesList'
 import GuardList from '../Guard/Dashboard/GuardList'
 import Professor from '../Guard/Dashboard/Professor'
 import { StorageManager } from '../../Services2'
 import AllMembers from '../Admin/Committee/AllMembers'
 import CommitteeMembers from '../Admin/Committee/CommitteeMembers'
+import Committe from '../Admin/Committee/Committe'
+import CommitteHead from '../Admin/Committee/CommitteHead'
+import CreateCommitte from '../Admin/Committee/CreateCommitte'
+import CommitteDetail from '../Admin/Committee/CommitteDetail'
+import EmployeeDetail from '../Admin/Committee/EmployeeDetail'
+import AttendenceReport from '../Admin/Attendence/AttendenceReport'
+import Home from '../Home/Home'
+import CheckInAttendance from '../Guard/GuardEmployees/CheckInAttendance'
+import AttendanceRecord from '../Guard/GuardAttendance/AttendanceRecord'
+import GuardAttendanceReport from '../Guard/GuardAttendance/GuardAttendanceReport'
 
 const { height, width } = Dimensions.get('window')
 
@@ -110,6 +121,7 @@ function ApplicantTabNav(props) {
         mainColor,
         backgroundColor,
         textDarkColor,
+        textColor
     } = useSelector(state => state.styles)
     const tabOffsetValue = useRef(new Animated.Value(0)).current
     const insets = useSafeAreaInsets()
@@ -144,6 +156,31 @@ function ApplicantTabNav(props) {
                 }}
             >
                 <BottomTab.Screen
+                    name="home"
+                    component={Home}
+                    tabBarOptions={{
+                    }}
+                    options={{
+
+                        tabBarLabel: 'Home',
+                        tabBarIcon: ({ color }) => (
+                            <FontAwesome
+                                name="home"
+                                color={color}
+                                size={25}></FontAwesome>
+                        ),
+                    }}
+                    listeners={({ navigation, route }) => ({
+                        // Onpress Update....
+                        tabPress: e => {
+                            Animated.spring(tabOffsetValue, {
+                                toValue: 0,
+                                useNativeDriver: true
+                            }).start()
+                        }
+                    })}
+                />
+                <BottomTab.Screen
                     name="Job"
                     component={JobNav}
                     tabBarOptions={{
@@ -169,6 +206,32 @@ function ApplicantTabNav(props) {
                     })}
                 />
                 <BottomTab.Screen
+                    name="jobapp"
+                    component={JobApplications}
+                    tabBarOptions={{
+                    }}
+                    options={{
+
+                        tabBarLabel: 'JobApp',
+                        tabBarIcon: ({ color }) => (
+                            <MaterialCommunityIcons
+                                name="briefcase-check-outline"
+                                color={color}
+                                size={24}>
+                            </MaterialCommunityIcons>
+                        ),
+                    }}
+                    listeners={({ navigation, route }) => ({
+                        // Onpress Update....
+                        tabPress: e => {
+                            Animated.spring(tabOffsetValue, {
+                                toValue: 0,
+                                useNativeDriver: true
+                            }).start()
+                        }
+                    })}
+                />
+                {/* <BottomTab.Screen
                     name="Main"
                     component={JobApplications}
                     tabBarOptions={{ indicatorStyle: { backgroundColor: 'green' } }}
@@ -183,7 +246,7 @@ function ApplicantTabNav(props) {
                             }).start()
                         }
                     })}
-                />
+                /> */}
                 <BottomTab.Screen
                     name="Profil"
                     component={ProfileNav}
@@ -208,7 +271,7 @@ function ApplicantTabNav(props) {
                     })}
                 />
             </BottomTab.Navigator>
-            <TouchableOpacity
+            {/* <TouchableOpacity
                 onPress={() => props.navigation.navigate("JobApplications")}
                 style={{
                     position: 'absolute',
@@ -224,7 +287,7 @@ function ApplicantTabNav(props) {
                         margin: 16,
                         justifyContent: "center",
                         alignItems: 'center',
-                        backgroundColor: textDarkColor,
+                        backgroundColor: mainColor,
                         width: fabWidth,
                         height: 60,
                         borderColor: "lightgray",
@@ -242,7 +305,7 @@ function ApplicantTabNav(props) {
                     color={"#fff"}
                     animated={true}
                 />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
         </>
     )
 }
@@ -261,6 +324,62 @@ const LeaveNav = () => (
             name="Profile"
             component={Profile}
         /> */}
+
+    </Stack.Navigator>
+)
+const AttendenceNav = () => (
+    <Stack.Navigator
+
+        initialRouteName="LeaveApplicant"
+        drawerContent={props => null}>
+        <Stack.Screen
+            options={{ headerShown: false }}
+            name="Attendence"
+            component={Attendence}
+        />
+        <Stack.Screen
+            options={{ headerShown: false }}
+            name="AttendenceReport"
+            component={AttendenceReport}
+        />
+
+    </Stack.Navigator>
+)
+const CommitteNav = () => (
+    <Stack.Navigator
+
+        initialRouteName="LeaveApplicant"
+        drawerContent={props => null}>
+        <Stack.Screen
+            options={{ headerShown: false }}
+            name="Committe"
+            component={Committe}
+        />
+        <Stack.Screen
+            options={{ headerShown: false }}
+            name="CommitteHead"
+            component={CommitteHead}
+        />
+        <Stack.Screen
+            options={{ headerShown: false }}
+            name="CreateCommitte"
+            component={CreateCommitte}
+        />
+        <Stack.Screen
+            options={{ headerShown: false }}
+            name="CommitteDetail"
+            component={CommitteDetail}
+        />
+        <Stack.Screen
+            options={{ headerShown: false }}
+            name="AllMembers"
+            component={AllMembers}
+        />
+        <Stack.Screen
+            options={{ headerShown: false }}
+            name="EmployeeDetail"
+            component={EmployeeDetail}
+        />
 
     </Stack.Navigator>
 )
@@ -339,7 +458,7 @@ function AdminTabNav(props) {
                 }}
             >
                 <BottomTab.Screen
-                    name="JobApp"
+                    name="Leaveapp"
                     component={LeaveNav}
                     tabBarOptions={{
                     }}
@@ -392,7 +511,7 @@ function AdminTabNav(props) {
                 />
                 <BottomTab.Screen
                     name="Main"
-                    component={AdminJobApplications}
+                    component={CommitteNav}
                     tabBarOptions={{ indicatorStyle: { backgroundColor: 'green' } }}
                     options={{
                         tabBarLabel: '',
@@ -408,7 +527,7 @@ function AdminTabNav(props) {
                 />
                 <BottomTab.Screen
                     name="Attendenc"
-                    component={Attendence}
+                    component={AttendenceNav}
                     tabBarOptions={{ indicatorStyle: { backgroundColor: 'green' } }}
                     options={{
                         tabBarLabel: 'Attendence',
@@ -508,6 +627,42 @@ const GuardProfileNav = () => (
 
     </Stack.Navigator>
 )
+const GuardEmployeesNav = () => (
+    <Stack.Navigator
+
+        initialRouteName="EmployeesList"
+        drawerContent={props => null}>
+        <Stack.Screen
+            options={{ headerShown: false }}
+            name="EmployeesList"
+            component={EmployeesList}
+        />
+        <Stack.Screen
+            options={{ headerShown: false }}
+            name="CheckInAttendance"
+            component={CheckInAttendance}
+        />
+
+    </Stack.Navigator>
+)
+const GuardAttendanceNav = () => (
+    <Stack.Navigator
+
+        initialRouteName="AttendanceRecord"
+        drawerContent={props => null}>
+        <Stack.Screen
+            options={{ headerShown: false }}
+            name="AttendanceRecord"
+            component={AttendanceRecord}
+        />
+        <Stack.Screen
+            options={{ headerShown: false }}
+            name="GuardAttendanceReport"
+            component={GuardAttendanceReport}
+        />
+
+    </Stack.Navigator>
+)
 const DashboardNav = () => (
     <Stack.Navigator
 
@@ -601,6 +756,58 @@ function GuardTabNav(props) {
                     })}
                 />
                 <BottomTab.Screen
+                    name="employe"
+                    component={GuardEmployeesNav}
+                    tabBarOptions={{
+                    }}
+                    options={{
+
+                        tabBarLabel: 'Employees',
+                        tabBarIcon: ({ color }) => (
+                            <FontAwesome
+                                name="users"
+                                color={color}
+                                size={25}>
+                            </FontAwesome>
+                        ),
+                    }}
+                    listeners={({ navigation, route }) => ({
+                        // Onpress Update....
+                        tabPress: e => {
+                            Animated.spring(tabOffsetValue, {
+                                toValue: 0,
+                                useNativeDriver: true
+                            }).start()
+                        }
+                    })}
+                />
+                <BottomTab.Screen
+                    name="attendence"
+                    component={GuardAttendanceNav}
+                    tabBarOptions={{
+                    }}
+                    options={{
+
+                        tabBarLabel: 'Attendance',
+                        tabBarIcon: ({ color }) => (
+                            <Entypo
+                                name="fingerprint"
+                                color={color}
+                                size={25}>
+                            </Entypo>
+                        ),
+                    }}
+                    listeners={({ navigation, route }) => ({
+                        // Onpress Update....
+                        tabPress: e => {
+                            Animated.spring(tabOffsetValue, {
+                                toValue: 0,
+                                useNativeDriver: true
+                            }).start()
+                        }
+                    })}
+                />
+                <BottomTab.Screen
                     name="GuardProfil"
                     component={GuardProfileNav}
                     tabBarOptions={{ indicatorStyle: { backgroundColor: 'green' } }}
@@ -679,14 +886,19 @@ const DrawerNav = () => {
             />
             <Drawer.Screen
                 options={{ headerShown: false }}
-                name="AllMembers"
-                component={AllMembers}
-            />
-            <Drawer.Screen
-                options={{ headerShown: false }}
                 name="CommitteeMembers"
                 component={CommitteeMembers}
             />
+            <Drawer.Screen
+                options={{ headerShown: false }}
+                name="AdminJobApplications"
+                component={AdminJobApplications}
+            />
+            {/* <Drawer.Screen
+                options={{ headerShown: false }}
+                name="GuardProfile"
+                component={GuardProfile}
+            /> */}
         </Drawer.Navigator>
     )
 }
@@ -709,7 +921,7 @@ export default App = () => {
 
     const getUser = async () => {
         const user = await StorageManager.getData(StorageManager.storageKeys.USER)
-        if(user) {
+        if (user) {
             updateUser(user)
         }
     }

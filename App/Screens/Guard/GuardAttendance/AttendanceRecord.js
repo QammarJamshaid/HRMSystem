@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import {
     Text, View, TouchableOpacity,
-    FlatList,Image
+    FlatList, Image
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
@@ -12,10 +12,12 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { ms, mvs, s, vs } from 'react-native-size-matters';
 import { ScrollView } from 'react-native-gesture-handler';
-import { useGetAllMemberQuery } from './Services/CommitteeApi';
+import { useGetAllMemberQuery } from '../../Admin/Committee/Services/CommitteeApi';
 import { baseUrl } from '../../../Config/baseURL';
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import Usercircle from '../../../Assets/Svgs/Usercircle.svg';
 
-function AllMembers(props) {
+function AttendanceRecord(props) {
     const defaultValues = {
         locationIds: [],
         conditionIds: [],
@@ -43,39 +45,9 @@ function AllMembers(props) {
         borderColor,
         greenColor,
     } = useSelector(state => state.styles)
-
+ 
     useEffect(() => {
     }, [])
-    const ReportData = [
-        {
-            // icon: <ClockIcon color={{}} height={40} width={40} style={{}} />,
-            title: 'Clock In /Clock Out',
-        },
-        {
-            // icon: <ClockIcon color={{}} height={40} width={40} style={{}} />,
-            title: 'Clock In /Clock Out',
-        },
-        {
-            // icon: <ClockIcon color={{}} height={40} width={40} style={{}} />,
-            title: 'Clock In /Clock Out',
-        },
-        {
-            // icon: <ClockIcon color={{}} height={40} width={40} style={{}} />,
-            title: 'Clock In /Clock Out',
-        },
-        {
-            // icon: <ClockIcon color={{}} height={40} width={40} style={{}} />,
-            title: 'Clock In /Clock Out',
-        },
-        {
-            // icon: <ClockIcon color={{}} height={40} width={40} style={{}} />,
-            title: 'Clock In /Clock Out',
-        },
-        {
-            // icon: <ClockIcon color={{}} height={40} width={40} style={{}} />,
-            title: 'Clock In /Clock Out',
-        },
-    ]
     const {
         data = [],
         isFetching,
@@ -88,7 +60,7 @@ function AllMembers(props) {
             // const { name, website, image } = item
             return (
                 <TouchableOpacity
-                    onPress={() => props.navigation.navigate("EmployeeDetail",{item:item})}
+                    onPress={() => props.navigation.navigate("GuardAttendanceReport", { item:item })}
                     style={{
                         height: s(90), width: s(145),
                         marginLeft: s(15),
@@ -106,7 +78,7 @@ function AllMembers(props) {
                     <View style={{
                         height: 65, width: 65, top: -30,
                         borderRadius: 100, backgroundColor: mainColor,
-                        alignItems: "center", justifyContent: "center"
+                        alignItems: "center", justifyContent: "center",
                     }}>
                         <Image
                             // resizeMode="contain"
@@ -139,55 +111,51 @@ function AllMembers(props) {
                 <View style={{
                     height: getStatusBarHeight() + 50,
                     backgroundColor: backgroundColor,
-                    justifyContent: 'flex-end'
+                    justifyContent: 'flex-end',
+                    paddingHorizontal: 10,
                 }}>
+
                     <View
                         style={{
-                            // marginTop: 50,
+                            marginBottom: 10,
                             flexDirection: "row",
                             justifyContent: "space-between",
-                            paddingHorizontal: 20,
+                            paddingHorizontal: 10,
                             borderColor: 'red', borderWidth: 0,
-                            alignItems: "center"
                         }}
                     >
                         <View style={{
-                            flexDirection: "row",
-                            justifyContent: "center",
-                            alignItems: "center", marginBottom: 10
-                        }}>
-                            <View style={{
-                                flexDirection: "row",
-                                justifyContent: "center", alignItems: "center"
-                            }}>
-                                <TouchableOpacity
-                                    onPress={() => props.navigation.goBack()}
-                                >
-                                    <Ionicons
-                                        name="chevron-back"
-                                        size={24}
-                                        color={borderColor}
-                                    // style={{marginLeft:10}}
-                                    />
-                                </TouchableOpacity>
-                            </View>
-                            <Text
-                                style={{
-                                    fontSize: 20,
-                                    fontWeight: "700",
-                                    color: textColor,
-                                    marginLeft: 10
-                                }}
-                            >
-                                All Employees
-                            </Text>
-                        </View>
-                        <View style={{
-                            flexDirection: "row",
-                            justifyContent: "center",
+                            flexDirection: "row", justifyContent: "center",
                             alignItems: "center"
                         }}>
+                            <TouchableOpacity
+                                onPress={() => props.navigation.openDrawer()}
+                            >
+                                <EvilIcons
+                                    name="navicon"
+                                    size={26}
+                                    color={"purple"}
+                                // style={{marginLeft:10}}
+                                />
+                            </TouchableOpacity>
                         </View>
+                        <Text
+                            style={{
+                                fontSize: 20,
+                                fontWeight: "700",
+                                color: textColor
+                            }}
+                        >
+                            Employee's Attendence 
+                        </Text>
+                        <View style={{
+                            flexDirection: "row", justifyContent: "center",
+                            alignItems: "center"
+                        }}>
+                            <Usercircle color={'#fff'} height={24} width={24} style={{}} />
+                        </View>
+
+
                     </View>
                 </View>
                 <ScrollView
@@ -215,4 +183,4 @@ function AllMembers(props) {
     )
 }
 
-export default AllMembers
+export default AttendanceRecord

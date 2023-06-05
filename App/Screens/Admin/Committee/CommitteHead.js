@@ -12,10 +12,10 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { ms, mvs, s, vs } from 'react-native-size-matters';
 import { ScrollView } from 'react-native-gesture-handler';
-import { useGetAllMemberQuery } from './Services/CommitteeApi';
+import { useGetAllHodQuery } from './Services/CommitteeApi';
 import { baseUrl } from '../../../Config/baseURL';
 
-function AllMembers(props) {
+function CommitteHead(props) {
     const defaultValues = {
         locationIds: [],
         conditionIds: [],
@@ -63,32 +63,18 @@ function AllMembers(props) {
             // icon: <ClockIcon color={{}} height={40} width={40} style={{}} />,
             title: 'Clock In /Clock Out',
         },
-        {
-            // icon: <ClockIcon color={{}} height={40} width={40} style={{}} />,
-            title: 'Clock In /Clock Out',
-        },
-        {
-            // icon: <ClockIcon color={{}} height={40} width={40} style={{}} />,
-            title: 'Clock In /Clock Out',
-        },
-        {
-            // icon: <ClockIcon color={{}} height={40} width={40} style={{}} />,
-            title: 'Clock In /Clock Out',
-        },
     ]
     const {
         data = [],
         isFetching,
-    } = useGetAllMemberQuery();
-    console.log("AllMemberData::::::::::", data)
-    console.log("AllMemberImage::::::::::", baseUrl + data?.[0]?.image)
-
+    } = useGetAllHodQuery();
+    console.log("All Hod:::::::::::::", data)
     function AllHead({ item, index }) {
         return data.map((item, key) => {
             // const { name, website, image } = item
             return (
                 <TouchableOpacity
-                    onPress={() => props.navigation.navigate("EmployeeDetail",{item:item})}
+                    onPress={() => props.navigation.navigate("CreateCommitte",{item:item})}
                     style={{
                         height: s(90), width: s(145),
                         marginLeft: s(15),
@@ -110,13 +96,12 @@ function AllMembers(props) {
                     }}>
                         <Image
                             // resizeMode="contain"
-                            source={{ uri: baseUrl + data.image }}
+                            source={{ uri: baseUrl + item.image }}
                             style={{
                                 height: 65, width: 65,
                                 alignSelf: "center", borderRadius: 100,
                             }}
                         />
-                        {/* <EmergencyStockIcon color={{ mainColor }} height={22} width={22} style={{}} /> */}
                     </View>
                     <View style={{
                         alignItems: "center",
@@ -179,7 +164,7 @@ function AllMembers(props) {
                                     marginLeft: 10
                                 }}
                             >
-                                All Employees
+                                Committe Head
                             </Text>
                         </View>
                         <View style={{
@@ -192,7 +177,7 @@ function AllMembers(props) {
                 </View>
                 <ScrollView
                     contentContainerStyle={{
-                        paddingBottom: 50,
+                        flex: 1, paddingBottom: 20,
                         backgroundColor: backgroundColor,
                         borderColor: 'red',
                         borderWidth: 0,
@@ -215,4 +200,4 @@ function AllMembers(props) {
     )
 }
 
-export default AllMembers
+export default CommitteHead

@@ -7,17 +7,12 @@ import {
     View
 } from 'react-native';
 import { useDispatch, useSelector } from "react-redux";
-import { ChangeUser } from "./Store/authSlice";
-import FaceBookIcon from '../../Assets/Svgs/FaceBookIcon.svg'
 import { Controller, useForm } from 'react-hook-form';
 import EmailIcon from '../../Assets/Svgs/EmailIcon.svg';
-import PersonIcon from '../../Assets/Svgs/PersonIcon.svg';
 import BackIcon from '../../Assets/Svgs/BackIcon.svg';
-import AddressIcon from '../../Assets/Svgs/AddressIcon.svg';
 import PasswordIcon from '../../Assets/Svgs/PasswordIcon.svg';
 import Eyeicon from '../../Assets/Svgs/Eyeicon.svg';
 import Eyeofficon from '../../Assets/Svgs/EyeOfficon.svg';
-import GoogleIcon from '../../Assets/Svgs/GoogleIcon.svg';
 import { ModalLoader } from "../../Components";
 import { ApiServices, flashSuccessMessage } from "../../Services2";
 import { StorageManager, useGlobalContext } from '../../Services2'
@@ -124,8 +119,8 @@ function LogIn(props) {
                                         color: textColor,
                                         fontSize: 13,
                                         width: "100%",
-                                        // borderWidth: 0.5,
-                                        // borderColor: "lightgray"
+                                        borderWidth: 0.5,
+                                        borderColor: "lightgray"
                                     }}
                                 />
                             )}
@@ -162,7 +157,7 @@ function LogIn(props) {
                                         secureTextEntry={secureTextEntry}
                                         placeholderTextColor={"lightgray"}
                                         style={{
-                                            backgroundColor: "#FFFFFF",
+                                            backgroundColor: "#fff",
                                             zIndex: 10,
                                             height: 40,
                                             borderRadius: 20,
@@ -170,6 +165,11 @@ function LogIn(props) {
                                             color: textColor,
                                             fontSize: 13,
                                             width: "100%",
+                                            borderWidth: 0.5,
+                                            borderColor: "lightgray",
+                                            borderTopRightRadius: 0,
+                                            borderBottomRightRadius: 0,
+                                            borderRightWidth: 0
                                         }}
                                     />
                                 )}
@@ -179,7 +179,7 @@ function LogIn(props) {
                         </View>
                         <View
                             style={{
-                                backgroundColor: "#FFFFFF",
+                                backgroundColor: "#fff",
                                 zIndex: 10,
                                 height: 40,
                                 borderTopRightRadius: 20,
@@ -188,8 +188,12 @@ function LogIn(props) {
                                 width: "28%",
                                 alignItems: "flex-end",
                                 right: 10,
+                                borderTopLeftRadius: 0,
+                                borderBottomLeftRadius: 0,
                                 borderLeftWidth: 0,
-                                justifyContent: "center"
+                                justifyContent: "center",
+                                borderWidth: 0.5,
+                                borderColor: "lightgray",
                             }}>
                             <TouchableOpacity
                                 onPress={() => ChangeSecureTextEntry(!secureTextEntry)}

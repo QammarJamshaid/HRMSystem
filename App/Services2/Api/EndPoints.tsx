@@ -10,7 +10,8 @@ const EndPoints = {
     deleteEducation: 'Education/DeleteEducation',
     getAllExperiences: 'Expereince/NewExperienceGet',
     addExperience: 'Expereince/ExperiencePost',
-    deleteExperience: 'Expereince/DeleteExperience'
+    deleteExperience: 'Expereince/DeleteExperience',
+    bestmatch:"/Job/ForBestMatchWithCheckfilterJobGet"
 }
 
 export default EndPoints;

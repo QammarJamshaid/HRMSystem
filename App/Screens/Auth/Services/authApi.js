@@ -1,12 +1,24 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-// import { baseUrl } from '../../../Config/baseUrl'
+import { baseUrl } from '../../../Config/baseURL'
+import { api } from '../../../Services'
 
-export const authApi = createApi({
-    reducerPath: 'authApi',
-    baseQuery: fetchBaseQuery({ baseUrl: null }),
-    endpoints: (builder) => ({}),
+export const authApi = api.injectEndpoints({
+    endpoints: (builder) => ({
+        addNewUser: builder.mutation({
+            query: (body) => {
+
+                console.log("body===>", body)
+
+                return {
+                    url: baseUrl + `/User/Adduser`,
+                    method: 'POST',
+                    body,
+                }
+            },
+            invalidatesTags: ['SignUp']
+        }),
+    }),
 })
 
 export const {
-    useLoginMutation,
+    useAddNewUserMutation
 } = authApi

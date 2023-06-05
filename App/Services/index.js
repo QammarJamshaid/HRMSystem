@@ -10,6 +10,9 @@ export const api = createApi({
         "Leave",
         "AdminJobApp",
         "Committee",
+        "Profile",
+        "Attendance",
+        "SignUp",
     ],
     baseQuery: fetchBaseQuery({
         baseUrl,

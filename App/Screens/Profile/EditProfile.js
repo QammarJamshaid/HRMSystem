@@ -319,7 +319,7 @@ export default function EditProfile(props) {
                                             borderColor: textDarkColor,
                                             justifyContent: 'center'
                                         }}
-                                        onPress={onDatePickerVisible}
+                                        // onPress={onDatePickerVisible}
                                     >
                                         <Text style={{ color: !dob ? textDarkColor : textColor, fontSize: 13 }}>
                                             {!dob ? 'Date of birth' : dob}

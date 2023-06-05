@@ -12,6 +12,7 @@ import attendence from '../Screens/Admin/Attendence/Store/AttendenceSlice'
 import jobPost from '../Screens/Admin/JobPost/Store/JobPostSlice'
 import adminJobApp from '../Screens/Admin/AdminJobApplications/Store/AdminJobApplicationSlice'
 import committee from '../Screens/Admin/Committee/Store/CommitteeSlice'
+import profile from '../Screens/Admin/AdminProfile/Store/AdminProfileSlice'
 
 
 const reducers = combineReducers({
@@ -23,6 +24,7 @@ const reducers = combineReducers({
     jobPost,
     adminJobApp,
     committee,
+    profile,
     [api.reducerPath]: api.reducer,
 });
 

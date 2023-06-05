@@ -14,11 +14,12 @@ import { getStatusBarHeight } from 'react-native-status-bar-height';
 import Experience from "../Profile/Experience";
 import { ApiServices } from "../../Services2";
 import { hp } from "../../Global";
+import { SearchBar } from 'react-native-elements';
+import DropDownPicker from 'react-native-dropdown-picker';
+import { useGlobalContext } from "../../Services2";
 
 export default function Jobs(props) {
-
-    const [jobsListItems, setJobsListItems] = useState([])
-    const [loader, setLoader] = useState(true)
+    
 
     const defaultValues = {
         Quantity: "",
@@ -26,14 +27,18 @@ export default function Jobs(props) {
     }
 
     const dispatch = useDispatch()
-
+    const { user } = useGlobalContext()
+    const [jobsListItems, setJobsListItems] = useState([])
+    const [loader, setLoader] = useState(true)
+    const [search, setSearch] = useState('')
     const {
         textColor,
         mainColor,
         borderColor,
         backgroundDarkerColor,
         textLightColor,
-        backgroundColor, buttoncolor
+        backgroundColor, buttoncolor,
+        textOffColor
     } = useSelector(state => state.styles)
     const { control, handleSubmit, reset, formState: { errors } } = useForm({
         mode: 'onChange',
@@ -41,7 +46,11 @@ export default function Jobs(props) {
     });
 
     const hideLoader = () => setLoader(false)
-
+    const payStatus = [
+        { value: "0", label: "AllJobs" },
+        { value: "1", label: "BestMatch" },
+    ]
+    const [isJobPickerOpen, setIsJobPickerOpen] = useState(false)
     const getAllJobs = () => {
         const colors = ["#5A93BA", "#62CBCF", "#FE931A", "#46DB77", "#F25454", "#1C212D", "#5A93BA"];
         ApiServices.getAllJobs()
@@ -56,6 +65,22 @@ export default function Jobs(props) {
             .catch(hideLoader);
 
     }
+    const bestmatch = () => {
+        const colors = ["#5A93BA", "#62CBCF", "#FE931A", "#46DB77", "#F25454", "#1C212D", "#5A93BA"];
+        ApiServices.getBestMatch(user?.Uid)
+            .then((res) => {
+                const coloredItems = res.map((item, index) => ({
+                    ...item,
+                    color: colors[index % colors.length],
+                }));
+                setJobsListItems(coloredItems);
+                setLoader(false);
+            })
+            .catch(hideLoader);
+
+    }
+
+
 
     useEffect(() => {
         getAllJobs()
@@ -67,7 +92,7 @@ export default function Jobs(props) {
                 onPress={() => props.navigation.navigate("JobDetails", { jobId: item?.Jid })}
                 style={{
                     flex: 1, width: "95%", backgroundColor: backgroundDarkerColor,
-                    alignSelf: "center", marginTop: 20,
+                    alignSelf: "center", marginTop: 10,
                     shadowColor: "#000",
                     shadowOffset: { width: 2, height: 2 },
                     shadowOpacity: 0.3,
@@ -237,6 +262,108 @@ export default function Jobs(props) {
 
                 </View>
             </View>
+            <View style={{
+                zIndex: 100,
+                // alignSelf: "flex-end",
+                paddingHorizontal: 20, marginTop: 10
+            }}>
+                <Controller
+                    control={control}
+                    rules={{
+                        required: true,
+                    }}
+                    render={({ field: { onChange, value } }) => (
+                        <DropDownPicker
+                            items={payStatus}
+                            open={isJobPickerOpen}
+                            placeholder="Jobs"
+                            containerStyle={{
+                            }}
+                            style={{
+                                backgroundColor: mainColor,
+                                color: "#fff",
+                                // paddingLeft: 10,
+                                borderRadius: 10,
+                                minHeight: 40,
+                                borderColor: textOffColor,
+                                borderWidth: 1,
+                                width: 130,
+                                padding: 0
+                            }}
+                            textStyle={{ color: textColor }}
+                            labelProps={{
+                                style: { color: "#fff", fontWeight: "bold" }
+                            }}
+                            dropDownContainerStyle={{
+                                backgroundColor: "#FFFFFF",
+                                borderColor: textOffColor,
+                                borderWidth: 1,
+                                flex: 1,
+                                width: 130,
+                            }}
+                            theme="DARK"
+                            dropDownStyle={{ backgroundColor: mainColor }}
+                            setOpen={(open) => {
+                                setIsJobPickerOpen(open)
+                            }}
+                            value={value}
+                            setValue={(value) => {
+                                if (value(payStatus) == 1) {
+                                    bestmatch()
+                                } else {
+                                    getAllJobs()
+                                }
+                                onChange(value(payStatus))
+                            }}
+                            zIndex={30}
+                        />
+                    )}
+                    name="attendence"
+                />
+                {errors.attendence && <Text style={{ color: "red" }}>Select a attendence Status</Text>
+                }
+            </View>
+            <View
+                style={{
+                    borderWidth: 0.5,
+                    height: 40,
+                    width: "90%",
+                    borderColor: "lightgray",
+                    // marginLeft: 15,
+                    shadowColor: "#000",
+                    shadowOffset: { width: 1, height: 1 },
+                    shadowOpacity: 0.1,
+                    shadowRadius: 0.2,
+                    elevation: 2, marginTop: 10,
+                    backgroundColor: "#FFFFFF",
+                    borderRadius: 8,
+                    alignSelf: "center",
+                }}
+            >
+                <SearchBar
+                    placeholder="Search....."
+                    containerStyle={{
+                        backgroundColor: "transparent",
+                        borderBottomColor: 'transparent',
+                        borderTopColor: 'transparent',
+                        paddingBottom: 10, paddingLeft: 10,
+                        height: 0, width: 0, marginTop: 10,
+                    }}
+                    inputContainerStyle={{
+                        backgroundColor: "transparent", right: 10,
+                        height: 35, width: 320, bottom: 15,
+                    }}
+                    inputStyle={{
+                        color: textColor,
+                        fontSize: 15,
+                    }}
+                    round
+                    searchIcon={{ size: 24 }}
+                    onChangeText={(text) => setSearch(text)}
+                    value={search}
+                />
+            </View>
+
             <View
                 style={{
                     flex: 1,
@@ -253,7 +380,7 @@ export default function Jobs(props) {
                         </View>
                         :
                         <FlatList
-                            data={jobsListItems}
+                            data={jobsListItems.filter(obj => (obj?.Title?.toLowerCase().includes(search.toLowerCase())))}
                             ListFooterComponent={() => <View style={{ height: 20 }} />}
                             renderItem={JobsList}
                             keyExtractor={(item, index) => index}

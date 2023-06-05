@@ -9,6 +9,8 @@ import CamerIcon from '../../../Assets/Svgs/CamerIcon.svg';
 import EditIcon from '../../../Assets/Svgs/EditIcon.svg';
 import Usercircle from '../../../Assets/Svgs/Usercircle.svg';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
+import { useGetAdminProfileDataQuery } from "./Services/AdminProfileApi";
+import { useGlobalContext } from '../../../Services2'
 
 export default function AdminProfile(props) {
 
@@ -18,7 +20,7 @@ export default function AdminProfile(props) {
         MarketValue: "",
     }
 
-
+    const { user } = useGlobalContext()
     const dispatch = useDispatch()
 
     const {
@@ -33,6 +35,11 @@ export default function AdminProfile(props) {
         mode: 'onChange',
         defaultValues: defaultValues,
     });
+    // const {
+    //     data = [],
+    //     isFetching,
+    // } = useGetAdminProfileDataQuery();
+    console.log("AdminProfileData:::::::::::",user)
     return (
         <View
             style={{
@@ -145,7 +152,7 @@ export default function AdminProfile(props) {
                                     {"MANAGE PROFILE"}
                                 </Text>
                                 <TouchableOpacity
-                                    onPress={() => props.navigation.navigate('AdminEditProfile')}
+                                    onPress={() => props.navigation.navigate('AdminEditProfile',{user:user})}
                                     style={{
                                         height: 35, width: 35, borderRadius: 100, justifyContent: "center",
                                         alignItems: "center", backgroundColor: "lightgray"
@@ -154,122 +161,122 @@ export default function AdminProfile(props) {
                                 </TouchableOpacity>
                             </View>
                             <View style={{ flexDirection: "row", marginTop: 20, }}>
-                                <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, opacity: 0.4, width: 120 }}>
+                                <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, opacity: 0.4, width: 100 }}>
                                     First Name:
                                 </Text>
                                 <View style={{ justifyContent: "center", }}>
-                                    <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, opacity: 0.6, width: 50 }}>
+                                    <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, opacity: 0.6, width: 30 }}>
                                         {":"}
                                     </Text>
                                 </View>
                                 <View style={{ justifyContent: "center", }}>
                                     <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, }}>
-                                        {"Kisten"}
+                                        {user.Fname}
                                     </Text>
                                 </View>
                             </View>
                             <View style={{ flexDirection: "row", marginTop: 20, }}>
-                                <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, opacity: 0.4, width: 120 }}>
+                                <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, opacity: 0.4, width: 100 }}>
                                     Last Name:
                                 </Text>
                                 <View style={{ justifyContent: "center", }}>
-                                    <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, opacity: 0.6, width: 50 }}>
+                                    <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, opacity: 0.6, width: 30 }}>
                                         {":"}
                                     </Text>
                                 </View>
                                 <View style={{ justifyContent: "center", }}>
                                     <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, }}>
-                                        {"Hanbay"}
+                                        {user.Lname}
                                     </Text>
                                 </View>
                             </View>
                             <View style={{ flexDirection: "row", marginTop: 20, }}>
-                                <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, opacity: 0.4, width: 120 }}>
+                                <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, opacity: 0.4, width: 100 }}>
                                     Email:
                                 </Text>
                                 <View style={{ justifyContent: "center" }}>
-                                    <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, opacity: 0.6, width: 50 }}>
+                                    <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, opacity: 0.6, width: 30 }}>
                                         {":"}
                                     </Text>
                                 </View>
                                 <View style={{ justifyContent: "center", }}>
                                     <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, }}>
-                                        {"Kristen@gmail.com"}
+                                        {user.email}
                                     </Text>
                                 </View>
                             </View>
                             <View style={{ flexDirection: "row", marginTop: 20, }}>
-                                <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, opacity: 0.4, width: 120 }}>
+                                <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, opacity: 0.4, width: 100 }}>
                                     Phone :
                                 </Text>
                                 <View style={{ justifyContent: "center" }}>
-                                    <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, opacity: 0.6, width: 50 }}>
+                                    <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, opacity: 0.6, width: 30 }}>
                                         {":"}
                                     </Text>
                                 </View>
                                 <View style={{ justifyContent: "center", }}>
                                     <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, }}>
-                                        {"+1 000 000"}
+                                        {user.mobile}
                                     </Text>
                                 </View>
                             </View>
                             <View style={{ flexDirection: "row", marginTop: 20, }}>
-                                <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, opacity: 0.4, width: 120 }}>
+                                <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, opacity: 0.4, width: 100 }}>
                                     Address:
                                 </Text>
                                 <View style={{ justifyContent: "center" }}>
-                                    <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, opacity: 0.6, width: 50 }}>
+                                    <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, opacity: 0.6, width: 30 }}>
                                         {":"}
                                     </Text>
                                 </View>
                                 <View style={{ justifyContent: "center", }}>
                                     <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, }}>
-                                        {"112 hawkin street"}
+                                        {user.address}
                                     </Text>
                                 </View>
                             </View>
                             <View style={{ flexDirection: "row", marginTop: 20, }}>
-                                <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, opacity: 0.4, width: 120 }}>
-                                    City:
+                                <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, opacity: 0.4, width: 100 }}>
+                                    role:
                                 </Text>
                                 <View style={{ justifyContent: "center" }}>
-                                    <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, opacity: 0.6, width: 50 }}>
+                                    <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, opacity: 0.6, width: 30 }}>
                                         {":"}
                                     </Text>
                                 </View>
                                 <View style={{ justifyContent: "center", }}>
                                     <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, }}>
-                                        {"California"}
+                                        {user.role}
                                     </Text>
                                 </View>
                             </View>
                             <View style={{ flexDirection: "row", marginTop: 20, }}>
-                                <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, opacity: 0.4, width: 120 }}>
-                                    State:
+                                <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, opacity: 0.4, width: 100 }}>
+                                CNIC:
                                 </Text>
                                 <View style={{ justifyContent: "center" }}>
-                                    <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, opacity: 0.6, width: 50 }}>
+                                    <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, opacity: 0.6, width: 30 }}>
                                         {":"}
                                     </Text>
                                 </View>
                                 <View style={{ justifyContent: "center", }}>
                                     <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, }}>
-                                        {"LA"}
+                                        {user.cnic}
                                     </Text>
                                 </View>
                             </View>
                             <View style={{ flexDirection: "row", marginTop: 20, }}>
-                                <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, opacity: 0.4, width: 120 }}>
-                                    Postal Code:
+                                <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, opacity: 0.4, width: 100 }}>
+                                    Date Of Birth:
                                 </Text>
                                 <View style={{ justifyContent: "center" }}>
-                                    <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, opacity: 0.6, width: 50 }}>
+                                    <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, opacity: 0.6, width: 30 }}>
                                         {":"}
                                     </Text>
                                 </View>
                                 <View style={{ justifyContent: "center", }}>
                                     <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, }}>
-                                        {"0000"}
+                                        {user.dob}
                                     </Text>
                                 </View>
                             </View>
