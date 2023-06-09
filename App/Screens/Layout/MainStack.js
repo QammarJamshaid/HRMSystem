@@ -609,6 +609,8 @@ function AdminTabNav(props) {
         </>
     )
 }
+
+
 const GuardProfileNav = () => (
     <Stack.Navigator
 
@@ -835,6 +837,151 @@ function GuardTabNav(props) {
     )
 }
 
+
+function EmployeeTabNav(props) {
+    const {
+        mainColor,
+        backgroundColor,
+        textDarkColor,
+    } = useSelector(state => state.styles)
+    const tabOffsetValue = useRef(new Animated.Value(0)).current
+    const insets = useSafeAreaInsets()
+    const swapAddValue = 0
+    const fabWidth = 60
+
+    return (
+        <>
+            <BottomTab.Navigator
+                initialRouteName="desh" //todo: change it to Offers
+                barStyle={{
+                    backgroundColor: backgroundColor,
+                    height: 70,
+                    shadowColor: "#000",
+                    shadowOffset: {
+                        width: 0,
+                        height: 2,
+                    },
+                    shadowOpacity: 0.5,
+                    shadowRadius: 3.84,
+                    elevation: 5,
+                    borderColor: 'red', borderWidth: 0,
+                }}
+                screenOptions={{
+                }}
+                shifting={false}
+                labeled={true}
+                activeColor={"purple"}
+                inactiveColor={textDarkColor}
+                sceneContainerStyle={{
+                    borderColor: 'red', borderWidth: 0,
+                }}
+            >
+                <BottomTab.Screen
+                    name="Dash"
+                    component={DashboardNav}
+                    tabBarOptions={{
+                    }}
+                    options={{
+
+                        tabBarLabel: 'Attendance',
+                        tabBarIcon: ({ color }) => (
+                            <MaterialCommunityIcons
+                                name="briefcase-eye"
+                                color={color}
+                                size={25}>
+                            </MaterialCommunityIcons>
+                        ),
+                    }}
+                    listeners={({ navigation, route }) => ({
+                        // Onpress Update....
+                        tabPress: e => {
+                            Animated.spring(tabOffsetValue, {
+                                toValue: 0,
+                                useNativeDriver: true
+                            }).start()
+                        }
+                    })}
+                />
+                <BottomTab.Screen
+                    name="employe"
+                    component={GuardEmployeesNav}
+                    tabBarOptions={{
+                    }}
+                    options={{
+
+                        tabBarLabel: 'LeaveApp',
+                        tabBarIcon: ({ color }) => (
+                            <FontAwesome
+                                name="users"
+                                color={color}
+                                size={25}>
+                            </FontAwesome>
+                        ),
+                    }}
+                    listeners={({ navigation, route }) => ({
+                        // Onpress Update....
+                        tabPress: e => {
+                            Animated.spring(tabOffsetValue, {
+                                toValue: 0,
+                                useNativeDriver: true
+                            }).start()
+                        }
+                    })}
+                />
+                <BottomTab.Screen
+                    name="attendence"
+                    component={GuardAttendanceNav}
+                    tabBarOptions={{
+                    }}
+                    options={{
+
+                        tabBarLabel: 'Committee',
+                        tabBarIcon: ({ color }) => (
+                            <Entypo
+                                name="fingerprint"
+                                color={color}
+                                size={25}>
+                            </Entypo>
+                        ),
+                    }}
+                    listeners={({ navigation, route }) => ({
+                        // Onpress Update....
+                        tabPress: e => {
+                            Animated.spring(tabOffsetValue, {
+                                toValue: 0,
+                                useNativeDriver: true
+                            }).start()
+                        }
+                    })}
+                />
+                <BottomTab.Screen
+                    name="GuardProfil"
+                    component={GuardProfileNav}
+                    tabBarOptions={{ indicatorStyle: { backgroundColor: 'green' } }}
+                    options={{
+                        tabBarLabel: 'Profile',
+                        tabBarIcon: ({ color }) => (
+                            <FontAwesome
+                                name="user-circle-o"
+                                color={color}
+                                size={25}></FontAwesome>
+                        )
+                    }}
+                    listeners={({ navigation, route }) => ({
+                        // Onpress Update....
+                        tabPress: e => {
+                            Animated.spring(tabOffsetValue, {
+                                toValue: (getWidth() + swapAddValue) * 2,
+                                useNativeDriver: true
+                            }).start()
+                        }
+                    })}
+                />
+            </BottomTab.Navigator>
+        </>
+    )
+}
+
 const DrawerNav = () => {
 
     const { user } = useGlobalContext()
@@ -867,7 +1014,14 @@ const DrawerNav = () => {
                             name="AdminTabNav"
                             component={GuardTabNav}
                         />
-                        : null
+                        :
+                        user?.role == "employee" ?
+                            <Drawer.Screen
+                                options={{ headerShown: false }}
+                                name="AdminTabNav"
+                                component={EmployeeTabNav}
+                            />
+                            : null
             }
             <Drawer.Screen
                 options={{ headerShown: false }}

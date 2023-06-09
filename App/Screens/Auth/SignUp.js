@@ -10,8 +10,6 @@ import {
     StyleSheet
 } from 'react-native';
 import { useDispatch, useSelector } from "react-redux";
-import { ChangeUser } from "./Store/authSlice";
-import FaceBookIcon from '../../Assets/Svgs/FaceBookIcon.svg'
 import { Controller, useForm } from 'react-hook-form';
 import EmailIcon from '../../Assets/Svgs/EmailIcon.svg';
 import PersonIcon from '../../Assets/Svgs/PersonIcon.svg';
