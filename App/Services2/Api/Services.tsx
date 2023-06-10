@@ -177,20 +177,33 @@ class GApiServices {
     }
 
     applyJob = (params: any) => {
-        console.log(params)
         return new Promise((resolve, reject) => {
-            Api.post(
-                EndPoints.applyJob,
-                params,
-            ).then(async res => {
-                flashSuccessMessage('Successfully Applied to job')
-                resolve(res?.data?.results)
-            })
-                .catch((error) => {
-                    flashErrorMessage()
-                    reject('')
-                    console.log('error while applying to job  =>', error)
+            const { Jid, Uid, name, documentPath } = params
+            var formdata = new FormData();
+            formdata.append("Jid", Jid);
+            formdata.append("Uid", Uid);
+            formdata.append("name", name);
+            formdata.append("DocumentPath", documentPath);
+
+            var requestOptions = {
+                method: 'POST',
+                body: formdata,
+                redirect: 'follow'
+            };
+
+            fetch(`${baseUrl}/JobApplication/JobFileApplicationWithFilterPost2`, requestOptions)
+                .then(response => response.text())
+                .then(result => {
+                    if(typeof (result) === 'string') {
+                        flashSuccessMessage(result)
+                    }
+                    resolve('')
                 })
+                .catch(error => {
+                    console.log('error while applying to job =>', error)
+                    reject('')
+                });
+
         })
     }
 

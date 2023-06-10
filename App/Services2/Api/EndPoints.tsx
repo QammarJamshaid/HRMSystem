@@ -3,7 +3,7 @@ const EndPoints = {
     updateUser: '/User/UpdateUser',
     getAllJobs: 'Job/NewJobGet',
     getJobDetail: 'Job/NewJobDetailGet',
-    applyJob: 'JobApplication/JobFileApplicationWithFilterPost2',
+    applyJob: '/JobApplication/JobFileApplicationWithFilterPost2',
     getJobApplication: 'JobApplication/JobApplicationGet',
     getAllEducation: 'Education/NewEducationGet',
     addEducation: 'Education/EducationPost',

@@ -31,8 +31,13 @@ const AppleJob = (props: any) => {
       message: 'Applying...'
     })
     const data = props?.route?.params?.data
-    data.Documents = pdfData?.uri
-    ApiServices.applyJob(data).finally(hideLoader)
+    const params = {
+      Jid: data?.Jid,
+      Uid: data?.Uid,
+      name: data?.name,
+      documentPath: pdfData?.uri
+    }
+    ApiServices.applyJob(params).finally(hideLoader)
   }
 
   return (
@@ -73,7 +78,6 @@ export default AppleJob
 const Styles = StyleSheet.create({
   container: {
     flex: 1,
-    borderWidth: 1,
     justifyContent: 'center',
     alignItems: 'center'
   },
