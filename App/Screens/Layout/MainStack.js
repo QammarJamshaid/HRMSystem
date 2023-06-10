@@ -32,6 +32,7 @@ import Profile from '../Profile/Profile'
 import EditProfile from '../Profile/EditProfile'
 import Jobs from '../Jobs/Jobs'
 import JobDetails from '../Jobs/JobDetails'
+import ApplyJob from '../Jobs/ApplyJob'
 import JobApplications from '../JobApplication/JobApplications'
 import AdminJobApplications from '../Admin/AdminJobApplications/AdminJobApplications'
 import LeaveApplicant from '../Admin/LeaveApplicant/LeaveApplicant'
@@ -116,6 +117,11 @@ const JobNav = () => (
             options={{ headerShown: false }}
             name="JobDetails"
             component={JobDetails}
+        />
+        <Stack.Screen
+            options={{ headerShown: false }}
+            name="ApplyJob"
+            component={ApplyJob}
         />
 
     </Stack.Navigator>
@@ -1055,13 +1061,11 @@ const DrawerNav = () => {
                             component={GuardTabNav}
                         />
                         :
-                        user?.role == "employee" ?
-                            <Drawer.Screen
-                                options={{ headerShown: false }}
-                                name="AdminTabNav"
-                                component={EmployeeTabNav}
-                            />
-                            : null
+                        <Drawer.Screen
+                            options={{ headerShown: false }}
+                            name="AdminTabNav"
+                            component={EmployeeTabNav}
+                        />
             }
             <Drawer.Screen
                 options={{ headerShown: false }}
@@ -1115,7 +1119,7 @@ export default App = () => {
 
     const getUser = async () => {
         const user = await StorageManager.getData(StorageManager.storageKeys.USER)
-        if (user) {
+        if(user) {
             updateUser(user)
         }
     }

@@ -1,18 +1,24 @@
-import React, { useEffect, useRef, useState } from "react";
-import { View, Button, Text, StyleSheet, TouchableOpacity, TextInput, Image } from "react-native";
-import { useForm, Controller } from 'react-hook-form';
+import React, { useState } from "react";
+import { View, Text, TouchableOpacity, Image } from "react-native";
+import { useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
-import Entypo from 'react-native-vector-icons/Entypo';
-import { Divider } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
 import CamerIcon from '../../Assets/Svgs/CamerIcon.svg';
 import EditIcon from '../../Assets/Svgs/EditIcon.svg';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import { useGlobalContext } from '../../Services2'
+import { ApiServices, StorageManager, flashSuccessMessage, useGlobalContext } from '../../Services2'
 import { wp } from "../../Global";
+import { launchImageLibrary } from 'react-native-image-picker';
+import AntDesign from 'react-native-vector-icons/AntDesign'
+import { ModalLoader } from "../../Components";
+
 
 export default function Profile(props) {
-    const { user } = useGlobalContext()
+    const { user, updateUser } = useGlobalContext()
+    const { setData, storageKeys } = StorageManager
+    const [saveChangeLoader, setSaveChangeLoader] = useState({
+        visible: false,
+        message: ''
+    })
 
     const defaultValues = {
         Quantity: "",
@@ -35,6 +41,80 @@ export default function Profile(props) {
         defaultValues: defaultValues,
     });
 
+    const hideSaveChangeLoader = () => {
+        setSaveChangeLoader({
+            visible: false,
+            message: ''
+        })
+    }
+
+    const onImageEditPress = () => {
+        const options = {
+            mediaType: 'photo'
+        }
+        launchImageLibrary(options, (res) => {
+            if(!res.didCancel) {
+                setSaveChangeLoader({
+                    visible: true,
+                    message: 'Updating Image...'
+                })
+
+                const uri = res?.assets[0]?.uri
+                user.image = uri
+
+                var formdata = new FormData();
+                if(user?.firstName) {
+                    formdata.append("Fname", user?.Fname);
+                }
+                if(user?.Lname) {
+                    formdata.append("Lname", user?.Lname);
+                }
+                if(user?.cnic) {
+                    formdata.append("cnic", user?.cnic);
+                }
+                if(user?.mobile) {
+                    formdata.append("mobile", user?.mobile);
+                }
+                if(user?.address) {
+                    formdata.append("address", user?.address);
+                }
+                if(user?.Uid) {
+                    formdata.append("Uid", user?.Uid);
+                }
+                if(user?.email) {
+                    formdata.append("email", user?.email);
+                }
+                if(user?.dob) {
+                    formdata.append("dob", user?.dob);
+                }
+                if(user?.role) {
+                    formdata.append("role", user?.role);
+                }
+                if(user?.password) {
+                    formdata.append("password", user?.password)
+                }
+                if(uri) {
+                    formdata.append("image", uri);
+                }
+                formdata.append("gender", 'gender');
+
+                ApiServices.updateUser(formdata).then(async () => {
+                    user.Fname = firstName,
+                        user.Lname = lastName,
+                        user.cnic = cnic,
+                        user.mobile = phoneNumber,
+                        user.dob = dob,
+                        user.address = address,
+                        user.image = JSON.stringify(uri)
+                    updateUser(user)
+                    await setData(storageKeys.USER, user)
+                    hideSaveChangeLoader()
+                })
+                    .catch(hideSaveChangeLoader)
+            }
+        })
+    }
+
 
     return (
         <View
@@ -43,6 +123,10 @@ export default function Profile(props) {
                 backgroundColor: backgroundColor
             }}
         >
+            <ModalLoader
+                visible={saveChangeLoader.visible}
+                message={saveChangeLoader.message}
+            />
             <ScrollView
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{ width: "100%", paddingBottom: 50 }}>
@@ -51,20 +135,32 @@ export default function Profile(props) {
                     backgroundColor: backgroundColor,
                     justifyContent: "center", alignItems: "center"
                 }}>
-                    <View style={{
+                    <TouchableOpacity style={{
                         height: 100, width: 100,
                         borderRadius: 100, backgroundColor: "gray",
-                    }}>
-                        <Image
-                            source={require('../../Assets/Images/User01.png')}
-                            style={{
-                                width: 100, height: 100,
-                                alignSelf: "center", borderRadius: 100,
-                            }}
-                        />
-                    </View>
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                    }}
+                        onPress={onImageEditPress}
+                    >
+                        {
+                            user?.image ?
+                                <Image
+                                    source={{ uri: user?.image }}
+                                    style={{
+                                        width: 100, height: 100,
+                                        alignSelf: "center", borderRadius: 100,
+                                    }}
+                                />
+                                :
+                                <AntDesign
+                                    name="user"
+                                    color="#fff" size={wp(15)}
+                                />
+                        }
+                    </TouchableOpacity>
                     <TouchableOpacity
-                        //  onPress={() => props.navigation.navigate('EditProfile')}
+                        onPress={onImageEditPress}
                         style={{
                             height: 35, width: 35, borderRadius: 100,
                             justifyContent: "center", alignItems: "center",

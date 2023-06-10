@@ -1,3 +1,4 @@
+import { baseUrl } from "../../Config/baseURL";
 import { flashErrorMessage, flashSuccessMessage } from "../FlashMessages";
 import EndPoints from "./EndPoints";
 import { Api } from "./Middleware";
@@ -142,18 +143,23 @@ class GApiServices {
 
     updateUser = (data: any) => {
         return new Promise((resolve, reject) => {
-            Api.put(
-                `${EndPoints.updateUser}`,
-                data
-            )
-                .then(() => {
+            var requestOptions = {
+                method: 'PUT',
+                body: data,
+                redirect: 'follow'
+            };
+
+            fetch(`${baseUrl}${EndPoints.updateUser}`, requestOptions)
+                .then(response => response.text())
+                .then(result => {
+                    console.log(result)
+                    flashSuccessMessage('Image updated')
                     resolve('')
-                    flashSuccessMessage('Updated')
                 })
-                .catch((error) => {
-                    // console.log('error while updating user =>', error)
+                .catch(error => {
+                    console.log('error while updating user =>', error)
                     reject('')
-                })
+                });
         })
     }
 
@@ -171,6 +177,7 @@ class GApiServices {
     }
 
     applyJob = (params: any) => {
+        console.log(params)
         return new Promise((resolve, reject) => {
             Api.post(
                 EndPoints.applyJob,

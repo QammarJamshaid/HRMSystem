@@ -11,7 +11,7 @@ const EndPoints = {
     getAllExperiences: 'Expereince/NewExperienceGet',
     addExperience: 'Expereince/ExperiencePost',
     deleteExperience: 'Expereince/DeleteExperience',
-    bestmatch:"/Job/ForBestMatchWithCheckfilterJobGet"
+    bestmatch: "/Job/ForBestMatchWithCheckfilterJobGet"
 }
 
 export default EndPoints;

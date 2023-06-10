@@ -1,9 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
-import { View, Button, Text, StyleSheet, TouchableOpacity, TextInput, Image, ActivityIndicator } from "react-native";
-import { useForm, Controller } from 'react-hook-form';
+import React, { useState } from "react";
+import { View, Text, TouchableOpacity, TextInput, ActivityIndicator } from "react-native";
+import { useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
-import Entypo from 'react-native-vector-icons/Entypo';
-import { Divider } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -52,23 +50,26 @@ export default function EditProfile(props) {
     const onChangeCnic = (text) => setCnic(text)
     const onChangeAddress = (text) => setAddress(text)
 
-    const hideSaveChangeLoader = () => setSaveChangeLoader(false)
-
     const onSavePress = () => {
         setSaveChangeLoader(true)
-        const data = {
-            Fname: firstName,
-            Lname: lastName,
-            cnic: cnic,
-            mobile: phoneNumber,
-            dob: dob,
-            address: address,
-            Uid: user?.Uid,
-            // gender: 'Female',
-            // role: user?.role,
-            // password: '123456'
+        var formdata = new FormData();
+        formdata.append("Fname", firstName);
+        formdata.append("Lname", lastName);
+        formdata.append("cnic", cnic);
+        formdata.append("mobile", phoneNumber);
+        formdata.append("address", address);
+        formdata.append("Fname", firstName);
+        formdata.append("Uid", user?.Uid);
+        formdata.append("email", user?.email);
+        formdata.append("dob", user?.dob);
+        formdata.append("gender", 'gender');
+        formdata.append("role", user?.role);
+        if(user?.image) {
+            formdata.append("image", user?.image);
         }
-        ApiServices.updateUser(data).then(async () => {
+        formdata.append("password", user?.password)
+
+        ApiServices.updateUser(formdata).then(async () => {
             user.Fname = firstName,
                 user.Lname = lastName,
                 user.cnic = cnic,
@@ -79,18 +80,10 @@ export default function EditProfile(props) {
             await setData(storageKeys.USER, user)
             setSaveChangeLoader(false)
             flashSuccessMessage('Updated')
+            setSaveChangeLoader(false)
         })
-            .catch(async () => {
-                user.Fname = firstName,
-                    user.Lname = lastName,
-                    user.cnic = cnic,
-                    user.mobile = phoneNumber,
-                    user.dob = dob,
-                    user.address = address
-                updateUser(user)
-                await setData(storageKeys.USER, user)
+            .catch(() => {
                 setSaveChangeLoader(false)
-                flashSuccessMessage('Updated')
             })
     }
 
@@ -101,6 +94,8 @@ export default function EditProfile(props) {
         setShowDatePicker(false)
         setDob(moment(date).format('YYYY-MM-DD'))
     }
+
+    const onCancelPress = () => props?.navigation?.goBack()
 
     return (
         <View
@@ -319,7 +314,7 @@ export default function EditProfile(props) {
                                             borderColor: textDarkColor,
                                             justifyContent: 'center'
                                         }}
-                                        // onPress={onDatePickerVisible}
+                                        onPress={onDatePickerVisible}
                                     >
                                         <Text style={{ color: !dob ? textDarkColor : textColor, fontSize: 13 }}>
                                             {!dob ? 'Date of birth' : dob}
@@ -366,7 +361,9 @@ export default function EditProfile(props) {
                         justifyContent: "center", borderWidth: 0.5,
                         borderColor: textColor, marginRight: 10,
                         height: 40, width: 100, borderRadius: 5,
-                    }}>
+                    }}
+                        onPress={onCancelPress}
+                    >
                         <Text style={{
                             fontSize: 14, fontWeight: '500',
                             color: textColor, alignSelf: "center"
