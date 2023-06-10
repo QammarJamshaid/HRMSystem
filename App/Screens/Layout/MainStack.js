@@ -59,6 +59,10 @@ import Home from '../Home/Home'
 import CheckInAttendance from '../Guard/GuardEmployees/CheckInAttendance'
 import AttendanceRecord from '../Guard/GuardAttendance/AttendanceRecord'
 import GuardAttendanceReport from '../Guard/GuardAttendance/GuardAttendanceReport'
+import LeaveTopBar from '../Employee/EmployeeLeave/LeaveTopBar'
+import EmployeeLeaveApp from '../Employee/EmployeeLeave/EmployeeLeaveApp'
+import EmployeeProfile from '../Employee/EmployeeProfile/EmployeeProfile'
+import EmployeeEditProfile from '../Employee/EmployeeProfile/EmployeeEditProfile'
 
 const { height, width } = Dimensions.get('window')
 
@@ -838,6 +842,42 @@ function GuardTabNav(props) {
 }
 
 
+const EmployeeLeaveNav = () => (
+    <Stack.Navigator
+
+        initialRouteName="EmployeesList"
+        drawerContent={props => null}>
+        <Stack.Screen
+            options={{ headerShown: false }}
+            name="LeaveTopBar"
+            component={LeaveTopBar}
+        />
+        <Stack.Screen
+            options={{ headerShown: false }}
+            name="EmployeeLeaveApp"
+            component={EmployeeLeaveApp}
+        />
+
+    </Stack.Navigator>
+)
+const EmployeeProfileNav = () => (
+    <Stack.Navigator
+
+        initialRouteName="EmployeeProfile"
+        drawerContent={props => null}>
+        <Stack.Screen
+            options={{ headerShown: false }}
+            name="EmployeeProfile"
+            component={EmployeeProfile}
+        />
+        <Stack.Screen
+            options={{ headerShown: false }}
+            name="EmployeeEditProfile"
+            component={EmployeeEditProfile}
+        />
+
+    </Stack.Navigator>
+)
 function EmployeeTabNav(props) {
     const {
         mainColor,
@@ -903,8 +943,8 @@ function EmployeeTabNav(props) {
                     })}
                 />
                 <BottomTab.Screen
-                    name="employe"
-                    component={GuardEmployeesNav}
+                    name="leav"
+                    component={EmployeeLeaveNav}
                     tabBarOptions={{
                     }}
                     options={{
@@ -955,8 +995,8 @@ function EmployeeTabNav(props) {
                     })}
                 />
                 <BottomTab.Screen
-                    name="GuardProfil"
-                    component={GuardProfileNav}
+                    name="EmployeeProfil"
+                    component={EmployeeProfileNav}
                     tabBarOptions={{ indicatorStyle: { backgroundColor: 'green' } }}
                     options={{
                         tabBarLabel: 'Profile',
