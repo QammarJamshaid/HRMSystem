@@ -173,7 +173,7 @@ export default function DrawerContent({ navigation, state }) {
                                 inactiveTintColor="#000"
                                 focused={currentPage == 'login'}
                                 onPress={onLogout}
-                                labelStyle={[textStyle.p, { color: { textColor }, marginLeft: -12, fontWeight: "bold", fontSize: 16 }]}
+                                labelStyle={[textStyle.p, { color:  textColor , marginLeft: -12, fontWeight: "bold", fontSize: 16 }]}
                                 icon={() => (
                                     <MaterialIcons
                                         name="logout"
@@ -254,7 +254,7 @@ export default function DrawerContent({ navigation, state }) {
                                 inactiveTintColor="#000"
                                 focused={currentPage == 'JobsPost'}
                                 onPress={() => navigation.navigate('JobsPost')}
-                                labelStyle={[textStyle.p, { color: { textColor }, marginLeft: -12, fontWeight: "bold", fontSize: 16 }]}
+                                labelStyle={[textStyle.p, { color:  textColor , marginLeft: -12, fontWeight: "bold", fontSize: 16 }]}
                                 icon={() => (
                                     <FontAwesome
                                         name="briefcase"
@@ -273,7 +273,7 @@ export default function DrawerContent({ navigation, state }) {
                                 inactiveTintColor="#000"
                                 focused={currentPage == 'Main'}
                                 onPress={() => navigation.navigate('Main')}
-                                labelStyle={[textStyle.p, { color: { textColor }, marginLeft: -12, fontWeight: "bold", fontSize: 16 }]}
+                                labelStyle={[textStyle.p, { color:  textColor , marginLeft: -12, fontWeight: "bold", fontSize: 16 }]}
                                 icon={() => (
                                     <MaterialCommunityIcons
                                         name="briefcase-check-outline"
@@ -315,7 +315,7 @@ export default function DrawerContent({ navigation, state }) {
                                 inactiveTintColor="#000"
                                 focused={currentPage == 'login'}
                                 onPress={onLogout}
-                                labelStyle={[textStyle.p, { color: { textColor }, marginLeft: -12, fontWeight: "bold", fontSize: 16 }]}
+                                labelStyle={[textStyle.p, { color:  textColor , marginLeft: -12, fontWeight: "bold", fontSize: 16 }]}
                                 icon={() => (
                                     <MaterialIcons
                                         name="logout"
@@ -458,7 +458,7 @@ export default function DrawerContent({ navigation, state }) {
                                 inactiveTintColor="#000"
                                 focused={currentPage == 'login'}
                                 onPress={onLogout}
-                                labelStyle={[textStyle.p, { color: { textColor }, marginLeft: -12, fontWeight: "bold", fontSize: 16 }]}
+                                labelStyle={[textStyle.p, { color: textColor , marginLeft: -12, fontWeight: "bold", fontSize: 16 }]}
                                 icon={() => (
                                     <MaterialIcons
                                         name="logout"
@@ -600,7 +600,7 @@ export default function DrawerContent({ navigation, state }) {
                                 inactiveTintColor="#000"
                                 focused={currentPage == 'login'}
                                 onPress={onLogout}
-                                labelStyle={[textStyle.p, { color: { textColor }, marginLeft: -12, fontWeight: "bold", fontSize: 16 }]}
+                                labelStyle={[textStyle.p, { color:  textColor , marginLeft: -12, fontWeight: "bold", fontSize: 16 }]}
                                 icon={() => (
                                     <MaterialIcons
                                         name="logout"
