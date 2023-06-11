@@ -72,7 +72,6 @@ function SignUp(props) {
     const [addNewUser, { isLoading }] = useAddNewUserMutation()
     const handleSignUp = handleSubmit(async data => {
 
-        console.log("data?.countryId===>", data?.countryId)
 
         let response = await addNewUser({
             ...data,

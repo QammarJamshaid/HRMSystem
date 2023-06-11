@@ -72,6 +72,8 @@ const AuthStack = createStackNavigator()
 const BottomTab = createMaterialBottomTabNavigator()
 const Drawer = createDrawerNavigator()
 
+
+
 function getWidth() {
 
 

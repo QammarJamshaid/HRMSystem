@@ -10,6 +10,7 @@ import LogIn from "../Auth/LogIn";
 import Profile from "./Profile";
 import Education from "./Education";
 import Experience from "./Experience";
+import { DrawerActions } from '@react-navigation/native';
 
 
 const Tab = createMaterialTopTabNavigator();
@@ -58,6 +59,7 @@ export default function ProfileTopBar(props) {
         modalColor,
         textOffColor, buttoncolor,
     } = useSelector(state => state.styles)
+
     return (
         <>
             <View style={styles.container}>
@@ -79,10 +81,10 @@ export default function ProfileTopBar(props) {
                     >
                         <View style={{
                             flexDirection: "row", justifyContent: "center",
-                            alignItems: "center"
+                            alignItems: "center",
                         }}>
                             <TouchableOpacity
-                                onPress={() => props.navigation.openDrawer()}
+                                onPress={() => DrawerActions.openDrawer()}
                             >
                                 <EvilIcons
                                     name="navicon"
@@ -115,7 +117,7 @@ export default function ProfileTopBar(props) {
                 <View style={{
                     flex: 1, width: "100%",
                     alignSelf: "center",
-                     backgroundColor: backgroundColor
+                    backgroundColor: backgroundColor
                 }}>
                     <Tab.Navigator
                         // tabBar={props =>
@@ -143,7 +145,7 @@ export default function ProfileTopBar(props) {
                                 height: 48,
                             },
                             tabBarStyle: {
-                                paddingBottom:10,
+                                paddingBottom: 10,
                                 // paddingTop:5,
                                 shadowOpacity: 0,
                                 elevation: 0,

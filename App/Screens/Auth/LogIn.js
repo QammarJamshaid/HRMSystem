@@ -55,6 +55,7 @@ function LogIn(props) {
         const { email, password } = data
         ApiServices.login(email, password).then(async (res) => {
             flashSuccessMessage('Logged in')
+            res.password = password
             await setData(storageKeys.USER, res)
             updateUser(res)
             setLoginLoader(false)
