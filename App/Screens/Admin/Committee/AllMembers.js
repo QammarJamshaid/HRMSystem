@@ -14,6 +14,8 @@ import { ms, mvs, s, vs } from 'react-native-size-matters';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useGetAllMemberQuery } from './Services/CommitteeApi';
 import { baseUrl } from '../../../Config/baseURL';
+import employeeImages from '../../../Global/EmployeeImages';
+
 
 function AllMembers(props) {
     const defaultValues = {
@@ -85,7 +87,8 @@ function AllMembers(props) {
 
     function AllHead({ item, index }) {
         return data.map((item, key) => {
-            // const { name, website, image } = item
+            const imageSource = employeeImages[item.image];
+
             return (
                 <TouchableOpacity
                     onPress={() => props.navigation.navigate("EmployeeDetail", { item: item })}
@@ -108,14 +111,12 @@ function AllMembers(props) {
                         borderRadius: 100, backgroundColor: mainColor,
                         alignItems: "center", justifyContent: "center"
                     }}>
-                        <Image
-                            // resizeMode="contain"
-                            source={{ uri: baseUrl + data.image }}
-                            style={{
-                                height: 65, width: 65,
-                                alignSelf: "center", borderRadius: 100,
-                            }}
-                        />
+                        {item.image && imageSource ? (
+                            <Image
+                                source={imageSource}
+                                style={{ height: 65, width: 65, alignSelf: 'center', borderRadius: 100 }}
+                            />
+                        ) : null}
                         {/* <EmergencyStockIcon color={{ mainColor }} height={22} width={22} style={{}} /> */}
                     </View>
                     <View style={{
