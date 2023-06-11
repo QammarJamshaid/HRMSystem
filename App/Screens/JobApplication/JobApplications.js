@@ -40,6 +40,7 @@ function JobApplications(props) {
 
     const getJobApplication = () => {
         ApiServices.getJobApplication().then((res) => {
+            console.log('All job application =>', res)
             const filteredDataRes = res.filter(item => item.Uid === user?.Uid);
             const filteredData = filteredDataRes.map(item => {
                 if(item.status === "Pending") {
