@@ -24,7 +24,7 @@ function GuardAttendanceReport(props) {
         textColor,
         mainColor,
         textOffColor,
-        textLightColor,
+        textLighterColor,
         backgroundColor, buttoncolor,
         backgroundDarkerColor, borderColor
     } = useSelector(state => state.styles)

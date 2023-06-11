@@ -28,7 +28,7 @@ export default function AdminProfile(props) {
         mainColor,
         backgroundDarkerColor,
         backgroundColor,
-        textLightColor, greenColor,
+        textLighterColor, greenColor,
         textBluecolor, buttoncolor
     } = useSelector(state => state.styles)
     const { control, handleSubmit, reset, formState: { errors } } = useForm({
@@ -39,7 +39,7 @@ export default function AdminProfile(props) {
     //     data = [],
     //     isFetching,
     // } = useGetAdminProfileDataQuery();
-    console.log("AdminProfileData:::::::::::",user)
+    console.log("AdminProfileData:::::::::::", user)
     return (
         <View
             style={{
@@ -152,7 +152,7 @@ export default function AdminProfile(props) {
                                     {"MANAGE PROFILE"}
                                 </Text>
                                 <TouchableOpacity
-                                    onPress={() => props.navigation.navigate('AdminEditProfile',{user:user})}
+                                    onPress={() => props.navigation.navigate('AdminEditProfile', { user: user })}
                                     style={{
                                         height: 35, width: 35, borderRadius: 100, justifyContent: "center",
                                         alignItems: "center", backgroundColor: "lightgray"
@@ -252,7 +252,7 @@ export default function AdminProfile(props) {
                             </View>
                             <View style={{ flexDirection: "row", marginTop: 20, }}>
                                 <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, opacity: 0.4, width: 100 }}>
-                                CNIC:
+                                    CNIC:
                                 </Text>
                                 <View style={{ justifyContent: "center" }}>
                                     <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, opacity: 0.6, width: 30 }}>

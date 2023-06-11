@@ -36,7 +36,7 @@ function Dashboard(props) {
         backgroundColor,
         textColor,
         modalColor,
-        textLightColor, buttoncolor,
+        textLighterColor, buttoncolor,
         orangeColor,
         greenColor,
         lightbluecolor,
@@ -357,7 +357,7 @@ function Dashboard(props) {
 
 
 
-            <View style={{ backgroundColor:backgroundColor, height: 15 }}>
+            <View style={{ backgroundColor: backgroundColor, height: 15 }}>
 
             </View>
 

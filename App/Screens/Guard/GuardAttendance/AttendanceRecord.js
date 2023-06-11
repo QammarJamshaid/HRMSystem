@@ -41,11 +41,11 @@ function AttendanceRecord(props) {
         textOffColor,
         backgroundColor,
         textColor,
-        textLightColor, buttoncolor,
+        textLighterColor, buttoncolor,
         borderColor,
         greenColor,
     } = useSelector(state => state.styles)
- 
+
     useEffect(() => {
     }, [])
     const {
@@ -60,7 +60,7 @@ function AttendanceRecord(props) {
             // const { name, website, image } = item
             return (
                 <TouchableOpacity
-                    onPress={() => props.navigation.navigate("GuardAttendanceReport", { item:item })}
+                    onPress={() => props.navigation.navigate("GuardAttendanceReport", { item: item })}
                     style={{
                         height: s(90), width: s(145),
                         marginLeft: s(15),
@@ -146,7 +146,7 @@ function AttendanceRecord(props) {
                                 color: textColor
                             }}
                         >
-                            Employee's Attendence 
+                            Employee's Attendence
                         </Text>
                         <View style={{
                             flexDirection: "row", justifyContent: "center",

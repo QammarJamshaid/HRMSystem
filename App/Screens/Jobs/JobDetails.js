@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import {
-    Text, View, TextInput,
+    Text, View,
     TouchableOpacity, FlatList
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import BackIcon from '../../Assets/Svgs/BackIcon.svg';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { ScrollView } from 'react-native-gesture-handler';
-import { Divider } from 'react-native-paper';
-import { SearchBar } from 'react-native-elements';
 import { ModalLoader } from '../../Components';
 import { ApiServices, useGlobalContext } from '../../Services2';
 
@@ -31,7 +29,7 @@ function JobDetails(props) {
         mainColor,
         textOffColor,
         backgroundLighterColor,
-        textLightColor,
+        textLighterColor,
         backgroundColor, buttoncolor,
         backgroundDarkerColor, borderColor
     } = useSelector(state => state.styles)
@@ -44,32 +42,34 @@ function JobDetails(props) {
 
     function JobdetailFunc({ item, index }) {
         return (
-            <View style={{
-                // width:"100%",
-                alignSelf: "center",
-                backgroundColor: backgroundDarkerColor,
-                marginTop: 20,
-                // marginBottom: 10,
-                flexDirection: "row",
-                paddingHorizontal: 20,
-            }}>
-                <Text style={{
-                    color: textLightColor,
-                    fontSize: 12,
-                    width: "40%",
-                    fontWeight: "bold"
+            item?.field !== 'Jid' ?
+                <View style={{
+                    // width:"100%",
+                    alignSelf: "center",
+                    backgroundColor: backgroundDarkerColor,
+                    marginTop: 20,
+                    // marginBottom: 10,
+                    flexDirection: "row",
+                    paddingHorizontal: 20,
                 }}>
-                    {item.field}
-                </Text>
-                <Text style={{
-                    color: borderColor,
-                    fontSize: 12,
-                    width: "60%",
-                    fontWeight: "500"
-                }}>
-                    {item.value}
-                </Text>
-            </View>
+                    <Text style={{
+                        color: textColor,
+                        fontSize: 12,
+                        width: "40%",
+                        fontWeight: "bold"
+                    }}>
+                        {item?.field}
+                    </Text>
+                    <Text style={{
+                        color: borderColor,
+                        fontSize: 12,
+                        width: "60%",
+                        fontWeight: "500"
+                    }}>
+                        {item?.value}
+                    </Text>
+                </View>
+                : null
         )
 
     }
@@ -89,20 +89,13 @@ function JobDetails(props) {
     }
 
     const onApplyPress = () => {
-        setLoader({
-            visible: true,
-            message: 'Applying...'
-        })
         const data = {
             Uid: user?.Uid,
             Jid: props?.route?.params?.jobId,
             name: jobDetail?.Title,
             shortlist: ''
         }
-        ApiServices.applyJob(data).then(() => {
-            hideLoader()
-        })
-            .catch(hideLoader)
+        props.navigation.navigate('ApplyJob', { data })
     }
 
     useEffect(() => {
@@ -159,7 +152,7 @@ function JobDetails(props) {
                     </View>
                 </View>
             </View>
-           
+
             <ScrollView
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{

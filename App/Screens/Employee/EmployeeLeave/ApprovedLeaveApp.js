@@ -33,7 +33,7 @@ function ApprovedLeaveApp(props) {
         backgroundColor,
         textColor,
         textOffColor,
-        textLightColor, buttoncolor,
+        textLighterColor, buttoncolor,
         backgroundDarkerColor,
         greenColor,
         lightbluecolor,

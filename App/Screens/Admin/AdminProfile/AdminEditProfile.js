@@ -31,7 +31,7 @@ export default function AdminEditProfile(props) {
         mainColor,
         backgroundColor,
         mainLighterColor,
-        textLightColor, greenColor,
+        textLighterColor, greenColor,
         textBluecolor, buttoncolor,
         textDarkColor
     } = useSelector(state => state.styles)
@@ -197,160 +197,160 @@ export default function AdminEditProfile(props) {
                             marginTop: 10, justifyContent: "center", borderRadius: 10
 
                         }}>
-                            <View style={{ paddingHorizontal: 20, marginBottom: 20, justifyContent: "center", marginTop: 10 }}>
-                                <View style={{ flexDirection: "row", marginTop: 20, alignItems: "center", }}>
-                                    <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, width: "35%" }}>
-                                        First Name:
-                                    </Text>
-                                    <View style={{ alignSelf: "center", width: "65%", }}>
-                                        <TextInput
-                                            onChangeText={onChangeFirstName}
-                                            value={firstName}
-                                            placeholder="First Name"
-                                            placeholderTextColor={textDarkColor}
-                                            style={{
-                                                backgroundColor: "#fff",
-                                                zIndex: 10,
-                                                height: 35,
-                                                borderRadius: 5,
-                                                paddingLeft: 13,
-                                                color: textColor,
-                                                fontSize: 13,
-                                                width: "100%",
-                                                borderWidth: 0.5,
-                                                borderColor: textDarkColor
-                                            }}
-                                        />
-                                    </View>
-                                </View>
-                                <View style={{ flexDirection: "row", marginTop: 20, alignItems: "center" }}>
-                                    <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, width: "35%" }}>
-                                        Last Name :
-                                    </Text>
-                                    <View style={{ alignSelf: "center", width: "65%", }}>
-                                        <TextInput
-                                            onChangeText={onChangeLastName}
-                                            value={lastName}
-                                            placeholder="Last Name"
-                                            placeholderTextColor={textDarkColor}
-                                            style={{
-                                                backgroundColor: "#fff",
-                                                zIndex: 10,
-                                                height: 35,
-                                                borderRadius: 5,
-                                                paddingLeft: 13,
-                                                color: textColor,
-                                                fontSize: 13,
-                                                width: "100%",
-                                                borderWidth: 0.5,
-                                                borderColor: textDarkColor
-                                            }}
-                                        />
-                                    </View>
-                                </View>
-                                <View style={{ flexDirection: "row", marginTop: 20, alignItems: "center" }}>
-                                    <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, width: "35%" }}>
-                                        Cnic :
-                                    </Text>
-                                    <View style={{ alignSelf: "center", width: "65%", }}>
-                                        <TextInput
-                                            onChangeText={onChangeCnic}
-                                            value={cnic}
-                                            placeholder="Cnic"
-                                            placeholderTextColor={textDarkColor}
-                                            style={{
-                                                backgroundColor: "#fff",
-                                                zIndex: 10,
-                                                height: 35,
-                                                borderRadius: 5,
-                                                paddingLeft: 13,
-                                                color: textColor,
-                                                fontSize: 13,
-                                                width: "100%",
-                                                borderWidth: 0.5,
-                                                borderColor: textDarkColor
-                                            }}
-                                        />
-                                    </View>
-                                </View>
-                                <View style={{ flexDirection: "row", marginTop: 20, alignItems: "center" }}>
-                                    <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, width: "35%" }}>
-                                        Phone Number :
-                                    </Text>
-                                    <View style={{ alignSelf: "center", width: "65%", }}>
-                                        <TextInput
-                                            onChangeText={onChangePhoneNumber}
-                                            value={phoneNumber}
-                                            placeholder="Phone number"
-                                            placeholderTextColor={textDarkColor}
-                                            style={{
-                                                backgroundColor: "#fff",
-                                                zIndex: 10,
-                                                height: 35,
-                                                borderRadius: 5,
-                                                paddingLeft: 13,
-                                                color: textColor,
-                                                fontSize: 13,
-                                                width: "100%",
-                                                borderWidth: 0.5,
-                                                borderColor: textDarkColor
-                                            }}
-                                        />
-                                    </View>
-                                </View>
-
-                                <View style={{ flexDirection: "row", marginTop: 20, alignItems: "center" }}>
-                                    <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, width: "35%" }}>
-                                        Dob :
-                                    </Text>
-                                    <View style={{ alignSelf: "center", width: "65%", }}>
-                                        <TouchableOpacity
-                                            style={{
-                                                backgroundColor: "#fff",
-                                                zIndex: 10,
-                                                height: 35,
-                                                borderRadius: 5,
-                                                paddingLeft: 13,
-                                                width: "100%",
-                                                borderWidth: 0.5,
-                                                borderColor: textDarkColor,
-                                                justifyContent: 'center'
-                                            }}
-                                            // onPress={onDatePickerVisible}
-                                        >
-                                            <Text style={{ color: !dob ? textDarkColor : textColor, fontSize: 13 }}>
-                                                {!dob ? 'Date of birth' : dob}
-                                            </Text>
-                                        </TouchableOpacity>
-                                    </View>
-                                </View>
-
-                                <View style={{ flexDirection: "row", marginTop: 20, alignItems: "center" }}>
-                                    <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, width: "35%" }}>
-                                        Address :
-                                    </Text>
-                                    <View style={{ alignSelf: "center", width: "65%", }}>
-                                        <TextInput
-                                            onChangeText={onChangeAddress}
-                                            value={address}
-                                            placeholder="Address"
-                                            placeholderTextColor={textDarkColor}
-                                            style={{
-                                                backgroundColor: "#fff",
-                                                zIndex: 10,
-                                                height: 35,
-                                                borderRadius: 5,
-                                                paddingLeft: 13,
-                                                color: textColor,
-                                                fontSize: 13,
-                                                width: "100%",
-                                                borderWidth: 0.5,
-                                                borderColor: textDarkColor
-                                            }}
-                                        />
-                                    </View>
+                        <View style={{ paddingHorizontal: 20, marginBottom: 20, justifyContent: "center", marginTop: 10 }}>
+                            <View style={{ flexDirection: "row", marginTop: 20, alignItems: "center", }}>
+                                <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, width: "35%" }}>
+                                    First Name:
+                                </Text>
+                                <View style={{ alignSelf: "center", width: "65%", }}>
+                                    <TextInput
+                                        onChangeText={onChangeFirstName}
+                                        value={firstName}
+                                        placeholder="First Name"
+                                        placeholderTextColor={textDarkColor}
+                                        style={{
+                                            backgroundColor: "#fff",
+                                            zIndex: 10,
+                                            height: 35,
+                                            borderRadius: 5,
+                                            paddingLeft: 13,
+                                            color: textColor,
+                                            fontSize: 13,
+                                            width: "100%",
+                                            borderWidth: 0.5,
+                                            borderColor: textDarkColor
+                                        }}
+                                    />
                                 </View>
                             </View>
+                            <View style={{ flexDirection: "row", marginTop: 20, alignItems: "center" }}>
+                                <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, width: "35%" }}>
+                                    Last Name :
+                                </Text>
+                                <View style={{ alignSelf: "center", width: "65%", }}>
+                                    <TextInput
+                                        onChangeText={onChangeLastName}
+                                        value={lastName}
+                                        placeholder="Last Name"
+                                        placeholderTextColor={textDarkColor}
+                                        style={{
+                                            backgroundColor: "#fff",
+                                            zIndex: 10,
+                                            height: 35,
+                                            borderRadius: 5,
+                                            paddingLeft: 13,
+                                            color: textColor,
+                                            fontSize: 13,
+                                            width: "100%",
+                                            borderWidth: 0.5,
+                                            borderColor: textDarkColor
+                                        }}
+                                    />
+                                </View>
+                            </View>
+                            <View style={{ flexDirection: "row", marginTop: 20, alignItems: "center" }}>
+                                <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, width: "35%" }}>
+                                    Cnic :
+                                </Text>
+                                <View style={{ alignSelf: "center", width: "65%", }}>
+                                    <TextInput
+                                        onChangeText={onChangeCnic}
+                                        value={cnic}
+                                        placeholder="Cnic"
+                                        placeholderTextColor={textDarkColor}
+                                        style={{
+                                            backgroundColor: "#fff",
+                                            zIndex: 10,
+                                            height: 35,
+                                            borderRadius: 5,
+                                            paddingLeft: 13,
+                                            color: textColor,
+                                            fontSize: 13,
+                                            width: "100%",
+                                            borderWidth: 0.5,
+                                            borderColor: textDarkColor
+                                        }}
+                                    />
+                                </View>
+                            </View>
+                            <View style={{ flexDirection: "row", marginTop: 20, alignItems: "center" }}>
+                                <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, width: "35%" }}>
+                                    Phone Number :
+                                </Text>
+                                <View style={{ alignSelf: "center", width: "65%", }}>
+                                    <TextInput
+                                        onChangeText={onChangePhoneNumber}
+                                        value={phoneNumber}
+                                        placeholder="Phone number"
+                                        placeholderTextColor={textDarkColor}
+                                        style={{
+                                            backgroundColor: "#fff",
+                                            zIndex: 10,
+                                            height: 35,
+                                            borderRadius: 5,
+                                            paddingLeft: 13,
+                                            color: textColor,
+                                            fontSize: 13,
+                                            width: "100%",
+                                            borderWidth: 0.5,
+                                            borderColor: textDarkColor
+                                        }}
+                                    />
+                                </View>
+                            </View>
+
+                            <View style={{ flexDirection: "row", marginTop: 20, alignItems: "center" }}>
+                                <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, width: "35%" }}>
+                                    Dob :
+                                </Text>
+                                <View style={{ alignSelf: "center", width: "65%", }}>
+                                    <TouchableOpacity
+                                        style={{
+                                            backgroundColor: "#fff",
+                                            zIndex: 10,
+                                            height: 35,
+                                            borderRadius: 5,
+                                            paddingLeft: 13,
+                                            width: "100%",
+                                            borderWidth: 0.5,
+                                            borderColor: textDarkColor,
+                                            justifyContent: 'center'
+                                        }}
+                                    // onPress={onDatePickerVisible}
+                                    >
+                                        <Text style={{ color: !dob ? textDarkColor : textColor, fontSize: 13 }}>
+                                            {!dob ? 'Date of birth' : dob}
+                                        </Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+
+                            <View style={{ flexDirection: "row", marginTop: 20, alignItems: "center" }}>
+                                <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, width: "35%" }}>
+                                    Address :
+                                </Text>
+                                <View style={{ alignSelf: "center", width: "65%", }}>
+                                    <TextInput
+                                        onChangeText={onChangeAddress}
+                                        value={address}
+                                        placeholder="Address"
+                                        placeholderTextColor={textDarkColor}
+                                        style={{
+                                            backgroundColor: "#fff",
+                                            zIndex: 10,
+                                            height: 35,
+                                            borderRadius: 5,
+                                            paddingLeft: 13,
+                                            color: textColor,
+                                            fontSize: 13,
+                                            width: "100%",
+                                            borderWidth: 0.5,
+                                            borderColor: textDarkColor
+                                        }}
+                                    />
+                                </View>
+                            </View>
+                        </View>
 
                     </TouchableOpacity>
                 </View>

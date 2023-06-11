@@ -24,7 +24,7 @@ function CheckInAttendance(props) {
         textColor,
         mainColor,
         textOffColor,
-        textLightColor,
+        textLighterColor,
         backgroundColor, buttoncolor,
         backgroundDarkerColor, borderColor
     } = useSelector(state => state.styles)
@@ -69,7 +69,7 @@ function CheckInAttendance(props) {
     const [datefrom, setdatefrom] = useState(new Date("2022-03-25"))
     const showTimepicker = () => {
         showMode('time');
-      };
+    };
 
     function JobdetailFunc() {
         return (
@@ -144,7 +144,7 @@ function CheckInAttendance(props) {
                             width: "100%", alignSelf: "center",
                             marginTop: 20
                         }}>
-                            <View style={{ marginTop: 30,  }}>
+                            <View style={{ marginTop: 30, }}>
                                 <Text style={{
                                     fontWeight: "bold",
                                     color: textColor, fontSize: 14
@@ -171,7 +171,7 @@ function CheckInAttendance(props) {
                                                 paddingHorizontal: 0, borderWidth: 0.5,
                                                 borderRadius: 5, borderColor: borderColor,
                                                 alignItems: "center",
-                                                backgroundColor:"lightgray"
+                                                backgroundColor: "lightgray"
                                             }}>
 
                                             {(showDate || Platform.OS == "ios") && (
@@ -182,8 +182,8 @@ function CheckInAttendance(props) {
                                                     is24Hour={true}
                                                     // style={{ backgroundColor: "transparent" }}
                                                     onChange={(event, selectedDate) => setdate(selectedDate)}
-                                                    accentColor={textLightColor}
-                                                    textColor={textLightColor}
+                                                    accentColor={textLighterColor}
+                                                    textColor={textLighterColor}
                                                 />
                                             )}
                                             <View style={{
@@ -199,7 +199,7 @@ function CheckInAttendance(props) {
                                 {errors.purchaseDate && <Text style={{ color: 'red', marginLeft: 10, marginBottom: 8 }}>Purchase Date is required</Text>}
 
                             </View>
-                            <View style={{ marginTop: 20,  }}>
+                            <View style={{ marginTop: 20, }}>
                                 <Text style={{
                                     fontWeight: "bold",
                                     color: textColor, fontSize: 14
@@ -225,7 +225,7 @@ function CheckInAttendance(props) {
                                                 alignSelf: "center", flexDirection: "row",
                                                 paddingHorizontal: 0, borderWidth: 0.5,
                                                 borderRadius: 5, borderColor: borderColor,
-                                                alignItems: "center",backgroundColor:"lightgray"
+                                                alignItems: "center", backgroundColor: "lightgray"
                                             }}>
                                             {(showDatefrom || Platform.OS == "ios") && (
                                                 <DateTimePicker
@@ -235,8 +235,8 @@ function CheckInAttendance(props) {
                                                     is24Hour={true}
                                                     // style={{ backgroundColor: "transparent" }}
                                                     onChange={(event, selectedDate) => setdatefrom(selectedDate)}
-                                                    accentColor={textLightColor}
-                                                    textColor={textLightColor}
+                                                    accentColor={textLighterColor}
+                                                    textColor={textLighterColor}
                                                 />
                                             )}
                                             <View style={{
@@ -259,7 +259,7 @@ function CheckInAttendance(props) {
                                 marginTop: 30
                             }}>
                                 <TouchableOpacity
-                                    onPress={() =>  setIsStopCheckInOut(!isStopCheckInOut)}
+                                    onPress={() => setIsStopCheckInOut(!isStopCheckInOut)}
                                     style={{
                                         backgroundColor: mainColor,
                                         height: 35,
@@ -278,7 +278,7 @@ function CheckInAttendance(props) {
                                             fontWeight: 'bold',
                                             alignSelf: "center",
                                         }}>
-                                             {!isStopCheckInOut ? 'CHECK IN' : 'CHECK OUT'}
+                                        {!isStopCheckInOut ? 'CHECK IN' : 'CHECK OUT'}
                                     </Text>
                                 </TouchableOpacity>
                             </View>

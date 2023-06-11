@@ -42,7 +42,7 @@ function EmployeesList(props) {
         textOffColor,
         backgroundColor,
         textColor,
-        textLightColor, buttoncolor,
+        textLighterColor, buttoncolor,
         borderColor,
         greenColor,
     } = useSelector(state => state.styles)
@@ -61,7 +61,7 @@ function EmployeesList(props) {
             // const { name, website, image } = item
             return (
                 <TouchableOpacity
-                    onPress={() => props.navigation.navigate("CheckInAttendance", { item:item })}
+                    onPress={() => props.navigation.navigate("CheckInAttendance", { item: item })}
                     style={{
                         height: s(90), width: s(145),
                         marginLeft: s(15),
@@ -160,45 +160,45 @@ function EmployeesList(props) {
                     </View>
                 </View>
                 <View
-                style={{
-                    borderWidth: 0.5,
-                    height: 40,
-                    width: "90%",
-                    borderColor: "lightgray",
-                    // marginLeft: 15,
-                    shadowColor: "#000",
-                    shadowOffset: { width: 1, height: 1 },
-                    shadowOpacity: 0.1,
-                    shadowRadius: 0.2,
-                    elevation: 2, marginTop: 10,
-                    backgroundColor: "#FFFFFF",
-                    borderRadius: 8,
-                    alignSelf: "center",
-                }}
-            >
-                <SearchBar
-                    placeholder="Search....."
-                    containerStyle={{
-                        backgroundColor: "transparent",
-                        borderBottomColor: 'transparent',
-                        borderTopColor: 'transparent',
-                        paddingBottom: 10, paddingLeft: 10,
-                        height: 0, width: 0, marginTop: 10,
+                    style={{
+                        borderWidth: 0.5,
+                        height: 40,
+                        width: "90%",
+                        borderColor: "lightgray",
+                        // marginLeft: 15,
+                        shadowColor: "#000",
+                        shadowOffset: { width: 1, height: 1 },
+                        shadowOpacity: 0.1,
+                        shadowRadius: 0.2,
+                        elevation: 2, marginTop: 10,
+                        backgroundColor: "#FFFFFF",
+                        borderRadius: 8,
+                        alignSelf: "center",
                     }}
-                    inputContainerStyle={{
-                        backgroundColor: "transparent", right: 10,
-                        height: 35, width: 320, bottom: 15,
-                    }}
-                    inputStyle={{
-                        color: textColor,
-                        fontSize: 15,
-                    }}
-                    round
-                    searchIcon={{ size: 24 }}
-                    onChangeText={(text) => setSearch(text)}
-                    value={search}
-                />
-            </View>
+                >
+                    <SearchBar
+                        placeholder="Search....."
+                        containerStyle={{
+                            backgroundColor: "transparent",
+                            borderBottomColor: 'transparent',
+                            borderTopColor: 'transparent',
+                            paddingBottom: 10, paddingLeft: 10,
+                            height: 0, width: 0, marginTop: 10,
+                        }}
+                        inputContainerStyle={{
+                            backgroundColor: "transparent", right: 10,
+                            height: 35, width: 320, bottom: 15,
+                        }}
+                        inputStyle={{
+                            color: textColor,
+                            fontSize: 15,
+                        }}
+                        round
+                        searchIcon={{ size: 24 }}
+                        onChangeText={(text) => setSearch(text)}
+                        value={search}
+                    />
+                </View>
                 <ScrollView
                     contentContainerStyle={{
                         paddingBottom: 50,
