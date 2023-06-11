@@ -10,10 +10,11 @@ import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import { useDispatch, useSelector } from 'react-redux';
 import DropDownPicker from 'react-native-dropdown-picker';
 import Usercircle from '../../../Assets/Svgs/Usercircle.svg';
+import {useGetRejectedLeaveAppQuery } from "../Services/EmployeeApi";
 
 
 
-function EmployeeLeaveApp(props) {
+function RejectedLeaveApp(props) {
 
     const defaultValues = {
         Quantity: "",
@@ -40,12 +41,16 @@ function EmployeeLeaveApp(props) {
         borderColor,
         blackcolor
     } = useSelector(state => state.styles)
-
+    const {
+        data = [],
+        isFetching,
+    } = useGetRejectedLeaveAppQuery();
+    console.log("Rejected Data:::::",data)
     const data1 = [
         {
             jobTitle: 'React',
             applicantName: "Haleema",
-            leaveType:"Sick",
+            leaveType: "Sick",
             textcolor: mainColor,
             color: "#5FAF67",
             status: "Pending",
@@ -53,7 +58,7 @@ function EmployeeLeaveApp(props) {
         {
             jobTitle: 'Ios',
             applicantName: "Qammar",
-            leaveType:"Unpaid",
+            leaveType: "Unpaid",
             textcolor: greenColor,
             state: "California",
             color: "#5FAF67",
@@ -62,7 +67,7 @@ function EmployeeLeaveApp(props) {
         {
             jobTitle: 'Web',
             applicantName: "Saad",
-            leaveType:"Paid",
+            leaveType: "Paid",
             textcolor: greenColor,
             state: "California",
             color: "#5FAF67",
@@ -71,17 +76,9 @@ function EmployeeLeaveApp(props) {
 
 
     ];
-    //     const {
-    //     data = [],
-    //     isFetching,
-    // } = useGetLeaveAppQuery();
-    // console.log("LeaveApplicant:::::::::::::",data)
     function AllAssets() {
-        // return data
-        // .filter(obj => obj.jobName == isJobPickerOpen)
-        // .map((item, key) => {
 
-        return data1.map((item, key) => {
+        return data.map((item, key) => {
 
             return (
                 <>
@@ -115,7 +112,7 @@ function EmployeeLeaveApp(props) {
                                 width: "60%",
                                 fontWeight: "500",
                             }}>
-                                {":   " + item.Fname + item.Lname}
+                                {":   " + item.Fname}
                             </Text>
                         </View>
                         <View style={{
@@ -160,61 +157,9 @@ function EmployeeLeaveApp(props) {
                                 width: "60%",
                                 fontWeight: "500"
                             }}>
-                                {"':  ' + item.leavetype"}
+                                {':  ' + item.leavetype}
                             </Text>
                         </View>
-                        {/* <View style={{
-                            paddingBottom: 20,
-                            paddingHorizontal: 20,
-                            flexDirection: "row",
-                            alignSelf: "flex-end"
-                        }}>
-                            <TouchableOpacity
-                            //    onPress={() => dispatch(changeAddApprovedModal(true))}
-                                style={{
-                                    backgroundColor: mainColor,
-                                    height: 35,
-                                    width: 80,
-                                    alignSelf: "flex-end",
-                                    borderRadius: 8,
-                                    justifyContent: "center",
-                                    marginRight:5
-
-                                }}
-                            >
-                                <Text
-                                    style={{
-                                        fontSize: 12,
-                                        color: "#fff",
-                                        fontWeight: 'bold',
-                                        alignSelf: "center",
-                                    }}>
-                                    Approve
-                                </Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                // onPress={() => dispatch(changeAddRejectedModal(true))}
-                                style={{
-                                    backgroundColor: mainColor,
-                                    height: 35,
-                                    width: 80,
-                                    alignSelf: "flex-end",
-                                    borderRadius: 8,
-                                    justifyContent: "center"
-
-                                }}
-                            >
-                                <Text
-                                    style={{
-                                        fontSize: 12,
-                                        color: "#fff",
-                                        fontWeight: 'bold',
-                                        alignSelf: "center",
-                                    }}>
-                                    Reject
-                                </Text>
-                            </TouchableOpacity>
-                        </View> */}
                     </View>
 
                 </>
@@ -301,4 +246,4 @@ function EmployeeLeaveApp(props) {
     );
 };
 
-export default EmployeeLeaveApp;
+export default RejectedLeaveApp;

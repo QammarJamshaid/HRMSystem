@@ -13,6 +13,7 @@ export const api = createApi({
         "Profile",
         "Attendance",
         "SignUp",
+        "employeeLeave",
     ],
     baseQuery: fetchBaseQuery({
         baseUrl,

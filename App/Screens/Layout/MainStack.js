@@ -60,9 +60,14 @@ import CheckInAttendance from '../Guard/GuardEmployees/CheckInAttendance'
 import AttendanceRecord from '../Guard/GuardAttendance/AttendanceRecord'
 import GuardAttendanceReport from '../Guard/GuardAttendance/GuardAttendanceReport'
 import LeaveTopBar from '../Employee/EmployeeLeave/LeaveTopBar'
-import EmployeeLeaveApp from '../Employee/EmployeeLeave/EmployeeLeaveApp'
+import EmployeeLeaveApp from '../Employee/EmployeeLeave/ApprovedLeaveApp'
 import EmployeeProfile from '../Employee/EmployeeProfile/EmployeeProfile'
 import EmployeeEditProfile from '../Employee/EmployeeProfile/EmployeeEditProfile'
+import EmployeeAttendanceReport from '../Employee/EmployeeAttendance/EmployeeAttendanceReport'
+import EmployeeCommittees from '../Employee/EmployeeCommittee/EmployeeCommittees'
+import ApprovedLeaveApp from '../Employee/EmployeeLeave/ApprovedLeaveApp'
+import PendingLeaveApp from '../Employee/EmployeeLeave/PendingLeaveApp'
+import RejectedLeaveApp from '../Employee/EmployeeLeave/RejectedLeaveApp'
 
 const { height, width } = Dimensions.get('window')
 
@@ -854,8 +859,18 @@ const EmployeeLeaveNav = () => (
         />
         <Stack.Screen
             options={{ headerShown: false }}
-            name="EmployeeLeaveApp"
-            component={EmployeeLeaveApp}
+            name="ApprovedLeaveApp"
+            component={ApprovedLeaveApp}
+        />
+        <Stack.Screen
+            options={{ headerShown: false }}
+            name="PendingLeaveApp"
+            component={PendingLeaveApp}
+        />
+        <Stack.Screen
+            options={{ headerShown: false }}
+            name="RejectedLeaveApp"
+            component={RejectedLeaveApp}
         />
 
     </Stack.Navigator>
@@ -874,6 +889,32 @@ const EmployeeProfileNav = () => (
             options={{ headerShown: false }}
             name="EmployeeEditProfile"
             component={EmployeeEditProfile}
+        />
+
+    </Stack.Navigator>
+)
+const EmployeeAttendenceNav = () => (
+    <Stack.Navigator
+
+        initialRouteName="EmployeeProfile"
+        drawerContent={props => null}>
+        <Stack.Screen
+            options={{ headerShown: false }}
+            name="EmployeeAttendanceReport"
+            component={EmployeeAttendanceReport}
+        />
+
+    </Stack.Navigator>
+)
+const EmployeeCommitteeNav = () => (
+    <Stack.Navigator
+
+        initialRouteName="EmployeeProfile"
+        drawerContent={props => null}>
+        <Stack.Screen
+            options={{ headerShown: false }}
+            name="EmployeeCommittees"
+            component={EmployeeCommittees}
         />
 
     </Stack.Navigator>
@@ -917,8 +958,8 @@ function EmployeeTabNav(props) {
                 }}
             >
                 <BottomTab.Screen
-                    name="Dash"
-                    component={DashboardNav}
+                    name="employeeAttendance"
+                    component={EmployeeAttendenceNav}
                     tabBarOptions={{
                     }}
                     options={{
@@ -969,8 +1010,8 @@ function EmployeeTabNav(props) {
                     })}
                 />
                 <BottomTab.Screen
-                    name="attendence"
-                    component={GuardAttendanceNav}
+                    name="employeeCommittees"
+                    component={EmployeeCommitteeNav}
                     tabBarOptions={{
                     }}
                     options={{
@@ -1055,13 +1096,12 @@ const DrawerNav = () => {
                             component={GuardTabNav}
                         />
                         :
-                        user?.role == "employee" ?
-                            <Drawer.Screen
-                                options={{ headerShown: false }}
-                                name="AdminTabNav"
-                                component={EmployeeTabNav}
-                            />
-                            : null
+                        <Drawer.Screen
+                            options={{ headerShown: false }}
+                            name="AdminTabNav"
+                            component={EmployeeTabNav}
+                        />
+
             }
             <Drawer.Screen
                 options={{ headerShown: false }}

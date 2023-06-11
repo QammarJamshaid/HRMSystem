@@ -82,24 +82,24 @@ function Attendence(props) {
         data = [],
         isFetching,
     } = useGetAllMemberQuery(65);
-    console.log("All EMployees Data::::::::",data)
+    console.log("All EMployees Data::::::::", data)
     function renderItems({ item, index }) {
         return (
-            <TouchableOpacity 
-            onPress={()=>props.navigation.navigate("AttendenceReport")}
-            style={{
-                flex: 1, width: "90%", alignSelf: "center",
-                backgroundColor: backgroundColor,
-                borderColor: 'red', borderWidth: 0,
-                shadowColor: "#000",
-                shadowOffset: {
-                    width: 0,
-                    height: 2,
-                }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5,
-                marginTop: 10, borderRadius: 8,
-                paddingHorizontal: 10
-                // padding: 15
-            }}>
+            <TouchableOpacity
+                onPress={() => props.navigation.navigate("AttendenceReport")}
+                style={{
+                    flex: 1, width: "90%", alignSelf: "center",
+                    backgroundColor: backgroundColor,
+                    borderColor: 'red', borderWidth: 0,
+                    shadowColor: "#000",
+                    shadowOffset: {
+                        width: 0,
+                        height: 2,
+                    }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5,
+                    marginTop: 10, borderRadius: 8,
+                    paddingHorizontal: 10
+                    // padding: 15
+                }}>
                 <View style={{
                     flexDirection: "row", justifyContent: "space-between",
                     marginBottom: 15, alignItems: "center", marginTop: 15

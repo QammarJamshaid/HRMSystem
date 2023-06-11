@@ -6,14 +6,19 @@ import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { Divider, SearchBar } from 'react-native-elements';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import Usercircle from '../../../Assets/Svgs/Usercircle.svg';
-import EmployeesList from "../../Guard/GuardEmployees/EmployeesList";
-import EmployeeLeaveApp from "./EmployeeLeaveApp";
+import EmployeeLeaveApp from "./ApprovedLeaveApp";
+import { changeAddApplyLeaveModal } from "../Store/EmployeeSlice";
+import ApplyLeaveModal from "./ApplyLeaveModal";
+import ApprovedLeaveApp from "./ApprovedLeaveApp";
+import PendingLeaveApp from "./PendingLeaveApp";
+import RejectedLeaveApp from "./RejectedLeaveApp";
 
 
 const Tab = createMaterialTopTabNavigator();
 
 export default function LeaveTopBar(props) {
 
+    const dispatch = useDispatch()
     const styles = StyleSheet.create({
         container: {
             flex: 1,
@@ -116,7 +121,7 @@ export default function LeaveTopBar(props) {
                     backgroundColor: backgroundColor
                 }}>
                     <TouchableOpacity
-                        //    onPress={() => dispatch(changeAddApprovedModal(true))}
+                        onPress={() => dispatch(changeAddApplyLeaveModal(true))}
                         style={{
                             backgroundColor: mainColor,
                             height: 35,
@@ -125,8 +130,8 @@ export default function LeaveTopBar(props) {
                             borderRadius: 8,
                             justifyContent: "center",
                             marginRight: 20,
-                            marginBottom:10,
-                            marginTop:10
+                            marginBottom: 10,
+                            marginTop: 10
 
                         }}
                     >
@@ -188,14 +193,14 @@ export default function LeaveTopBar(props) {
                             },
                         }}
                     >
-                        <Tab.Screen name="Approved" component={EmployeeLeaveApp} />
-                        <Tab.Screen name="Pending" component={EmployeeLeaveApp} />
-                        <Tab.Screen name="Rejected" component={EmployeeLeaveApp} />
+                        <Tab.Screen name="Approved" component={ApprovedLeaveApp} />
+                        <Tab.Screen name="Pending" component={PendingLeaveApp} />
+                        <Tab.Screen name="Rejected" component={RejectedLeaveApp} />
                     </Tab.Navigator>
                 </View>
 
             </View>
-
+            <ApplyLeaveModal />
         </>
 
     );
