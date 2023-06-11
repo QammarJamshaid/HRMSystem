@@ -26,7 +26,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import Usercircle from '../../Assets/Svgs/Usercircle.svg';
 import { container, space, textStyle } from '../../Styles/CustomStyles';
 import { ChangeUser } from '../Auth/Store/authSlice';
-import JobPost from '../Admin/JobPost/JobPost';
 import { StorageManager, useGlobalContext } from '../../Services2';
 
 export default function DrawerContent({ navigation, state }) {

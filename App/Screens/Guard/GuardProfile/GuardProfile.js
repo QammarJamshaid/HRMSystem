@@ -1,25 +1,34 @@
-import React, { useEffect, useRef, useState } from "react";
-import { View, Button, Text, StyleSheet, TouchableOpacity, TextInput, Image } from "react-native";
-import { useForm, Controller } from 'react-hook-form';
+import React, { useState } from "react";
+import { View, Text, TouchableOpacity, Image } from "react-native";
+import { useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
-import EvilIcons from 'react-native-vector-icons/EvilIcons';
-import { Divider } from 'react-native-elements';
 import { ScrollView } from "react-native-gesture-handler";
 import CamerIcon from '../../../Assets/Svgs/CamerIcon.svg';
-import EditIcon from '../../../Assets/Svgs/EditIcon.svg';
 import Usercircle from '../../../Assets/Svgs/Usercircle.svg';
-import { getStatusBarHeight } from 'react-native-status-bar-height';
-import { useGlobalContext } from '../../../Services2'
+import EditIcon from '../../../Assets/Svgs/EditIcon.svg';
+import { ApiServices, StorageManager, flashSuccessMessage, useGlobalContext } from '../../../Services2'
+import { wp } from "../../../Global";
+import { launchImageLibrary } from 'react-native-image-picker';
+import AntDesign from 'react-native-vector-icons/AntDesign'
+import EvilIcons from 'react-native-vector-icons/EvilIcons'
+import { ModalLoader } from "../../../Components";
+import { getStatusBarHeight } from "react-native-status-bar-height";
+
 
 export default function GuardProfile(props) {
-
+    const { user, updateUser } = useGlobalContext()
+    const { setData, storageKeys } = StorageManager
+    const [saveChangeLoader, setSaveChangeLoader] = useState({
+        visible: false,
+        message: ''
+    })
 
     const defaultValues = {
         Quantity: "",
         MarketValue: "",
     }
 
-    const { user } = useGlobalContext()
+
     const dispatch = useDispatch()
 
     const {
@@ -34,6 +43,82 @@ export default function GuardProfile(props) {
         mode: 'onChange',
         defaultValues: defaultValues,
     });
+
+    const hideSaveChangeLoader = () => {
+        setSaveChangeLoader({
+            visible: false,
+            message: ''
+        })
+    }
+
+    const onImageEditPress = () => {
+        const options = {
+            mediaType: 'photo'
+        }
+        launchImageLibrary(options, (res) => {
+            if(!res.didCancel) {
+                setSaveChangeLoader({
+                    visible: true,
+                    message: 'Updating Image...'
+                })
+
+                const uri = res?.assets[0]?.uri
+                user.image = uri
+
+                var formdata = new FormData();
+                if(user?.firstName) {
+                    formdata.append("Fname", user?.Fname);
+                }
+                if(user?.Lname) {
+                    formdata.append("Lname", user?.Lname);
+                }
+                if(user?.cnic) {
+                    formdata.append("cnic", user?.cnic);
+                }
+                if(user?.mobile) {
+                    formdata.append("mobile", user?.mobile);
+                }
+                if(user?.address) {
+                    formdata.append("address", user?.address);
+                }
+                if(user?.Uid) {
+                    formdata.append("Uid", user?.Uid);
+                }
+                if(user?.email) {
+                    formdata.append("email", user?.email);
+                }
+                if(user?.dob) {
+                    formdata.append("dob", user?.dob);
+                }
+                if(user?.role) {
+                    formdata.append("role", user?.role);
+                }
+                if(user?.password) {
+                    formdata.append("password", user?.password)
+                }
+                if(uri) {
+                    formdata.append("image", uri);
+                }
+                formdata.append("gender", 'gender');
+
+                ApiServices.updateUser(formdata).then(async () => {
+                    user.Fname = firstName,
+                        user.Lname = lastName,
+                        user.cnic = cnic,
+                        user.mobile = phoneNumber,
+                        user.dob = dob,
+                        user.address = address,
+                        user.image = JSON.stringify(uri)
+                    updateUser(user)
+                    await setData(storageKeys.USER, user)
+                    hideSaveChangeLoader()
+                })
+                    .catch(hideSaveChangeLoader)
+            }
+        })
+    }
+
+
     return (
         <View
             style={{
@@ -41,7 +126,7 @@ export default function GuardProfile(props) {
                 backgroundColor: backgroundColor
             }}
         >
-            <View style={{
+               <View style={{
                 height: getStatusBarHeight() + 50,
                 backgroundColor: backgroundColor,
                 justifyContent: 'flex-end',
@@ -91,6 +176,10 @@ export default function GuardProfile(props) {
 
                 </View>
             </View>
+            <ModalLoader
+                visible={saveChangeLoader.visible}
+                message={saveChangeLoader.message}
+            />
             <ScrollView
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{ width: "100%", paddingBottom: 50 }}>
@@ -99,20 +188,32 @@ export default function GuardProfile(props) {
                     backgroundColor: backgroundColor,
                     justifyContent: "center", alignItems: "center"
                 }}>
-                    <View style={{
+                    <TouchableOpacity style={{
                         height: 100, width: 100,
                         borderRadius: 100, backgroundColor: "gray",
-                    }}>
-                        <Image
-                            source={require('../../../Assets/Images/User01.png')}
-                            style={{
-                                width: 100, height: 100,
-                                alignSelf: "center", borderRadius: 100,
-                            }}
-                        />
-                    </View>
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                    }}
+                        onPress={onImageEditPress}
+                    >
+                        {
+                            user?.image ?
+                                <Image
+                                    source={{ uri: user?.image }}
+                                    style={{
+                                        width: 100, height: 100,
+                                        alignSelf: "center", borderRadius: 100,
+                                    }}
+                                />
+                                :
+                                <AntDesign
+                                    name="user"
+                                    color="#fff" size={wp(15)}
+                                />
+                        }
+                    </TouchableOpacity>
                     <TouchableOpacity
-                        //  onPress={() => props.navigation.navigate('EditProfile')}
+                        onPress={onImageEditPress}
                         style={{
                             height: 35, width: 35, borderRadius: 100,
                             justifyContent: "center", alignItems: "center",
@@ -125,7 +226,7 @@ export default function GuardProfile(props) {
 
                 <View style={{ paddingHorizontal: 20, backgroundColor: backgroundColor, }}>
                     <TouchableOpacity
-                        // onPress={() => props.navigation.navigate('AdminEditProfile')}
+                        // onPress={() => props.navigation.navigate('EditProfile')}
                         style={{
                             flex: 1,
                             backgroundColor: "#fff", borderColor: 'red', borderWidth: 0,
@@ -146,7 +247,7 @@ export default function GuardProfile(props) {
                                     {"MANAGE PROFILE"}
                                 </Text>
                                 <TouchableOpacity
-                                    onPress={() => props.navigation.navigate('GuardEditProfile', { user: user })}
+                                    onPress={() => props.navigation.navigate('GuardEditProfile')}
                                     style={{
                                         height: 35, width: 35, borderRadius: 100, justifyContent: "center",
                                         alignItems: "center", backgroundColor: "lightgray"
@@ -159,13 +260,13 @@ export default function GuardProfile(props) {
                                     First Name:
                                 </Text>
                                 <View style={{ justifyContent: "center", }}>
-                                    <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, opacity: 0.6, width: 30 }}>
+                                    <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, opacity: 0.6, width: 20 }}>
                                         {":"}
                                     </Text>
                                 </View>
                                 <View style={{ justifyContent: "center", }}>
                                     <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, }}>
-                                        {user.Fname}
+                                        {user?.Fname}
                                     </Text>
                                 </View>
                             </View>
@@ -174,13 +275,13 @@ export default function GuardProfile(props) {
                                     Last Name:
                                 </Text>
                                 <View style={{ justifyContent: "center", }}>
-                                    <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, opacity: 0.6, width: 30 }}>
+                                    <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, opacity: 0.6, width: 20 }}>
                                         {":"}
                                     </Text>
                                 </View>
                                 <View style={{ justifyContent: "center", }}>
                                     <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, }}>
-                                        {user.Lname}
+                                        {user?.Lname}
                                     </Text>
                                 </View>
                             </View>
@@ -189,13 +290,13 @@ export default function GuardProfile(props) {
                                     Email:
                                 </Text>
                                 <View style={{ justifyContent: "center" }}>
-                                    <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, opacity: 0.6, width: 30 }}>
+                                    <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, opacity: 0.6, width: 20 }}>
                                         {":"}
                                     </Text>
                                 </View>
                                 <View style={{ justifyContent: "center", }}>
                                     <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, }}>
-                                        {user.email}
+                                        {user?.email}
                                     </Text>
                                 </View>
                             </View>
@@ -204,13 +305,13 @@ export default function GuardProfile(props) {
                                     Phone :
                                 </Text>
                                 <View style={{ justifyContent: "center" }}>
-                                    <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, opacity: 0.6, width: 30 }}>
+                                    <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, opacity: 0.6, width: 20 }}>
                                         {":"}
                                     </Text>
                                 </View>
                                 <View style={{ justifyContent: "center", }}>
                                     <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, }}>
-                                        {user.mobile}
+                                        {user?.mobile}
                                     </Text>
                                 </View>
                             </View>
@@ -219,58 +320,13 @@ export default function GuardProfile(props) {
                                     Address:
                                 </Text>
                                 <View style={{ justifyContent: "center" }}>
-                                    <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, opacity: 0.6, width: 30 }}>
+                                    <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, opacity: 0.6, width: 20 }}>
                                         {":"}
                                     </Text>
                                 </View>
                                 <View style={{ justifyContent: "center", }}>
-                                    <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, }}>
-                                        {user.address}
-                                    </Text>
-                                </View>
-                            </View>
-                            <View style={{ flexDirection: "row", marginTop: 20, }}>
-                                <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, opacity: 0.4, width: 100 }}>
-                                    role:
-                                </Text>
-                                <View style={{ justifyContent: "center" }}>
-                                    <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, opacity: 0.6, width: 30 }}>
-                                        {":"}
-                                    </Text>
-                                </View>
-                                <View style={{ justifyContent: "center", }}>
-                                    <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, }}>
-                                        {user.role}
-                                    </Text>
-                                </View>
-                            </View>
-                            <View style={{ flexDirection: "row", marginTop: 20, }}>
-                                <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, opacity: 0.4, width: 100 }}>
-                                    CNIC:
-                                </Text>
-                                <View style={{ justifyContent: "center" }}>
-                                    <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, opacity: 0.6, width: 30 }}>
-                                        {":"}
-                                    </Text>
-                                </View>
-                                <View style={{ justifyContent: "center", }}>
-                                    <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, }}>
-                                        {user.cnic}
-                                    </Text>
-                                </View>
-                            </View>
-                            <View style={{ flexDirection: "row", marginTop: 20, }}>
-                                <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, opacity: 0.4, width: 100 }}>
-                                    Date Of Birth:
-                                </Text>
-                                <View style={{ justifyContent: "center" }}>
-                                    <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, opacity: 0.6, width: 30 }}>
-                                        {":"}
-                                    </Text>
-                                </View>
-                                <View style={{ justifyContent: "center", }}>
-                                    <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, }}>
-                                        {user.dob}
+                                    <Text style={{ fontSize: 14, fontWeight: '500', color: textColor, width: wp(45) }} numberOfLines={3}>
+                                        {user?.address}
                                     </Text>
                                 </View>
                             </View>

@@ -1,29 +1,24 @@
-import React, { useEffect, useRef, useState } from "react";
-import {
-    View, Button, Text, StyleSheet, TouchableOpacity,
-    TextInput, Image,
-    ActivityIndicator
-} from "react-native";
-import { useForm, Controller } from 'react-hook-form';
+import React, { useState } from "react";
+import { View, Text, TouchableOpacity, TextInput, ActivityIndicator } from "react-native";
+import { useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
 import { ScrollView } from "react-native-gesture-handler";
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {
-    ApiServices, StorageManager, flashSuccessMessage,
-    useGlobalContext
-} from '../../../Services2'
-// import { ActivityIndicator } from "react-native-paper";
+import { ApiServices, StorageManager, flashSuccessMessage, useGlobalContext } from '../../../Services2'
+import { DateTimePicker } from "../../../Components";
+import moment from "moment";
 
 export default function AdminEditProfile(props) {
-
+    const { updateUser, user } = useGlobalContext()
+    const { setData, storageKeys } = StorageManager
 
     const defaultValues = {
         Quantity: "",
         MarketValue: "",
     }
-    const [showDatePicker, setShowDatePicker] = useState(false)
-    const { updateUser, user } = useGlobalContext()
+
+
     const dispatch = useDispatch()
 
     const {
@@ -39,35 +34,42 @@ export default function AdminEditProfile(props) {
         mode: 'onChange',
         defaultValues: defaultValues,
     });
+    const [showDatePicker, setShowDatePicker] = useState(false)
     const [saveChangeLoader, setSaveChangeLoader] = useState(false)
+
     const [firstName, setFirstName] = useState(user?.Fname)
     const [lastName, setLastName] = useState(user?.Lname)
     const [phoneNumber, setPhoneNumber] = useState(user?.mobile)
     const [address, setAddress] = useState(user?.address)
     const [cnic, setCnic] = useState(user?.cnic)
     const [dob, setDob] = useState(user?.dob)
+
     const onChangeFirstName = (text) => setFirstName(text)
     const onChangeLastName = (text) => setLastName(text)
     const onChangePhoneNumber = (text) => setPhoneNumber(text)
     const onChangeCnic = (text) => setCnic(text)
     const onChangeAddress = (text) => setAddress(text)
 
-    const hideSaveChangeLoader = () => setSaveChangeLoader(false)
     const onSavePress = () => {
         setSaveChangeLoader(true)
-        const data = {
-            Fname: firstName,
-            Lname: lastName,
-            cnic: cnic,
-            mobile: phoneNumber,
-            dob: dob,
-            address: address,
-            Uid: user?.Uid,
-            // gender: 'Female',
-            // role: user?.role,
-            // password: '123456'
+        var formdata = new FormData();
+        formdata.append("Fname", firstName);
+        formdata.append("Lname", lastName);
+        formdata.append("cnic", cnic);
+        formdata.append("mobile", phoneNumber);
+        formdata.append("address", address);
+        formdata.append("Fname", firstName);
+        formdata.append("Uid", user?.Uid);
+        formdata.append("email", user?.email);
+        formdata.append("dob", user?.dob);
+        formdata.append("gender", 'gender');
+        formdata.append("role", user?.role);
+        if(user?.image) {
+            formdata.append("image", user?.image);
         }
-        ApiServices.updateUser(data).then(async () => {
+        formdata.append("password", user?.password)
+
+        ApiServices.updateUser(formdata).then(async () => {
             user.Fname = firstName,
                 user.Lname = lastName,
                 user.cnic = cnic,
@@ -78,20 +80,13 @@ export default function AdminEditProfile(props) {
             await setData(storageKeys.USER, user)
             setSaveChangeLoader(false)
             flashSuccessMessage('Updated')
+            setSaveChangeLoader(false)
         })
-            .catch(async () => {
-                user.Fname = firstName,
-                    user.Lname = lastName,
-                    user.cnic = cnic,
-                    user.mobile = phoneNumber,
-                    user.dob = dob,
-                    user.address = address
-                updateUser(user)
-                await setData(storageKeys.USER, user)
+            .catch(() => {
                 setSaveChangeLoader(false)
-                flashSuccessMessage('Updated')
             })
     }
+
     const onDatePickerVisible = () => setShowDatePicker(true)
     const onDatePickerInVisible = () => setShowDatePicker(false)
 
@@ -99,6 +94,9 @@ export default function AdminEditProfile(props) {
         setShowDatePicker(false)
         setDob(moment(date).format('YYYY-MM-DD'))
     }
+
+    const onCancelPress = () => props?.navigation?.goBack()
+
     return (
         <View
             style={{
@@ -131,7 +129,7 @@ export default function AdminEditProfile(props) {
                             justifyContent: "center", alignItems: "center"
                         }}>
                             <TouchableOpacity
-                                onPress={() => props.navigation.navigate('AdminProfile')}
+                                onPress={() => props.navigation.goBack()}
                             >
                                 <Ionicons
                                     name="chevron-back"
@@ -188,7 +186,7 @@ export default function AdminEditProfile(props) {
                         // onPress={() => props.navigation.navigate('Profile')}
                         style={{
                             flex: 1,
-                            backgroundColor: "#FFFFFF", borderColor: 'red', borderWidth: 0,
+                            backgroundColor: "#fff", borderColor: 'red', borderWidth: 0,
                             shadowColor: "#000",
                             shadowOffset: {
                                 width: 0,
@@ -316,7 +314,7 @@ export default function AdminEditProfile(props) {
                                             borderColor: textDarkColor,
                                             justifyContent: 'center'
                                         }}
-                                    // onPress={onDatePickerVisible}
+                                        onPress={onDatePickerVisible}
                                     >
                                         <Text style={{ color: !dob ? textDarkColor : textColor, fontSize: 13 }}>
                                             {!dob ? 'Date of birth' : dob}
@@ -351,7 +349,6 @@ export default function AdminEditProfile(props) {
                                 </View>
                             </View>
                         </View>
-
                     </TouchableOpacity>
                 </View>
 
@@ -364,7 +361,9 @@ export default function AdminEditProfile(props) {
                         justifyContent: "center", borderWidth: 0.5,
                         borderColor: textColor, marginRight: 10,
                         height: 40, width: 100, borderRadius: 5,
-                    }}>
+                    }}
+                        onPress={onCancelPress}
+                    >
                         <Text style={{
                             fontSize: 14, fontWeight: '500',
                             color: textColor, alignSelf: "center"
