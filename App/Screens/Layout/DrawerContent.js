@@ -37,7 +37,7 @@ export default function DrawerContent({ navigation, state }) {
         mainColor,
         textOffColor,
         mainLighterColor,
-        textLightColor,
+        textLighterColor,
         textBluecolor, buttoncolor
     } = useSelector(state => state.styles)
 
@@ -473,7 +473,7 @@ export default function DrawerContent({ navigation, state }) {
                     </View>
                 </View>
             }
-               {user?.role == "employee" &&
+            {user?.role == "employee" &&
                 <View style={{}}>
                     <TouchableOpacity
                         // onPress={() => navigation.navigate("ProfileTopBar")}

@@ -33,7 +33,7 @@ export default function Profile(props) {
         mainColor,
         backgroundDarkerColor,
         backgroundColor,
-        textLightColor, greenColor,
+        textLighterColor, greenColor,
         textBluecolor, buttoncolor
     } = useSelector(state => state.styles)
     const { control, handleSubmit, reset, formState: { errors } } = useForm({

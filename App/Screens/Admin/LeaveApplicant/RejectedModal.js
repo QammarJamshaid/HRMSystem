@@ -71,7 +71,7 @@ export default function RejectedModal({
         mainColor,
         textOffColor,
         mainLighterColor,
-        textLightColor,
+        textLighterColor,
         backgroundColor, buttoncolor,
         borderColor
     } = useSelector(state => state.styles)
@@ -170,10 +170,10 @@ export default function RejectedModal({
                                             backgroundColor: backgroundColor,
                                             zIndex: 10,
                                             // marginTop: 5,
-                                            padding:0,
+                                            padding: 0,
                                             // marginBottom: 5,
                                             // flex: 1,
-                                            height:60,
+                                            height: 60,
                                             borderRadius: 5,
                                             paddingLeft: 13,
                                             color: textColor,

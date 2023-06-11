@@ -26,7 +26,7 @@ export default function EditProfile(props) {
         mainColor,
         backgroundColor,
         mainLighterColor,
-        textLightColor, greenColor,
+        textLighterColor, greenColor,
         textBluecolor, buttoncolor,
         textDarkColor
     } = useSelector(state => state.styles)

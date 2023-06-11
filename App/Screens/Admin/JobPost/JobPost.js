@@ -28,7 +28,7 @@ export default function JobPost(props) {
         mainColor,
         borderColor,
         backgroundDarkerColor,
-        textLightColor,
+        textLighterColor,
         backgroundColor, buttoncolor
     } = useSelector(state => state.styles)
     const { control, handleSubmit, reset, formState: { errors } } = useForm({
@@ -232,16 +232,16 @@ export default function JobPost(props) {
     }
 
     const getAllJobs = () => {
-        if (data && data.length !== 0) {
-           const colors = ["#5A93BA", "#62CBCF", "#FE931A", "#46DB77", "#F25454", "#1C212D", "#5A93BA"];
-                    const coloredItems = data.map((item, index) => ({
-                        ...item,
-                        color: colors[index % colors.length],
-                    }));
-                    setJobList(coloredItems);
-                    setLoader(false)
+        if(data && data.length !== 0) {
+            const colors = ["#5A93BA", "#62CBCF", "#FE931A", "#46DB77", "#F25454", "#1C212D", "#5A93BA"];
+            const coloredItems = data.map((item, index) => ({
+                ...item,
+                color: colors[index % colors.length],
+            }));
+            setJobList(coloredItems);
+            setLoader(false)
         }
-        else{
+        else {
             setLoader(false)
         }
     }
@@ -249,7 +249,7 @@ export default function JobPost(props) {
 
     useEffect(() => {
         getAllJobs()
-    },[data])
+    }, [data])
 
     return (
         <>
@@ -347,18 +347,18 @@ export default function JobPost(props) {
                     </TouchableOpacity>
                     {
                         loader ?
-                        <View style={{justifyContent:"center",alignItems:"center"}}>
-                            <ActivityIndicator color={mainColor} size={40}/>
-                        </View>
-                    :
-                    <FlatList
-                        data={jobList}
-                        ListFooterComponent={() => <View style={{ height: 20 }} />}
-                        renderItem={JobsList}
-                        keyExtractor={(item, index) => index}
-                        showsVerticalScrollIndicator={false}
-                    />
-}
+                            <View style={{ justifyContent: "center", alignItems: "center" }}>
+                                <ActivityIndicator color={mainColor} size={40} />
+                            </View>
+                            :
+                            <FlatList
+                                data={jobList}
+                                ListFooterComponent={() => <View style={{ height: 20 }} />}
+                                renderItem={JobsList}
+                                keyExtractor={(item, index) => index}
+                                showsVerticalScrollIndicator={false}
+                            />
+                    }
                 </ScrollView>
                 <View style={{ height: 10, width: "100%", backgroundColor: backgroundColor }}>
 

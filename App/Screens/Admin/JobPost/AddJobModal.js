@@ -23,13 +23,13 @@ export default function AddJobModal({
     const defaultValues = {
         // Title: "",
         // Qualification:"",
-        Salary:"",
-        experience:"",
+        Salary: "",
+        experience: "",
         // LastDateOfApply:"",
-        Location:"",
-        Description:"",
-        noofvacancie:"",
-        jobstatus:""
+        Location: "",
+        Description: "",
+        noofvacancie: "",
+        jobstatus: ""
 
     }
     const dispatch = useDispatch()
@@ -81,7 +81,7 @@ export default function AddJobModal({
         mainColor,
         textOffColor,
         mainLighterColor,
-        textLightColor,
+        textLighterColor,
         backgroundColor, buttoncolor,
         borderColor
     } = useSelector(state => state.styles)
@@ -102,15 +102,15 @@ export default function AddJobModal({
         let response = await postJob({
             ...data,
             jobstatus: "active",
-            LastDateOfApply:"12/02/2020",
-           
+            LastDateOfApply: "12/02/2020",
+
         })
 
         console.log("response===>", response)
 
         const { error, data: respData } = response || {}
 
-        if (respData) {
+        if(respData) {
             Toast.show({
                 text1: 'Success Message',
                 text2: 'Job is Added Successfully',
@@ -118,7 +118,7 @@ export default function AddJobModal({
             })
             dispatch(changeAddJobModal(false))
         }
-        else if (error)
+        else if(error)
             Toast.show({
                 text1: 'Request Failed',
                 text2: 'Invalid Password',
@@ -189,11 +189,11 @@ export default function AddJobModal({
                                         height: 35,
                                         borderRadius: 5,
                                         paddingLeft: 13,
-                                        color: textLightColor,
+                                        color: textLighterColor,
                                         fontSize: 14,
                                         width: "100%",
                                         borderWidth: 0.5,
-                                        borderColor: textLightColor
+                                        borderColor: textLighterColor
                                     }}
                                 />
                             )}
@@ -229,11 +229,11 @@ export default function AddJobModal({
                                         height: 35,
                                         borderRadius: 5,
                                         paddingLeft: 13,
-                                        color: textLightColor,
+                                        color: textLighterColor,
                                         fontSize: 14,
                                         width: "100%",
                                         borderWidth: 0.5,
-                                        borderColor: textLightColor
+                                        borderColor: textLighterColor
                                     }}
                                 />
                             )}
@@ -268,11 +268,11 @@ export default function AddJobModal({
                                         height: 35,
                                         borderRadius: 5,
                                         paddingLeft: 13,
-                                        color: textLightColor,
+                                        color: textLighterColor,
                                         fontSize: 14,
                                         width: "100%",
                                         borderWidth: 0.5,
-                                        borderColor: textLightColor
+                                        borderColor: textLighterColor
                                     }}
                                 />
                             )}
@@ -308,11 +308,11 @@ export default function AddJobModal({
                                         height: 35,
                                         borderRadius: 5,
                                         paddingLeft: 13,
-                                        color: textLightColor,
+                                        color: textLighterColor,
                                         fontSize: 14,
                                         width: "100%",
                                         borderWidth: 0.5,
-                                        borderColor: textLightColor
+                                        borderColor: textLighterColor
                                     }}
                                 />
                             )}
@@ -348,11 +348,11 @@ export default function AddJobModal({
                                         height: 35,
                                         borderRadius: 5,
                                         paddingLeft: 13,
-                                        color: textLightColor,
+                                        color: textLighterColor,
                                         fontSize: 14,
                                         width: "100%",
                                         borderWidth: 0.5,
-                                        borderColor: textLightColor
+                                        borderColor: textLighterColor
                                     }}
                                 />
                             )}
@@ -388,11 +388,11 @@ export default function AddJobModal({
                                         height: 35,
                                         borderRadius: 5,
                                         paddingLeft: 13,
-                                        color: textLightColor,
+                                        color: textLighterColor,
                                         fontSize: 14,
                                         width: "100%",
                                         borderWidth: 0.5,
-                                        borderColor: textLightColor
+                                        borderColor: textLighterColor
                                     }}
                                 />
                             )}
@@ -427,18 +427,18 @@ export default function AddJobModal({
                                         height: 35,
                                         borderRadius: 5,
                                         paddingLeft: 13,
-                                        color: textLightColor,
+                                        color: textLighterColor,
                                         fontSize: 14,
                                         width: "100%",
                                         borderWidth: 0.5,
-                                        borderColor: textLightColor
+                                        borderColor: textLighterColor
                                     }}
                                 />
                             )}
                             name="Description"
                             defaultValue=""
                         />
-                         {errors.Description && <Text style={{ color: "red" }}>Select a Description</Text>
+                        {errors.Description && <Text style={{ color: "red" }}>Select a Description</Text>
                         }
 
                     </View>
@@ -467,18 +467,18 @@ export default function AddJobModal({
                                         height: 35,
                                         borderRadius: 5,
                                         paddingLeft: 13,
-                                        color: textLightColor,
+                                        color: textLighterColor,
                                         fontSize: 14,
                                         width: "100%",
                                         borderWidth: 0.5,
-                                        borderColor: textLightColor
+                                        borderColor: textLighterColor
                                     }}
                                 />
                             )}
                             name="noofvacancie"
                             defaultValue=""
                         />
-                            {errors.noofvacancie && <Text style={{ color: "red" }}>Select a noofvacancie</Text>
+                        {errors.noofvacancie && <Text style={{ color: "red" }}>Select a noofvacancie</Text>
                         }
 
                     </View>

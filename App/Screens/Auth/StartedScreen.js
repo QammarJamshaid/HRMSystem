@@ -30,7 +30,7 @@ function Login(props) {
         backgroundColor,
         textColor,
         modalColor,
-        textLightColor, buttoncolor,
+        textLighterColor, buttoncolor,
         orangeColor,
         greenColor,
         lightbluecolor,

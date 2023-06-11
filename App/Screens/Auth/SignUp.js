@@ -58,7 +58,7 @@ function SignUp(props) {
         backgroundColor,
         textColor,
         modalColor,
-        textLightColor, buttoncolor,
+        textLighterColor, buttoncolor,
         orangeColor,
         greenColor,
         lightbluecolor,
@@ -80,14 +80,14 @@ function SignUp(props) {
 
         const { error, data: respData } = response || {}
 
-        if (error)
+        if(error)
             Toast.show({
                 text1: 'Success Message',
                 text2: error.data.message,
                 position: 'top',
             })
         props.navigation.navigate("LogIn")
-        if (respData)
+        if(respData)
             Toast.show({
                 text1: 'Registeration failed!',
                 text2: error.data.message,

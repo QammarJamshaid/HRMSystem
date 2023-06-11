@@ -209,7 +209,7 @@ class GApiServices {
 
     getJobApplication = (id: any) => {
         return new Promise((resolve, reject) => {
-            Api.get(`${EndPoints.getJobApplication}?appid=${id}`)
+            Api.get(`${EndPoints.getJobApplication}`)
                 .then((res) => {
                     resolve(res?.data)
                 })

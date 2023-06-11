@@ -36,7 +36,7 @@ export default function Jobs(props) {
         mainColor,
         borderColor,
         backgroundDarkerColor,
-        textLightColor,
+        textLighterColor,
         backgroundColor, buttoncolor,
         textOffColor
     } = useSelector(state => state.styles)

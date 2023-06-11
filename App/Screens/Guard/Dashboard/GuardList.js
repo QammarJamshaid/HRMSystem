@@ -45,7 +45,7 @@ function GuardList(props) {
         backgroundColor,
         textColor,
         modalColor,
-        textLightColor, buttoncolor,
+        textLighterColor, buttoncolor,
         borderColor,
     } = useSelector(state => state.styles)
 
@@ -176,7 +176,7 @@ function GuardList(props) {
                                 {item.type}
                             </Text>
                             {/* <Text style={{
-                                color: textLightColor, fontSize: 12,
+                                color: textLighterColor, fontSize: 12,
                                 fontWeight: "500",
                             }}>
                                 {"01/23/2023"}

@@ -10,7 +10,7 @@ const stylesSlice = createSlice({
         mainTransColor: '#C5BCF3',
         backgroundDarkerColor: "#FFFFFF",
         backgroundColor: "#FAFAFA",
-        textLighterColor: "#fff",
+        textLighterColor: "#000",
         textXXLightColor: "#4D5757",
         textXLightColor: "#424242",
         textDarkColor: "#79848E",
@@ -42,7 +42,7 @@ const stylesSlice = createSlice({
         buttonlightcolor: "#B7B7B7",
         borderColor: "#707070",
         textDecorationColor: "#103ED2",
-        redColor:"#F1394C"
+        redColor: "#F1394C"
     },
     reducers: {
     },

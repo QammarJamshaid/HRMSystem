@@ -87,7 +87,7 @@ export default function AddEducationModal(props) {
         mainColor,
         textOffColor,
         mainLighterColor,
-        textLightColor,
+        textLighterColor,
         backgroundColor, buttoncolor,
         borderColor
     } = useSelector(state => state.styles)
@@ -203,7 +203,7 @@ export default function AddEducationModal(props) {
                             onChangeText={onChangeBoard}
                             value={board}
                             placeholder="Board"
-                            placeholderTextColor={textLightColor}
+                            placeholderTextColor={textLighterColor}
                             style={{
                                 backgroundColor: mainLighterColor,
                                 padding: 0,
@@ -211,11 +211,11 @@ export default function AddEducationModal(props) {
                                 height: 35,
                                 borderRadius: 5,
                                 paddingLeft: 13,
-                                color: textLightColor,
+                                color: textLighterColor,
                                 fontSize: 14,
                                 width: "100%",
                                 borderWidth: 0.5,
-                                borderColor: textLightColor
+                                borderColor: textLighterColor
                             }}
                         />
 
@@ -230,7 +230,7 @@ export default function AddEducationModal(props) {
                             onChangeText={onChangeDegree}
                             value={degree}
                             placeholder="Degree"
-                            placeholderTextColor={textLightColor}
+                            placeholderTextColor={textLighterColor}
                             style={{
                                 backgroundColor: mainLighterColor,
                                 padding: 0,
@@ -238,11 +238,11 @@ export default function AddEducationModal(props) {
                                 height: 35,
                                 borderRadius: 5,
                                 paddingLeft: 13,
-                                color: textLightColor,
+                                color: textLighterColor,
                                 fontSize: 14,
                                 width: "100%",
                                 borderWidth: 0.5,
-                                borderColor: textLightColor
+                                borderColor: textLighterColor
                             }}
                         />
                     </View>
@@ -256,7 +256,7 @@ export default function AddEducationModal(props) {
                             onChangeText={onChangeInstitude}
                             value={institute}
                             placeholder="Institute"
-                            placeholderTextColor={textLightColor}
+                            placeholderTextColor={textLighterColor}
                             style={{
                                 backgroundColor: mainLighterColor,
                                 padding: 0,
@@ -264,11 +264,11 @@ export default function AddEducationModal(props) {
                                 height: 35,
                                 borderRadius: 5,
                                 paddingLeft: 13,
-                                color: textLightColor,
+                                color: textLighterColor,
                                 fontSize: 14,
                                 width: "100%",
                                 borderWidth: 0.5,
-                                borderColor: textLightColor
+                                borderColor: textLighterColor
                             }}
                         />
                     </View>
@@ -282,7 +282,7 @@ export default function AddEducationModal(props) {
                             onChangeText={onChangeMajor}
                             value={major}
                             placeholder="major"
-                            placeholderTextColor={textLightColor}
+                            placeholderTextColor={textLighterColor}
                             style={{
                                 backgroundColor: mainLighterColor,
                                 padding: 0,
@@ -290,11 +290,11 @@ export default function AddEducationModal(props) {
                                 height: 35,
                                 borderRadius: 5,
                                 paddingLeft: 13,
-                                color: textLightColor,
+                                color: textLighterColor,
                                 fontSize: 14,
                                 width: "100%",
                                 borderWidth: 0.5,
-                                borderColor: textLightColor
+                                borderColor: textLighterColor
                             }}
                         />
                     </View>
@@ -313,17 +313,17 @@ export default function AddEducationModal(props) {
                             height: 35,
                             borderRadius: 5,
                             paddingLeft: 13,
-                            color: textLightColor,
+                            color: textLighterColor,
                             fontSize: 14,
                             width: "100%",
                             borderWidth: 0.5,
-                            borderColor: textLightColor,
+                            borderColor: textLighterColor,
                             justifyContent: 'center'
                         }}
                             onPress={onDatePress.bind(null, 'startDate')}
                         >
 
-                            <Text style={{ color: textLightColor, fontSize: 14, }}>
+                            <Text style={{ color: textLighterColor, fontSize: 14, }}>
                                 {!startDate ? 'Start Date' : startDate}
                             </Text>
                         </TouchableOpacity>
@@ -343,17 +343,17 @@ export default function AddEducationModal(props) {
                             height: 35,
                             borderRadius: 5,
                             paddingLeft: 13,
-                            color: textLightColor,
+                            color: textLighterColor,
                             fontSize: 14,
                             width: "100%",
                             borderWidth: 0.5,
-                            borderColor: textLightColor,
+                            borderColor: textLighterColor,
                             justifyContent: 'center'
                         }}
                             onPress={onDatePress.bind(null, 'endDate')}
                         >
 
-                            <Text style={{ color: textLightColor, fontSize: 14, }}>
+                            <Text style={{ color: textLighterColor, fontSize: 14, }}>
                                 {!endDate ? 'End Date' : endDate}
                             </Text>
                         </TouchableOpacity>
@@ -362,7 +362,7 @@ export default function AddEducationModal(props) {
 
                     <View style={{ marginTop: 20, paddingHorizontal: 20 }}>
                         <Text style={{
-                            color: textLightColor,
+                            color: textLighterColor,
                             fontSize: 14,
                             fontWeight: "500"
                         }}>
@@ -380,7 +380,7 @@ export default function AddEducationModal(props) {
                         {/* <FileuploadIcon color={textOffColor} height={20} width={20} style={{}} /> */}
                         <View style={{ flexDirection: "row" }}>
                             <Text style={{
-                                color: textLightColor,
+                                color: textLighterColor,
                                 fontSize: 12,
                                 marginTop: 5,
                                 fontWeight: "500"

@@ -29,7 +29,7 @@ function AttendenceReport(props) {
         backgroundLighterColor,
         backgroundColor, buttoncolor,
         backgroundDarkerColor, borderColor,
-        textLightColor
+        textLighterColor
     } = useSelector(state => state.styles)
     const [secureTextEntry, ChangeSecureTextEntry] = useState(true);
     const { control, handleSubmit, reset, formState: { errors } } = useForm({
@@ -301,8 +301,8 @@ function AttendenceReport(props) {
                                             is24Hour={true}
                                             // style={{ backgroundColor: "transparent" }}
                                             onChange={(event, selectedDate) => setdate(selectedDate)}
-                                            accentColor={textLightColor}
-                                            textColor={textLightColor}
+                                            accentColor={textLighterColor}
+                                            textColor={textLighterColor}
                                         />
                                     )}
                                     <View style={{
@@ -354,8 +354,8 @@ function AttendenceReport(props) {
                                             is24Hour={true}
                                             // style={{ backgroundColor: "transparent" }}
                                             onChange={(event, selectedDate) => setdatefrom(selectedDate)}
-                                            accentColor={textLightColor}
-                                            textColor={textLightColor}
+                                            accentColor={textLighterColor}
+                                            textColor={textLighterColor}
                                         />
                                     )}
                                     <View style={{

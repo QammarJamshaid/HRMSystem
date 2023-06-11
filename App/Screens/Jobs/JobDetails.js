@@ -29,7 +29,7 @@ function JobDetails(props) {
         mainColor,
         textOffColor,
         backgroundLighterColor,
-        textLightColor,
+        textLighterColor,
         backgroundColor, buttoncolor,
         backgroundDarkerColor, borderColor
     } = useSelector(state => state.styles)

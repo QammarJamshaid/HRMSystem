@@ -32,7 +32,7 @@ function EmployeeLeaveApp(props) {
         backgroundColor,
         textColor,
         textOffColor,
-        textLightColor, buttoncolor,
+        textLighterColor, buttoncolor,
         backgroundDarkerColor,
         greenColor,
         lightbluecolor,
@@ -45,7 +45,7 @@ function EmployeeLeaveApp(props) {
         {
             jobTitle: 'React',
             applicantName: "Haleema",
-            leaveType:"Sick",
+            leaveType: "Sick",
             textcolor: mainColor,
             color: "#5FAF67",
             status: "Pending",
@@ -53,7 +53,7 @@ function EmployeeLeaveApp(props) {
         {
             jobTitle: 'Ios',
             applicantName: "Qammar",
-            leaveType:"Unpaid",
+            leaveType: "Unpaid",
             textcolor: greenColor,
             state: "California",
             color: "#5FAF67",
@@ -62,7 +62,7 @@ function EmployeeLeaveApp(props) {
         {
             jobTitle: 'Web',
             applicantName: "Saad",
-            leaveType:"Paid",
+            leaveType: "Paid",
             textcolor: greenColor,
             state: "California",
             color: "#5FAF67",

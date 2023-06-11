@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import {
     Text, View, TouchableOpacity,
-    FlatList,Image
+    FlatList, Image
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
@@ -39,7 +39,7 @@ function CommitteHead(props) {
         textOffColor,
         backgroundColor,
         textColor,
-        textLightColor, buttoncolor,
+        textLighterColor, buttoncolor,
         borderColor,
         greenColor,
     } = useSelector(state => state.styles)
@@ -74,7 +74,7 @@ function CommitteHead(props) {
             // const { name, website, image } = item
             return (
                 <TouchableOpacity
-                    onPress={() => props.navigation.navigate("CreateCommitte",{item:item})}
+                    onPress={() => props.navigation.navigate("CreateCommitte", { item: item })}
                     style={{
                         height: s(90), width: s(145),
                         marginLeft: s(15),
