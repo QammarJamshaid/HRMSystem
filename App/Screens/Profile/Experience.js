@@ -52,7 +52,6 @@ function Experience(props) {
         backgroundColor,
         textColor,
         textOffColor,
-        textLightColor, buttoncolor,
         backgroundDarkerColor,
         greenColor,
         lightbluecolor,
@@ -160,7 +159,7 @@ function Experience(props) {
                                     justifyContent: "space-between"
                                 }}>
                                     <Text style={{
-                                        color: textLightColor,
+                                        color: textColor,
                                         // backgroundColor:"red",
                                         fontSize: 14,
                                         width: "40%",
@@ -209,7 +208,7 @@ function Experience(props) {
                                     paddingHorizontal: 10,
                                 }}>
                                     <Text style={{
-                                        color: textLightColor,
+                                        color: textColor,
                                         fontSize: 12,
                                         width: "40%",
                                         fontWeight: "500"
@@ -234,7 +233,7 @@ function Experience(props) {
                                             paddingHorizontal: 10,
                                         }}>
                                             <Text style={{
-                                                color: textLightColor,
+                                                color: textColor,
                                                 fontSize: 12,
                                                 width: "40%",
                                                 fontWeight: "500"
@@ -259,7 +258,7 @@ function Experience(props) {
                                     paddingHorizontal: 10,
                                 }}>
                                     <Text style={{
-                                        color: textLightColor,
+                                        color: textColor,
                                         fontSize: 12,
                                         width: "40%",
                                         fontWeight: "500"
@@ -282,7 +281,7 @@ function Experience(props) {
                                     paddingHorizontal: 10,
                                 }}>
                                     <Text style={{
-                                        color: textLightColor,
+                                        color: textColor,
                                         fontSize: 12,
                                         width: "40%",
                                         fontWeight: "500"

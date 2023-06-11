@@ -35,7 +35,7 @@ function LeaveApplicant(props) {
         backgroundColor,
         textColor,
         textOffColor,
-        textLightColor, buttoncolor,
+        textLighterColor, buttoncolor,
         backgroundDarkerColor,
         greenColor,
         lightbluecolor,
@@ -48,7 +48,7 @@ function LeaveApplicant(props) {
         {
             jobTitle: 'React',
             applicantName: "Haleema",
-            leaveType:"Sick",
+            leaveType: "Sick",
             textcolor: mainColor,
             color: "#5FAF67",
             status: "Pending",
@@ -56,7 +56,7 @@ function LeaveApplicant(props) {
         {
             jobTitle: 'Ios',
             applicantName: "Qammar",
-            leaveType:"Unpaid",
+            leaveType: "Unpaid",
             textcolor: greenColor,
             state: "California",
             color: "#5FAF67",
@@ -65,7 +65,7 @@ function LeaveApplicant(props) {
         {
             jobTitle: 'Web',
             applicantName: "Saad",
-            leaveType:"Paid",
+            leaveType: "Paid",
             textcolor: greenColor,
             state: "California",
             color: "#5FAF67",
@@ -74,11 +74,11 @@ function LeaveApplicant(props) {
 
 
     ];
-        const {
+    const {
         data = [],
         isFetching,
     } = useGetLeaveAppQuery();
-    console.log("LeaveApplicant:::::::::::::",data)
+    console.log("LeaveApplicant:::::::::::::", data)
     function AllAssets() {
         // return data
         // .filter(obj => obj.jobName == isJobPickerOpen)
@@ -173,7 +173,7 @@ function LeaveApplicant(props) {
                             alignSelf: "flex-end"
                         }}>
                             <TouchableOpacity
-                               onPress={() => dispatch(changeAddApprovedModal(true))}
+                                onPress={() => dispatch(changeAddApprovedModal(true))}
                                 style={{
                                     backgroundColor: mainColor,
                                     height: 35,
@@ -181,7 +181,7 @@ function LeaveApplicant(props) {
                                     alignSelf: "flex-end",
                                     borderRadius: 8,
                                     justifyContent: "center",
-                                    marginRight:5
+                                    marginRight: 5
 
                                 }}
                             >
@@ -355,8 +355,8 @@ function LeaveApplicant(props) {
                 </ScrollView>
                 <View style={{ backgroundColor: backgroundColor, height: 15 }} />
             </View>
-            <ApprovedModal/>
-            <RejectedModal/>
+            <ApprovedModal />
+            <RejectedModal />
         </>
     );
 };

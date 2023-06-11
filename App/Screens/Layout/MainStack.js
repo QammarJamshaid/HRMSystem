@@ -32,6 +32,7 @@ import Profile from '../Profile/Profile'
 import EditProfile from '../Profile/EditProfile'
 import Jobs from '../Jobs/Jobs'
 import JobDetails from '../Jobs/JobDetails'
+import ApplyJob from '../Jobs/ApplyJob'
 import JobApplications from '../JobApplication/JobApplications'
 import AdminJobApplications from '../Admin/AdminJobApplications/AdminJobApplications'
 import LeaveApplicant from '../Admin/LeaveApplicant/LeaveApplicant'
@@ -59,6 +60,15 @@ import Home from '../Home/Home'
 import CheckInAttendance from '../Guard/GuardEmployees/CheckInAttendance'
 import AttendanceRecord from '../Guard/GuardAttendance/AttendanceRecord'
 import GuardAttendanceReport from '../Guard/GuardAttendance/GuardAttendanceReport'
+import LeaveTopBar from '../Employee/EmployeeLeave/LeaveTopBar'
+import EmployeeLeaveApp from '../Employee/EmployeeLeave/ApprovedLeaveApp'
+import EmployeeProfile from '../Employee/EmployeeProfile/EmployeeProfile'
+import EmployeeEditProfile from '../Employee/EmployeeProfile/EmployeeEditProfile'
+import EmployeeAttendanceReport from '../Employee/EmployeeAttendance/EmployeeAttendanceReport'
+import EmployeeCommittees from '../Employee/EmployeeCommittee/EmployeeCommittees'
+import ApprovedLeaveApp from '../Employee/EmployeeLeave/ApprovedLeaveApp'
+import PendingLeaveApp from '../Employee/EmployeeLeave/PendingLeaveApp'
+import RejectedLeaveApp from '../Employee/EmployeeLeave/RejectedLeaveApp'
 
 const { height, width } = Dimensions.get('window')
 
@@ -66,6 +76,8 @@ const Stack = createStackNavigator()
 const AuthStack = createStackNavigator()
 const BottomTab = createMaterialBottomTabNavigator()
 const Drawer = createDrawerNavigator()
+
+
 
 function getWidth() {
 
@@ -112,6 +124,11 @@ const JobNav = () => (
             options={{ headerShown: false }}
             name="JobDetails"
             component={JobDetails}
+        />
+        <Stack.Screen
+            options={{ headerShown: false }}
+            name="ApplyJob"
+            component={ApplyJob}
         />
 
     </Stack.Navigator>
@@ -609,6 +626,8 @@ function AdminTabNav(props) {
         </>
     )
 }
+
+
 const GuardProfileNav = () => (
     <Stack.Navigator
 
@@ -835,6 +854,223 @@ function GuardTabNav(props) {
     )
 }
 
+
+const EmployeeLeaveNav = () => (
+    <Stack.Navigator
+
+        initialRouteName="EmployeesList"
+        drawerContent={props => null}>
+        <Stack.Screen
+            options={{ headerShown: false }}
+            name="LeaveTopBar"
+            component={LeaveTopBar}
+        />
+        <Stack.Screen
+            options={{ headerShown: false }}
+            name="ApprovedLeaveApp"
+            component={ApprovedLeaveApp}
+        />
+        <Stack.Screen
+            options={{ headerShown: false }}
+            name="PendingLeaveApp"
+            component={PendingLeaveApp}
+        />
+        <Stack.Screen
+            options={{ headerShown: false }}
+            name="RejectedLeaveApp"
+            component={RejectedLeaveApp}
+        />
+
+    </Stack.Navigator>
+)
+const EmployeeProfileNav = () => (
+    <Stack.Navigator
+
+        initialRouteName="EmployeeProfile"
+        drawerContent={props => null}>
+        <Stack.Screen
+            options={{ headerShown: false }}
+            name="EmployeeProfile"
+            component={EmployeeProfile}
+        />
+        <Stack.Screen
+            options={{ headerShown: false }}
+            name="EmployeeEditProfile"
+            component={EmployeeEditProfile}
+        />
+
+    </Stack.Navigator>
+)
+const EmployeeAttendenceNav = () => (
+    <Stack.Navigator
+
+        initialRouteName="EmployeeProfile"
+        drawerContent={props => null}>
+        <Stack.Screen
+            options={{ headerShown: false }}
+            name="EmployeeAttendanceReport"
+            component={EmployeeAttendanceReport}
+        />
+
+    </Stack.Navigator>
+)
+const EmployeeCommitteeNav = () => (
+    <Stack.Navigator
+
+        initialRouteName="EmployeeProfile"
+        drawerContent={props => null}>
+        <Stack.Screen
+            options={{ headerShown: false }}
+            name="EmployeeCommittees"
+            component={EmployeeCommittees}
+        />
+
+    </Stack.Navigator>
+)
+function EmployeeTabNav(props) {
+    const {
+        mainColor,
+        backgroundColor,
+        textDarkColor,
+    } = useSelector(state => state.styles)
+    const tabOffsetValue = useRef(new Animated.Value(0)).current
+    const insets = useSafeAreaInsets()
+    const swapAddValue = 0
+    const fabWidth = 60
+
+    return (
+        <>
+            <BottomTab.Navigator
+                initialRouteName="desh" //todo: change it to Offers
+                barStyle={{
+                    backgroundColor: backgroundColor,
+                    height: 70,
+                    shadowColor: "#000",
+                    shadowOffset: {
+                        width: 0,
+                        height: 2,
+                    },
+                    shadowOpacity: 0.5,
+                    shadowRadius: 3.84,
+                    elevation: 5,
+                    borderColor: 'red', borderWidth: 0,
+                }}
+                screenOptions={{
+                }}
+                shifting={false}
+                labeled={true}
+                activeColor={"purple"}
+                inactiveColor={textDarkColor}
+                sceneContainerStyle={{
+                    borderColor: 'red', borderWidth: 0,
+                }}
+            >
+                <BottomTab.Screen
+                    name="employeeAttendance"
+                    component={EmployeeAttendenceNav}
+                    tabBarOptions={{
+                    }}
+                    options={{
+
+                        tabBarLabel: 'Attendance',
+                        tabBarIcon: ({ color }) => (
+                            <MaterialCommunityIcons
+                                name="briefcase-eye"
+                                color={color}
+                                size={25}>
+                            </MaterialCommunityIcons>
+                        ),
+                    }}
+                    listeners={({ navigation, route }) => ({
+                        // Onpress Update....
+                        tabPress: e => {
+                            Animated.spring(tabOffsetValue, {
+                                toValue: 0,
+                                useNativeDriver: true
+                            }).start()
+                        }
+                    })}
+                />
+                <BottomTab.Screen
+                    name="leav"
+                    component={EmployeeLeaveNav}
+                    tabBarOptions={{
+                    }}
+                    options={{
+
+                        tabBarLabel: 'LeaveApp',
+                        tabBarIcon: ({ color }) => (
+                            <FontAwesome
+                                name="users"
+                                color={color}
+                                size={25}>
+                            </FontAwesome>
+                        ),
+                    }}
+                    listeners={({ navigation, route }) => ({
+                        // Onpress Update....
+                        tabPress: e => {
+                            Animated.spring(tabOffsetValue, {
+                                toValue: 0,
+                                useNativeDriver: true
+                            }).start()
+                        }
+                    })}
+                />
+                <BottomTab.Screen
+                    name="employeeCommittees"
+                    component={EmployeeCommitteeNav}
+                    tabBarOptions={{
+                    }}
+                    options={{
+
+                        tabBarLabel: 'Committee',
+                        tabBarIcon: ({ color }) => (
+                            <Entypo
+                                name="fingerprint"
+                                color={color}
+                                size={25}>
+                            </Entypo>
+                        ),
+                    }}
+                    listeners={({ navigation, route }) => ({
+                        // Onpress Update....
+                        tabPress: e => {
+                            Animated.spring(tabOffsetValue, {
+                                toValue: 0,
+                                useNativeDriver: true
+                            }).start()
+                        }
+                    })}
+                />
+                <BottomTab.Screen
+                    name="EmployeeProfil"
+                    component={EmployeeProfileNav}
+                    tabBarOptions={{ indicatorStyle: { backgroundColor: 'green' } }}
+                    options={{
+                        tabBarLabel: 'Profile',
+                        tabBarIcon: ({ color }) => (
+                            <FontAwesome
+                                name="user-circle-o"
+                                color={color}
+                                size={25}></FontAwesome>
+                        )
+                    }}
+                    listeners={({ navigation, route }) => ({
+                        // Onpress Update....
+                        tabPress: e => {
+                            Animated.spring(tabOffsetValue, {
+                                toValue: (getWidth() + swapAddValue) * 2,
+                                useNativeDriver: true
+                            }).start()
+                        }
+                    })}
+                />
+            </BottomTab.Navigator>
+        </>
+    )
+}
+
 const DrawerNav = () => {
 
     const { user } = useGlobalContext()
@@ -867,7 +1103,12 @@ const DrawerNav = () => {
                             name="AdminTabNav"
                             component={GuardTabNav}
                         />
-                        : null
+                        :
+                        <Drawer.Screen
+                            options={{ headerShown: false }}
+                            name="AdminTabNav"
+                            component={EmployeeTabNav}
+                        />
             }
             <Drawer.Screen
                 options={{ headerShown: false }}
@@ -921,7 +1162,7 @@ export default App = () => {
 
     const getUser = async () => {
         const user = await StorageManager.getData(StorageManager.storageKeys.USER)
-        if (user) {
+        if(user) {
             updateUser(user)
         }
     }
@@ -969,5 +1210,4 @@ export default App = () => {
         </NavigationContainer>
     )
 }
-
 

@@ -1,3 +1,4 @@
+import { baseUrl } from "../../Config/baseURL";
 import { flashErrorMessage, flashSuccessMessage } from "../FlashMessages";
 import EndPoints from "./EndPoints";
 import { Api } from "./Middleware";
@@ -142,18 +143,23 @@ class GApiServices {
 
     updateUser = (data: any) => {
         return new Promise((resolve, reject) => {
-            Api.put(
-                `${EndPoints.updateUser}`,
-                data
-            )
-                .then(() => {
+            var requestOptions = {
+                method: 'PUT',
+                body: data,
+                redirect: 'follow'
+            };
+
+            fetch(`${baseUrl}${EndPoints.updateUser}`, requestOptions)
+                .then(response => response.text())
+                .then(result => {
+                    console.log(result)
+                    flashSuccessMessage('Image updated')
                     resolve('')
-                    flashSuccessMessage('Updated')
                 })
-                .catch((error) => {
-                    // console.log('error while updating user =>', error)
+                .catch(error => {
+                    console.log('error while updating user =>', error)
                     reject('')
-                })
+                });
         })
     }
 
@@ -172,24 +178,38 @@ class GApiServices {
 
     applyJob = (params: any) => {
         return new Promise((resolve, reject) => {
-            Api.post(
-                EndPoints.applyJob,
-                params,
-            ).then(async res => {
-                flashSuccessMessage('Successfully Applied to job')
-                resolve(res?.data?.results)
-            })
-                .catch((error) => {
-                    flashErrorMessage()
-                    reject('')
-                    console.log('error while applying to job  =>', error)
+            const { Jid, Uid, name, documentPath } = params
+            var formdata = new FormData();
+            formdata.append("Jid", Jid);
+            formdata.append("Uid", Uid);
+            formdata.append("name", name);
+            formdata.append("DocumentPath", documentPath);
+
+            var requestOptions = {
+                method: 'POST',
+                body: formdata,
+                redirect: 'follow'
+            };
+
+            fetch(`${baseUrl}/JobApplication/JobFileApplicationWithFilterPost2`, requestOptions)
+                .then(response => response.text())
+                .then(result => {
+                    if(typeof (result) === 'string') {
+                        flashSuccessMessage(result)
+                    }
+                    resolve('')
                 })
+                .catch(error => {
+                    console.log('error while applying to job =>', error)
+                    reject('')
+                });
+
         })
     }
 
     getJobApplication = (id: any) => {
         return new Promise((resolve, reject) => {
-            Api.get(`${EndPoints.getJobApplication}?appid=${id}`)
+            Api.get(`${EndPoints.getJobApplication}`)
                 .then((res) => {
                     resolve(res?.data)
                 })

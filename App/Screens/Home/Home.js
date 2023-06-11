@@ -26,7 +26,7 @@ export default function Home(props) {
         mainColor,
         borderColor,
         backgroundDarkerColor,
-        textLightColor,
+        textLighterColor,
         backgroundColor, buttoncolor,
         textOffColor
     } = useSelector(state => state.styles)
@@ -96,7 +96,7 @@ export default function Home(props) {
                     width: "100%",
                     alignItems: "center",
                     // marginTop: 120,
-                    justifyContent: "center",  
+                    justifyContent: "center",
                     borderRadius: 10,
                     // marginBottom: 80
                 }}

@@ -90,7 +90,7 @@ export default function AddExperienceModal(props) {
         mainColor,
         textOffColor,
         mainLighterColor,
-        textLightColor,
+        textLighterColor,
         backgroundColor, buttoncolor,
         borderColor
     } = useSelector(state => state.styles)
@@ -202,7 +202,7 @@ export default function AddExperienceModal(props) {
                             onChangeText={onChangeJobTitle}
                             value={jobTitle}
                             placeholder="Job Title"
-                            placeholderTextColor={textLightColor}
+                            placeholderTextColor={textLighterColor}
                             style={{
                                 backgroundColor: mainLighterColor,
                                 padding: 0,
@@ -210,11 +210,11 @@ export default function AddExperienceModal(props) {
                                 height: 35,
                                 borderRadius: 5,
                                 paddingLeft: 13,
-                                color: textLightColor,
+                                color: textLighterColor,
                                 fontSize: 14,
                                 width: "100%",
                                 borderWidth: 0.5,
-                                borderColor: textLightColor
+                                borderColor: textLighterColor
                             }}
                         />
 
@@ -228,7 +228,7 @@ export default function AddExperienceModal(props) {
                             onChangeText={onChangeCompany}
                             value={company}
                             placeholder="Company"
-                            placeholderTextColor={textLightColor}
+                            placeholderTextColor={textLighterColor}
                             style={{
                                 backgroundColor: mainLighterColor,
                                 padding: 0,
@@ -236,11 +236,11 @@ export default function AddExperienceModal(props) {
                                 height: 35,
                                 borderRadius: 5,
                                 paddingLeft: 13,
-                                color: textLightColor,
+                                color: textLighterColor,
                                 fontSize: 14,
                                 width: "100%",
                                 borderWidth: 0.5,
-                                borderColor: textLightColor
+                                borderColor: textLighterColor
                             }}
                         />
 
@@ -258,17 +258,17 @@ export default function AddExperienceModal(props) {
                             height: 35,
                             borderRadius: 5,
                             paddingLeft: 13,
-                            color: textLightColor,
+                            color: textLighterColor,
                             fontSize: 14,
                             width: "100%",
                             borderWidth: 0.5,
-                            borderColor: textLightColor,
+                            borderColor: textLighterColor,
                             justifyContent: 'center'
                         }}
                             onPress={onDatePress.bind(null, 'startDate')}
                         >
 
-                            <Text style={{ color: textLightColor, fontSize: 14, }}>
+                            <Text style={{ color: textLighterColor, fontSize: 14, }}>
                                 {!startDate ? 'Start Date' : startDate}
                             </Text>
                         </TouchableOpacity>
@@ -286,17 +286,17 @@ export default function AddExperienceModal(props) {
                             height: 35,
                             borderRadius: 5,
                             paddingLeft: 13,
-                            color: textLightColor,
+                            color: textLighterColor,
                             fontSize: 14,
                             width: "100%",
                             borderWidth: 0.5,
-                            borderColor: textLightColor,
+                            borderColor: textLighterColor,
                             justifyContent: 'center'
                         }}
                             onPress={onDatePress.bind(null, 'endDate')}
                         >
 
-                            <Text style={{ color: textLightColor, fontSize: 14, }}>
+                            <Text style={{ color: textLighterColor, fontSize: 14, }}>
                                 {!endDate ? 'End Date' : endDate}
                             </Text>
                         </TouchableOpacity>
@@ -304,7 +304,7 @@ export default function AddExperienceModal(props) {
                     {/* <View style={{ flexDirection: "row", paddingHorizontal: 20, marginTop: 20 }}>
                         <CheckBoxIcon color={textOffColor} height={18} width={18} style={{}} />
                         <Text style={{
-                            color: textLightColor,
+                            color: textLighterColor,
                             fontSize: 14,
                             marginLeft: 10,
                             fontWeight: "500"

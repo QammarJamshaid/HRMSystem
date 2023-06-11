@@ -57,7 +57,9 @@ const DateTimePickerFun = (props: any) => {
 
                             <DateTimePicker
                                 testID="dateTimePicker"
+                                themeVariant='light'
                                 value={new Date()}
+                                themeVariant='light'
                                 mode={mode}
                                 is24Hour={true}
                                 onChange={onChangeIosDate}
@@ -81,6 +83,7 @@ const DateTimePickerFun = (props: any) => {
                 Platform.OS === 'android' && visible &&
                 <DateTimePicker
                     testID="dateTimePicker"
+                    themeVariant='light'
                     value={new Date()}
                     mode={mode}
                     is24Hour={true}

@@ -71,7 +71,7 @@ export default function AttendenceStatusModal({
         mainColor,
         textOffColor,
         mainLighterColor,
-        textLightColor,
+        textLighterColor,
         backgroundColor, buttoncolor,
         borderColor
     } = useSelector(state => state.styles)
@@ -172,11 +172,11 @@ export default function AttendenceStatusModal({
                                         placeholderTextColor={borderColor}
                                         style={{
                                             backgroundColor: "transparent",
-                                            color: textLightColor,
+                                            color: textLighterColor,
                                             paddingLeft: 13,
                                             borderRadius: 5,
                                             height: 30,
-                                            // borderColor: textLightColor,
+                                            // borderColor: textLighterColor,
                                             // borderWidth: 1,
                                             // marginBottom: 5,
                                             width: "90%"
@@ -192,8 +192,8 @@ export default function AttendenceStatusModal({
                                         is24Hour={true}
                                         style={{ backgroundColor: "transparent" }}
                                         onChange={(event, selectedDate) => onChange(selectedDate)}
-                                        accentColor={textLightColor}
-                                        textColor={textLightColor}
+                                        accentColor={textLighterColor}
+                                        textColor={textLighterColor}
                                     />
                                 )} */}
                                     <View style={{
@@ -244,11 +244,11 @@ export default function AttendenceStatusModal({
                                         placeholderTextColor={borderColor}
                                         style={{
                                             backgroundColor: "transparent",
-                                            color: textLightColor,
+                                            color: textLighterColor,
                                             paddingLeft: 13,
                                             borderRadius: 5,
                                             height: 30,
-                                            // borderColor: textLightColor,
+                                            // borderColor: textLighterColor,
                                             // borderWidth: 1,
                                             // marginBottom: 5,
                                             width: "90%"
@@ -264,8 +264,8 @@ export default function AttendenceStatusModal({
                                         is24Hour={true}
                                         style={{ backgroundColor: "transparent" }}
                                         onChange={(event, selectedDate) => onChange(selectedDate)}
-                                        accentColor={textLightColor}
-                                        textColor={textLightColor}
+                                        accentColor={textLighterColor}
+                                        textColor={textLighterColor}
                                     />
                                 )} */}
                                     <View style={{
@@ -314,11 +314,11 @@ export default function AttendenceStatusModal({
                                         height: 35,
                                         borderRadius: 5,
                                         paddingLeft: 13,
-                                        color: textLightColor,
+                                        color: textLighterColor,
                                         fontSize: 14,
                                         width: "100%",
                                         borderWidth: 0.5,
-                                        borderColor: textLightColor
+                                        borderColor: textLighterColor
                                     }}
                                 />
                             )}
@@ -327,7 +327,7 @@ export default function AttendenceStatusModal({
                         />
 
                     </View>
- 
+
                     <View style={{
                         paddingHorizontal: 10,
                         marginBottom: 20,

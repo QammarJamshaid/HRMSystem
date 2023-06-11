@@ -19,7 +19,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import { useGlobalContext } from "../../Services2";
 
 export default function Jobs(props) {
-    
+
 
     const defaultValues = {
         Quantity: "",
@@ -36,7 +36,7 @@ export default function Jobs(props) {
         mainColor,
         borderColor,
         backgroundDarkerColor,
-        textLightColor,
+        textLighterColor,
         backgroundColor, buttoncolor,
         textOffColor
     } = useSelector(state => state.styles)
@@ -308,7 +308,7 @@ export default function Jobs(props) {
                             }}
                             value={value}
                             setValue={(value) => {
-                                if (value(payStatus) == 1) {
+                                if(value(payStatus) == 1) {
                                     bestmatch()
                                 } else {
                                     getAllJobs()

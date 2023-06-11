@@ -12,9 +12,12 @@ import Delete from '../../Assets/Svgs/Delete.svg';
 import EditIcon from '../../Assets/Svgs/EditIcon.svg';
 import Usercircle from '../../Assets/Svgs/Usercircle.svg';
 import { ApiServices, useGlobalContext } from '../../Services2'
+import { ModalLoader } from "../../Components";
 
 function JobApplications(props) {
 
+    const [jobsList, setJobsList] = useState([])
+    const [jobLoader, setJobLoader] = useState(true)
     const { user } = useGlobalContext()
 
     const defaultValues = {
@@ -22,56 +25,39 @@ function JobApplications(props) {
         MarketValue: "",
     }
 
-    const dispatch = useDispatch()
 
-    const { control, handleSubmit, reset, formState: { errors } } = useForm({
+    const { } = useForm({
         mode: 'onChange',
         defaultValues: defaultValues,
     });
     const {
-        mainColor,
-        mainLighterColor,
         backgroundColor,
         textColor,
-        textOffColor,
-        textLightColor, buttoncolor,
+        textLighterColor,
         backgroundDarkerColor,
-        greenColor,
-        lightbluecolor,
-        redcolor,
-        borderColor,
-        blackcolor
-    } = useSelector(state => state.styles)
-    const [enableNotificationIcon, setEnableNotificationIcon] = useState(false)
-    const data = [
-        {
-            jobName: 'React native developer',
-            address: "Mon, Wed, Fri",
-            textcolor: mainColor,
-            color: "#5FAF67",
-            status: "Pending",
-        },
-        {
-            jobName: 'Ios Developer',
-            address: "Mon, Wed, Fri",
-            textcolor: greenColor,
-            state: "California",
-            color: "#5FAF67",
-            status: "Approved",
-        },
-        {
-            jobName: 'Web Developer',
-            address: "Mon, Wed, Fri",
-            textcolor: greenColor,
-            state: "California",
-            color: "#FD3E3E",
-            status: "Rejected",
-        },
-    ];
+        borderColor } = useSelector(state => state.styles)
+    const data = [];
 
     const getJobApplication = () => {
-        ApiServices.getJobApplication(user?.Uid).then((res) => {
-            console.log(res)
+        ApiServices.getJobApplication().then((res) => {
+            const filteredDataRes = res.filter(item => item.Uid === user?.Uid);
+            const filteredData = filteredDataRes.map(item => {
+                if(item.status === "Pending") {
+                    return { ...item, color: "#5FAF67" };
+                } else if(item.status === "Approved") {
+                    return { ...item, color: "#5FAF67" };
+                } else if(item.status === "Rejected") {
+                    return { ...item, color: "#FD3E3E" };
+                }
+                else if(item.status === "assign") {
+                    return { ...item, color: "#0000FF" };
+                }
+                else {
+                    return { ...item, color: "#000" };
+                }
+            });
+            setJobsList(filteredData)
+            setJobLoader(false)
         })
     }
 
@@ -79,9 +65,7 @@ function JobApplications(props) {
         getJobApplication()
     }, [])
     function AllAssets() {
-
-        return data.map((item, key) => {
-
+        return jobsList.length !== 0 ? jobsList.map((item) => {
             return (
                 <>
                     <View style={{
@@ -101,7 +85,7 @@ function JobApplications(props) {
                             paddingHorizontal: 10,
                         }}>
                             <Text style={{
-                                color: textLightColor,
+                                color: textLighterColor,
                                 fontSize: 12,
                                 width: "40%",
                                 fontWeight: "500"
@@ -114,7 +98,7 @@ function JobApplications(props) {
                                 width: "60%",
                                 fontWeight: "500"
                             }}>
-                                {item.jobName}
+                                {item?.name}
                             </Text>
                         </View>
                         <View style={{
@@ -124,7 +108,7 @@ function JobApplications(props) {
                             paddingHorizontal: 10,
                         }}>
                             <Text style={{
-                                color: textLightColor,
+                                color: textLighterColor,
                                 fontSize: 12,
                                 width: "40%",
                                 fontWeight: "500"
@@ -137,19 +121,22 @@ function JobApplications(props) {
                                 width: "60%",
                                 fontWeight: "500"
                             }}>
-                                {item.status}
+                                {item?.status}
                             </Text>
                         </View>
                     </View>
 
                 </>
             )
-        })
+        }) : null
     }
 
     return (
         <>
             <View style={{ flex: 1, backgroundColor: backgroundColor }}>
+                <ModalLoader
+                    visible={jobLoader}
+                />
                 <ScrollView
                     contentContainerStyle={{
                         backgroundColor: backgroundColor,

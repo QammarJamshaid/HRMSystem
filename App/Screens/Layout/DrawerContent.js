@@ -37,7 +37,7 @@ export default function DrawerContent({ navigation, state }) {
         mainColor,
         textOffColor,
         mainLighterColor,
-        textLightColor,
+        textLighterColor,
         textBluecolor, buttoncolor
     } = useSelector(state => state.styles)
 
@@ -88,11 +88,11 @@ export default function DrawerContent({ navigation, state }) {
                                 <Text style={{
                                     color: "#fff", marginLeft: 5,
                                     fontWeight: "bold", fontSize: 18
-                                }}>Haleema Sagheer</Text>
+                                }}>{user.Fname + user.Lname}</Text>
                                 <Text style={{
                                     color: "#fff", marginLeft: 5,
                                     fontWeight: "bold", fontSize: 13
-                                }}>HaleemaSagheer@gmail.com</Text>
+                                }}>{user.email}</Text>
                             </View>
                         </View>
                     </TouchableOpacity>
@@ -213,11 +213,11 @@ export default function DrawerContent({ navigation, state }) {
                                 <Text style={{
                                     color: "#fff", marginLeft: 5,
                                     fontWeight: "bold", fontSize: 18
-                                }}>Haleema Sagheer</Text>
+                                }}>{user.Fname + user.Lname}</Text>
                                 <Text style={{
                                     color: "#fff", marginLeft: 5,
                                     fontWeight: "bold", fontSize: 13
-                                }}>HaleemaSagheer@gmail.com</Text>
+                                }}>{user.email}</Text>
                             </View>
                         </View>
                     </TouchableOpacity>
@@ -361,6 +361,148 @@ export default function DrawerContent({ navigation, state }) {
                                     color: "#fff", marginLeft: 5,
                                     fontWeight: "bold", fontSize: 13
                                 }}>HaleemaSagheer@gmail.com</Text>
+                            </View>
+                        </View>
+                    </TouchableOpacity>
+                    {/* <Divider
+                                    style={{ borderWidth: 0.5, borderColor: "#fff", marginTop: 10 }}
+                                /> */}
+
+                    <View
+                        style={{
+                            borderTopWidth: 1,
+                            borderColor: '#f4f4f4',
+                            backgroundColor: 'transparent',
+                            // marginTop: 10,
+                            paddingHorizontal: 10,
+                        }}>
+                        <DrawerItem
+                            activeBackgroundColor="#2776EA"
+                            activeTintColor="#fff"
+                            inactiveBackgroundColor="transparent"
+                            inactiveTintColor="#000"
+                            focused={currentPage == 'Dashboard'}
+                            style={{ marginTop: 20 }}
+                            onPress={() => navigation.navigate('Dashboard')}
+                            labelStyle={[textStyle.p, { color: textColor, marginLeft: -12, fontWeight: "bold", fontSize: 16 }]}
+                            icon={() => (
+                                <FontAwesome name="user-circle-o" size={24} color={textColor}></FontAwesome>
+                            )}
+                            label="Home"
+                        />
+                        {/* <View style={{ justifyContent: 'flex-end' }}>
+                            <DrawerItem
+                                activeBackgroundColor="#D44B25"
+                                activeTintColor="#fff"
+                                inactiveBackgroundColor="transparent"
+                                inactiveTintColor="#000"
+                                focused={currentPage == 'JobsPost'}
+                                onPress={() => navigation.navigate('JobsPost')}
+                                labelStyle={[textStyle.p, { color: { textColor }, marginLeft: -12, fontWeight: "bold", fontSize: 16 }]}
+                                icon={() => (
+                                    <FontAwesome
+                                        name="briefcase"
+                                        color={textColor}
+                                        size={24}>
+                                    </FontAwesome>
+                                )}
+                                label="Jobs"
+                            />
+                        </View> */}
+                        {/* <View style={{ justifyContent: 'flex-end' }}>
+                            <DrawerItem
+                                activeBackgroundColor="#D44B25"
+                                activeTintColor="#fff"
+                                inactiveBackgroundColor="transparent"
+                                inactiveTintColor="#000"
+                                focused={currentPage == 'Main'}
+                                onPress={() => navigation.navigate('Main')}
+                                labelStyle={[textStyle.p, { color: { textColor }, marginLeft: -12, fontWeight: "bold", fontSize: 16 }]}
+                                icon={() => (
+                                    <MaterialCommunityIcons
+                                        name="briefcase-check-outline"
+                                        color={textColor}
+                                        size={24}>
+                                    </MaterialCommunityIcons>
+                                )}
+                                label="Applictions"
+                            />
+                        </View> */}
+                        <View style={{ flexDirection: "row" }}>
+                            <DrawerItem
+                                activeBackgroundColor="#D44B25"
+                                activeTintColor="#fff"
+                                inactiveBackgroundColor="transparent"
+                                inactiveTintColor="#000"
+                                focused={currentPage == 'setting'}
+                                onPress={() => (null)}
+                                style={{ width: 200, }}
+                                labelStyle={[textStyle.p, { color: textColor, marginLeft: -12, fontWeight: "bold", fontSize: 16 }]}
+                                icon={() => (
+                                    <Feather
+                                        name="settings"
+                                        size={24}
+                                        color={textColor}
+                                        style={{}}></Feather>
+                                )}
+                                label="Settings"
+                            />
+                            {/* <TouchableOpacity style={{ justifyContent: "center" }}>
+                                                <Entypo name="chevron-down" size={20} color={textColor}></Entypo>
+                                            </TouchableOpacity> */}
+                        </View>
+                        <View style={{ justifyContent: 'flex-end' }}>
+                            <DrawerItem
+                                activeBackgroundColor="#D44B25"
+                                activeTintColor="#fff"
+                                inactiveBackgroundColor="transparent"
+                                inactiveTintColor="#000"
+                                focused={currentPage == 'login'}
+                                onPress={onLogout}
+                                labelStyle={[textStyle.p, { color: { textColor }, marginLeft: -12, fontWeight: "bold", fontSize: 16 }]}
+                                icon={() => (
+                                    <MaterialIcons
+                                        name="logout"
+                                        color={textColor}
+                                        size={24}>
+                                    </MaterialIcons>
+                                )}
+                                label="Sign Out"
+                            />
+                        </View>
+                    </View>
+                </View>
+            }
+            {user?.role == "employee" &&
+                <View style={{}}>
+                    <TouchableOpacity
+                        // onPress={() => navigation.navigate("ProfileTopBar")}
+                        style={
+                            {
+                                backgroundColor: mainColor,
+                                paddingHorizontal: 15, flexDirection: "row"
+                            }
+                        }>
+                        <View style={{
+                            width: 55, height: 55, borderRadius: 100,
+                            backgroundColor: "lightgray", justifyContent: "center",
+                            alignItems: "center", marginBottom: 20
+                        }}>
+                            <Usercircle color={'#fff'} height={55} width={55} style={{}} />
+                        </View>
+                        <View style={{
+                            flex: 1, justifyContent: "space-between",
+                            flexDirection: "row"
+                        }}>
+                            <View style={[{ justifyContent: "center", marginBottom: 18 }]}>
+                                <Text style={{
+                                    color: "#fff", marginLeft: 5,
+                                    fontWeight: "bold", fontSize: 18
+                                }}>{user.Fname + user.Lname}</Text>
+                                <Text style={{
+                                    color: "#fff", marginLeft: 5,
+                                    fontWeight: "bold", fontSize: 13
+                                }}>{user.email}</Text>
                             </View>
                         </View>
                     </TouchableOpacity>

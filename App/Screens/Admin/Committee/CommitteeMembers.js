@@ -45,7 +45,7 @@ function CommitteeMembers(props) {
         backgroundColor,
         textColor,
         modalColor,
-        textLightColor, buttoncolor,
+        textLighterColor, buttoncolor,
         borderColor,
         greenColor,
         lightbluecolor,
@@ -131,7 +131,7 @@ function CommitteeMembers(props) {
                                 {item.type}
                             </Text>
                             {/* <Text style={{
-                                color: textLightColor, fontSize: 12,
+                                color: textLighterColor, fontSize: 12,
                                 fontWeight: "500",
                             }}>
                                 {"01/23/2023"}
@@ -150,7 +150,7 @@ function CommitteeMembers(props) {
                         borderRadius: 8,
                         justifyContent: "center",
                         marginRight: 5,
-                        marginBottom:10
+                        marginBottom: 10
                     }}
                 >
                     <Text

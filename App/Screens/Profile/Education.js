@@ -49,7 +49,7 @@ function Education(props) {
         backgroundColor,
         textColor,
         textOffColor,
-        textLightColor, buttoncolor,
+        buttoncolor,
         backgroundDarkerColor,
         greenColor,
         lightbluecolor,
@@ -164,7 +164,7 @@ function Education(props) {
                                     justifyContent: "space-between"
                                 }}>
                                     <Text style={{
-                                        color: textLightColor,
+                                        color: textColor,
                                         fontSize: 14,
                                         width: "40%",
                                         fontWeight: "500"
@@ -212,7 +212,7 @@ function Education(props) {
                                     paddingHorizontal: 10,
                                 }}>
                                     <Text style={{
-                                        color: textLightColor,
+                                        color: textColor,
                                         fontSize: 12,
                                         width: "40%",
                                         fontWeight: "500"
@@ -235,7 +235,7 @@ function Education(props) {
                                     paddingHorizontal: 10,
                                 }}>
                                     <Text style={{
-                                        color: textLightColor,
+                                        color: textColor,
                                         fontSize: 12,
                                         width: "40%",
                                         fontWeight: "500"
@@ -258,7 +258,7 @@ function Education(props) {
                                     paddingHorizontal: 10,
                                 }}>
                                     <Text style={{
-                                        color: textLightColor,
+                                        color: textColor,
                                         fontSize: 12,
                                         width: "40%",
                                         fontWeight: "500"
@@ -280,7 +280,7 @@ function Education(props) {
                                     paddingHorizontal: 10,
                                 }}>
                                     <Text style={{
-                                        color: textLightColor,
+                                        color: textColor,
                                         fontSize: 12,
                                         width: "40%",
                                         fontWeight: "500"
@@ -302,7 +302,7 @@ function Education(props) {
                                     paddingHorizontal: 10,
                                 }}>
                                     <Text style={{
-                                        color: textLightColor,
+                                        color: textColor,
                                         fontSize: 12,
                                         width: "40%",
                                         fontWeight: "500"

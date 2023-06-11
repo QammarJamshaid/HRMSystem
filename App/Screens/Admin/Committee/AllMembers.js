@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import {
     Text, View, TouchableOpacity,
-    FlatList,Image
+    FlatList, Image
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
@@ -14,6 +14,8 @@ import { ms, mvs, s, vs } from 'react-native-size-matters';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useGetAllMemberQuery } from './Services/CommitteeApi';
 import { baseUrl } from '../../../Config/baseURL';
+import employeeImages from '../../../Global/EmployeeImages';
+
 
 function AllMembers(props) {
     const defaultValues = {
@@ -39,7 +41,7 @@ function AllMembers(props) {
         textOffColor,
         backgroundColor,
         textColor,
-        textLightColor, buttoncolor,
+        textLighterColor, buttoncolor,
         borderColor,
         greenColor,
     } = useSelector(state => state.styles)
@@ -85,10 +87,11 @@ function AllMembers(props) {
 
     function AllHead({ item, index }) {
         return data.map((item, key) => {
-            // const { name, website, image } = item
+            const imageSource = employeeImages[item.image];
+
             return (
                 <TouchableOpacity
-                    onPress={() => props.navigation.navigate("EmployeeDetail",{item:item})}
+                    onPress={() => props.navigation.navigate("EmployeeDetail", { item: item })}
                     style={{
                         height: s(90), width: s(145),
                         marginLeft: s(15),
@@ -108,14 +111,12 @@ function AllMembers(props) {
                         borderRadius: 100, backgroundColor: mainColor,
                         alignItems: "center", justifyContent: "center"
                     }}>
-                        <Image
-                            // resizeMode="contain"
-                            source={{ uri: baseUrl + data.image }}
-                            style={{
-                                height: 65, width: 65,
-                                alignSelf: "center", borderRadius: 100,
-                            }}
-                        />
+                        {item.image && imageSource ? (
+                            <Image
+                                source={imageSource}
+                                style={{ height: 65, width: 65, alignSelf: 'center', borderRadius: 100 }}
+                            />
+                        ) : null}
                         {/* <EmergencyStockIcon color={{ mainColor }} height={22} width={22} style={{}} /> */}
                     </View>
                     <View style={{
