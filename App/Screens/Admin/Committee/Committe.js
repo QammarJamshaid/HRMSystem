@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Controller, useForm } from 'react-hook-form';
+import React from "react";
+import { useForm } from 'react-hook-form';
 import {
     Text,
     TouchableOpacity, View
@@ -7,9 +7,13 @@ import {
 import { ScrollView } from 'react-native-gesture-handler';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux';
 import Usercircle from '../../../Assets/Svgs/Usercircle.svg';
-import { useGetCommitteesAllQuery, useGetCommittesQuery } from "./Services/CommitteeApi";
+import { useGlobalContext } from '../../../Services2';
+import {
+    useDeleteCommitteMutation,
+    useGetCommittesQuery
+} from "./Services/CommitteeApi";
 
 
 function Committe(props) {
@@ -20,7 +24,7 @@ function Committe(props) {
     }
 
     const dispatch = useDispatch()
-
+    const { user, updateUser } = useGlobalContext()
     const { control, handleSubmit, reset, formState: { errors } } = useForm({
         mode: 'onChange',
         defaultValues: defaultValues,
@@ -39,49 +43,30 @@ function Committe(props) {
         borderColor,
         blackcolor
     } = useSelector(state => state.styles)
-    const data1 = [
-        {
-            jobName: 'FYP Committee',
-            applicantName: "Haleema",
-            textcolor: mainColor,
-            color: "#5FAF67",
-            status: "Pending",
-        },
-        {
-            jobName: 'Guard Committee',
-            applicantName: "Qammar",
-            textcolor: greenColor,
-            state: "California",
-            color: "#5FAF67",
-            status: "Approved",
-        },
-        {
-            jobName: 'Employee Committee',
-            applicantName: "Saad",
-            textcolor: greenColor,
-            state: "California",
-            color: "#5FAF67",
-            status: "Rejected",
-        },
 
-
-    ];
     const {
         data = [],
         isFetching,
     } = useGetCommittesQuery();
-    console.log("AllCommitteess:::::::",data)
+
+    console.log("useDeleteCommitteMutation===>", useDeleteCommitteMutation)
+
+    const [
+        deleteCommitte,
+        { isLoading }
+    ] = useDeleteCommitteMutation()
+
     function AllAssets() {
         // return data
         // .filter(obj => obj.jobName == isJobPickerOpen)
         // .map((item, key) => {
- 
-        return data1.map((item, key) => {
+
+        return data.map((item, key) => {
 
             return (
                 <>
                     <TouchableOpacity
-                         onPress={() => props.navigation.navigate("CommitteDetail",{name:item.jobName,committeeid:"1"})} 
+                        onPress={() => props.navigation.navigate("CommitteDetail", { item })}
                         key={key}
                         style={{
                             backgroundColor: backgroundDarkerColor, shadowColor: "#000",
@@ -113,14 +98,13 @@ function Committe(props) {
                                 width: "50%",
                                 fontWeight: "500"
                             }}>
-                                {item.jobName}
+                                {item.CommitteeTitle}
                             </Text>
                         </View>
                         <TouchableOpacity
-                            // onPress={() => {
-                            //     console.log("sdfs")
-                            //     dispatch(changeAddJobModal(true))
-                            // }}
+                            onPress={() =>
+                                deleteCommitte(item.CommitteeId)
+                            }
                             style={{
                                 backgroundColor: mainColor,
                                 height: 30,
@@ -243,7 +227,7 @@ function Committe(props) {
                             backgroundColor: backgroundColor,
                             marginBottom: 10, marginTop: 10
                         }}>
-                            {AllAssets(data1)}
+                            {AllAssets(data)}
                         </View>
                     </View>
                 </ScrollView>

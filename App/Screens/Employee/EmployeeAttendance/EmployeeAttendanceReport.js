@@ -1,29 +1,39 @@
-import React, { useEffect, useState } from 'react';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import React, { useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import {
-    Text, View, TextInput,
-    TouchableOpacity, FlatList
+    Text,
+    TouchableOpacity,
+    View
 } from 'react-native';
-import { useSelector, useDispatch } from 'react-redux';
-import { useForm, Controller } from 'react-hook-form';
-import BackIcon from '../../../Assets/Svgs/BackIcon.svg';
-import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { ScrollView } from 'react-native-gesture-handler';
-import Calender from '../../../Assets/Svgs/Calender.svg'
-import DateTimePicker from '@react-native-community/datetimepicker'
-// import Entypo from 'react-native-vector-icons/Entypo';
-// import moment from "moment";
-// import { useGetAttendanceQuery } from './Services/AttendenceApi';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
+import { useDispatch, useSelector } from 'react-redux';
+import BackIcon from '../../../Assets/Svgs/BackIcon.svg';
+import Calender from '../../../Assets/Svgs/Calender.svg';
 import { useGlobalContext } from '../../../Services2';
 import { changeAddAttendanceDetailModal } from '../Store/EmployeeSlice';
 import AttendanceDetailModal from './AttendanceDetailModal';
+import { useGetEmployeeAttendanceQuery } from '../Services/EmployeeApi';
+import moment from 'moment';
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
 
 function EmployeeAttendanceReport(props) {
 
     const defaultValues = {
-        Quantity: "",
-        MarketValue: "",
+        startDate: new Date(),
+        endDate: new Date()
     }
     const dispatch = useDispatch()
+
+    const { user }
+        = useGlobalContext()
+
+    const {
+        data = [],
+        isFetching,
+    } = useGetEmployeeAttendanceQuery(user?.Uid)
+
     const {
         textColor,
         mainColor,
@@ -35,57 +45,59 @@ function EmployeeAttendanceReport(props) {
         greenColor
     } = useSelector(state => state.styles)
     const [secureTextEntry, ChangeSecureTextEntry] = useState(true);
-    const { control, handleSubmit, reset, formState: { errors } } = useForm({
+    const {
+        control,
+        handleSubmit,
+        reset,
+        watch,
+        formState: { errors }
+    } = useForm({
         mode: 'onChange',
-        defaultValues: defaultValues,
+        defaultValues,
     });
+
+    const watchStartDate = watch('startDate')
+    const watchEndDate = watch('endDate')
+
+    console.log("watchStartDate===>", watchStartDate)
+    console.log("watchEndDate===>", watchEndDate)
+
     const [loader, setLoader] = useState(false)
     const [showItems, setShowItems] = useState(false)
     const {
         viewAttendenceModal
     } = useSelector(state => state.attendence) || {}
 
-    const { user } = useGlobalContext()
     console.log("viewAttendenceModal===>", viewAttendenceModal)
     const showDatepicker = () => {
-        showMode('date');
+        // showMode('date');
     };
-    const data1 = [
-        {
-            jobTitle: 'React',
-            applicantName: "Haleema",
-            leaveType: "Sick",
-            textcolor: mainColor,
-            color: "#5FAF67",
-            status: "Pending",
-        },
-        {
-            jobTitle: 'Ios',
-            applicantName: "Qammar",
-            leaveType: "Unpaid",
-            textcolor: greenColor,
-            state: "California",
-            color: "#5FAF67",
-            status: "Approved",
-        },
-        {
-            jobTitle: 'Web',
-            applicantName: "Saad",
-            leaveType: "Paid",
-            textcolor: greenColor,
-            state: "California",
-            color: "#5FAF67",
-            status: "Rejected",
-        },
 
-
-    ];
     const [showDate, setshowDate] = useState(false)
     const [date, setdate] = useState(new Date("2022-03-25"))
     const [showDatefrom, setshowDatefrom] = useState(false)
     const [datefrom, setdatefrom] = useState(new Date("2022-03-25"))
     function AllAssets() {
-        return data1.map((item, key) => {
+
+        let dataToRender = data
+
+        dataToRender = data.filter(({
+            status,
+            date,
+        }) => {
+
+            if (
+                moment(date).isSameOrBefore(watchEndDate) &&
+                moment(date).isSameOrAfter(watchStartDate)
+            )
+                return true
+            return false
+        })
+
+        return dataToRender.map(({
+            status,
+            date,
+        }, key) => {
 
             return (
                 <>
@@ -123,7 +135,7 @@ function EmployeeAttendanceReport(props) {
                                     color: borderColor, fontSize: 14,
                                     fontWeight: "bold"
                                 }}>
-                                    {"2022-03-12 00:00:00"}
+                                    {moment(date).format("MMM DD, YYYY")}
                                 </Text>
                             </View>
                             <View style={{
@@ -139,7 +151,7 @@ function EmployeeAttendanceReport(props) {
                                     color: mainColor, fontSize: 14,
                                     fontWeight: "bold"
                                 }}>
-                                    {"Present"}
+                                    {status}
                                 </Text>
                             </View>
 
@@ -168,14 +180,19 @@ function EmployeeAttendanceReport(props) {
                             marginBottom: 10
                         }}
                     >
-                        <View style={{
+                      <View style={{
                             flexDirection: "row", justifyContent: "center",
                             alignItems: "center"
                         }}>
                             <TouchableOpacity
-                                onPress={() => props.navigation.goBack()}
+                                onPress={() => props.navigation.openDrawer()}
                             >
-                                <BackIcon name='burst-sale' height={14} width={14} color={textOffColor} />
+                                <EvilIcons
+                                    name="navicon"
+                                    size={26}
+                                    color={"purple"}
+                                // style={{marginLeft:10}}
+                                />
                             </TouchableOpacity>
                         </View>
                         <Text
@@ -238,19 +255,17 @@ function EmployeeAttendanceReport(props) {
                                                 alignItems: "center",
                                                 backgroundColor: backgroundColor
                                             }}>
-
-                                            {(showDate || Platform.OS == "ios") && (
-                                                <DateTimePicker
-                                                    // minimumDate={new Date()}
-                                                    value={date}
-                                                    mode={'date'}
-                                                    is24Hour={true}
-                                                    // style={{ backgroundColor: "transparent" }}
-                                                    onChange={(event, selectedDate) => setdate(selectedDate)}
-                                                    accentColor={textLightColor}
-                                                    textColor={textLightColor}
-                                                />
-                                            )}
+                                            <DateTimePicker
+                                                // minimumDate={new Date()}
+                                                value={value}
+                                                mode={'date'}
+                                                is24Hour={true}
+                                                // style={{ backgroundColor: "transparent" }}
+                                                onChange={(event, selectedDate) =>
+                                                    onChange(selectedDate)}
+                                                accentColor={textLightColor}
+                                                textColor={textLightColor}
+                                            />
                                             <View style={{
                                                 width: '10%', height: 37, alignSelf: "center",
                                                 justifyContent: "center", alignItems: "center"
@@ -259,9 +274,9 @@ function EmployeeAttendanceReport(props) {
                                             </View>
                                         </TouchableOpacity>
                                     )}
-                                    name="purchaseDate"
+                                    name="startDate"
                                 />
-                                {errors.purchaseDate && <Text style={{ color: 'red', marginLeft: 10, marginBottom: 8 }}>Purchase Date is required</Text>}
+                                {errors.startDate && <Text style={{ color: 'red', marginLeft: 10, marginBottom: 8 }}>Start Date is required</Text>}
 
                             </View>
                         </View>
@@ -296,18 +311,17 @@ function EmployeeAttendanceReport(props) {
                                                 alignItems: "center",
                                                 backgroundColor: backgroundColor
                                             }}>
-                                            {(showDatefrom || Platform.OS == "ios") && (
-                                                <DateTimePicker
-                                                    // minimumDate={new Date()}
-                                                    value={datefrom}
-                                                    mode={'date'}
-                                                    is24Hour={true}
-                                                    // style={{ backgroundColor: "transparent" }}
-                                                    onChange={(event, selectedDate) => setdatefrom(selectedDate)}
-                                                    accentColor={textLightColor}
-                                                    textColor={textLightColor}
-                                                />
-                                            )}
+                                            <DateTimePicker
+                                                // minimumDate={new Date()}
+                                                value={value}
+                                                mode={'date'}
+                                                is24Hour={true}
+                                                // style={{ backgroundColor: "transparent" }}
+                                                onChange={(event, selectedDate) =>
+                                                    onChange(selectedDate)}
+                                                accentColor={textLightColor}
+                                                textColor={textLightColor}
+                                            />
                                             <View style={{
                                                 width: '10%', height: 37, alignSelf: "center",
                                                 justifyContent: "center", alignItems: "center"
@@ -316,57 +330,28 @@ function EmployeeAttendanceReport(props) {
                                             </View>
                                         </TouchableOpacity>
                                     )}
-                                    name="purchaseDateTo"
+                                    name="endDate"
                                 />
-                                {errors.purchaseDateTo && <Text style={{ color: 'red', marginLeft: 10, marginBottom: 8 }}>Purchase Date is required</Text>}
+                                {errors.endDate && <Text style={{ color: 'red', marginLeft: 10, marginBottom: 8 }}>End Date is required</Text>}
 
                             </View>
                         </View>
                     </View>
-                    <View style={{
-                        paddingHorizontal: 10,
-                        marginBottom: 20,
-                        marginTop: 20
-                    }}>
-                        <TouchableOpacity
-                            onPress={() => setShowItems(!showItems)}
-                            style={{
-                                backgroundColor: mainColor,
-                                height: 35,
-                                width: 130,
-                                justifyContent: "center",
-                                borderRadius: 5,
-                                alignSelf: "flex-end",
-                                marginRight: 5
-                            }}
-                        >
-                            <Text
-                                style={{
-                                    fontSize: 14,
-                                    color: "#fff",
-                                    fontWeight: 'bold',
-                                    alignSelf: "center",
-                                }}>
-                                Attendance View
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-                    {showItems &&
-                        <>
-                            <View style={{
-                                justifyContent: "space-between",
-                                width: "95%", alignSelf: "center"
-                            }}>
+                    <>
+                        <View style={{
+                            justifyContent: "space-between",
+                            width: "95%", alignSelf: "center",
+                            marginTop: 20,
+                        }}>
 
-                                <View style={{
-                                    backgroundColor: backgroundColor,
-                                    marginBottom: 10,
-                                }}>
-                                    {AllAssets(data1)}
-                                </View>
+                            <View style={{
+                                backgroundColor: backgroundColor,
+                                marginBottom: 10,
+                            }}>
+                                {AllAssets()}
                             </View>
-                        </>
-                    }
+                        </View>
+                    </>
                 </ScrollView>
                 <View style={{
                     height: 10,

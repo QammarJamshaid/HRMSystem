@@ -10,12 +10,14 @@ import {
     Controller
 } from 'react-hook-form';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import Usercircle from '../../../Assets/Svgs/Usercircle.svg';
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import { ms, mvs, s, vs } from 'react-native-size-matters';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useGetAllMemberQuery } from '../../Admin/Committee/Services/CommitteeApi';
 import { baseUrl } from '../../../Config/baseURL';
-import EvilIcons from 'react-native-vector-icons/EvilIcons';
-import Usercircle from '../../../Assets/Svgs/Usercircle.svg';
+import employeeImages from '../../../Global/EmployeeImages';
+
 
 function AttendanceRecord(props) {
     const defaultValues = {
@@ -48,6 +50,36 @@ function AttendanceRecord(props) {
 
     useEffect(() => {
     }, [])
+    const ReportData = [
+        {
+            // icon: <ClockIcon color={{}} height={40} width={40} style={{}} />,
+            title: 'Clock In /Clock Out',
+        },
+        {
+            // icon: <ClockIcon color={{}} height={40} width={40} style={{}} />,
+            title: 'Clock In /Clock Out',
+        },
+        {
+            // icon: <ClockIcon color={{}} height={40} width={40} style={{}} />,
+            title: 'Clock In /Clock Out',
+        },
+        {
+            // icon: <ClockIcon color={{}} height={40} width={40} style={{}} />,
+            title: 'Clock In /Clock Out',
+        },
+        {
+            // icon: <ClockIcon color={{}} height={40} width={40} style={{}} />,
+            title: 'Clock In /Clock Out',
+        },
+        {
+            // icon: <ClockIcon color={{}} height={40} width={40} style={{}} />,
+            title: 'Clock In /Clock Out',
+        },
+        {
+            // icon: <ClockIcon color={{}} height={40} width={40} style={{}} />,
+            title: 'Clock In /Clock Out',
+        },
+    ]
     const {
         data = [],
         isFetching,
@@ -57,10 +89,11 @@ function AttendanceRecord(props) {
 
     function AllHead({ item, index }) {
         return data.map((item, key) => {
-            // const { name, website, image } = item
+            const imageSource = employeeImages[item.image];
+
             return (
                 <TouchableOpacity
-                    onPress={() => props.navigation.navigate("GuardAttendanceReport", { item: item })}
+                    onPress={() => props.navigation.navigate("EmployeeDetail", { item: item })}
                     style={{
                         height: s(90), width: s(145),
                         marginLeft: s(15),
@@ -78,16 +111,14 @@ function AttendanceRecord(props) {
                     <View style={{
                         height: 65, width: 65, top: -30,
                         borderRadius: 100, backgroundColor: mainColor,
-                        alignItems: "center", justifyContent: "center",
+                        alignItems: "center", justifyContent: "center"
                     }}>
-                        <Image
-                            // resizeMode="contain"
-                            source={{ uri: baseUrl + data.image }}
-                            style={{
-                                height: 65, width: 65,
-                                alignSelf: "center", borderRadius: 100,
-                            }}
-                        />
+                        {item.image && imageSource ? (
+                            <Image
+                                source={imageSource}
+                                style={{ height: 65, width: 65, alignSelf: 'center', borderRadius: 100 }}
+                            />
+                        ) : null}
                         {/* <EmergencyStockIcon color={{ mainColor }} height={22} width={22} style={{}} /> */}
                     </View>
                     <View style={{
@@ -111,10 +142,8 @@ function AttendanceRecord(props) {
                 <View style={{
                     height: getStatusBarHeight() + 50,
                     backgroundColor: backgroundColor,
-                    justifyContent: 'flex-end',
-                    paddingHorizontal: 10,
+                    justifyContent: 'flex-end'
                 }}>
-
                     <View
                         style={{
                             marginBottom: 10,

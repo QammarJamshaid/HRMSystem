@@ -69,6 +69,7 @@ import EmployeeCommittees from '../Employee/EmployeeCommittee/EmployeeCommittees
 import ApprovedLeaveApp from '../Employee/EmployeeLeave/ApprovedLeaveApp'
 import PendingLeaveApp from '../Employee/EmployeeLeave/PendingLeaveApp'
 import RejectedLeaveApp from '../Employee/EmployeeLeave/RejectedLeaveApp'
+import EmployeeAssignedJob from '../Employee/EmployeeCommittee/EmployeeAssignedJob'
 
 const { height, width } = Dimensions.get('window')
 
@@ -923,6 +924,11 @@ const EmployeeCommitteeNav = () => (
             options={{ headerShown: false }}
             name="EmployeeCommittees"
             component={EmployeeCommittees}
+        />
+        <Stack.Screen
+            options={{ headerShown: false }}
+            name="EmployeeAssignedJob"
+            component={EmployeeAssignedJob}
         />
 
     </Stack.Navigator>

@@ -37,30 +37,20 @@ export const EmployeeApi = api.injectEndpoints({
             },
             providesTags: ['employeeLeave'],
         }),
-        // getEmployeeAllCommittees: builder.query({
-        //     query: (id) => {
-
-        //         console.log("id===>", id)
-
-        //         return {
-        //             url: baseUrl + `/Committeemembers/CommitteeWithMemberGet`
-        //         }
-        //     },
-        //     providesTags: ['employeeLeave'],
-        // }),
-
         getEmployeeAllCommittees: builder.query({
-            query: () => ({
-                url: baseUrl + `/Committeemembers/CommitteeWithMemberGet`
-            }),
+            query: (id) => {
+
+                console.log("id===>", id)
+
+                return {
+                    url: baseUrl + `/Committeemembers/CommitteeWithMemberGet?uid=${42}`
+                }
+            },
             providesTags: ['employeeLeave'],
         }),
-
         addLeavePost: builder.mutation({
             query: (body) => {
-
                 console.log("body===>", body)
-
                 return {
                     url: baseUrl + `/Leave/LeavePost`,
                     method: 'POST',
@@ -69,13 +59,21 @@ export const EmployeeApi = api.injectEndpoints({
             },
             invalidatesTags: ['employeeLeave']
         }),
+        getEmployeeAttendance: builder.query({
+            query: (id) => {
+                return {
+                    url: baseUrl + `/Attendance/NewAttendanceGet?uid=${id}`
+                }
+            },
+            providesTags: ['employeeAttendance'],
+        }),
     }),
 })
-
 export const {
     useGetApprovedLeaveAppQuery,
     useGetRejectedLeaveAppQuery,
     useGetPendingLeaveAppQuery,
     useGetEmployeeAllCommitteesQuery,
-    useAddLeavePostMutation
+    useAddLeavePostMutation,
+    useGetEmployeeAttendanceQuery,
 } = EmployeeApi

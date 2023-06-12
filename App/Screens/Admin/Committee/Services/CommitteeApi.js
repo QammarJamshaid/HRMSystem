@@ -5,32 +5,33 @@ export const CommitteeApi = api.injectEndpoints({
     endpoints: (builder) => ({
 
         getCommittes: builder.query({
-            query: () => {
 
-                return {
-                    url:baseUrl +`/Committee/NewAllCommitteeGet`
-                }
-            },
-            invalidatesTags: ['Committee']
+            query: () => ({
+                url: baseUrl + `/Committee/AllCommitteeGet`
+            }),
+            // providesTags: ['Committee'],
         }),
-        getCommittes: builder.query({
+
+        deleteCommitte: builder.mutation({
             query: (id) => {
 
                 return {
-                    url:baseUrl +`/Committee/CommitteeGet?comid=${id}`
+                    url: baseUrl + `/Committee/DeleteCommitte?CommitteeId=${id}`,
+                    method: 'DELETE',
                 }
             },
             invalidatesTags: ['Committee']
         }),
+
         getAllMember: builder.query({
             query: () => ({
-                url:baseUrl + `/User/UserroleGet`
+                url: baseUrl + `/User/UserroleGet`
             }),
             providesTags: ['Committee'],
         }),
         getAllHod: builder.query({
             query: () => ({
-                url:baseUrl + `/User/HodroleGet`
+                url: baseUrl + `/User/HodroleGet`
             }),
             providesTags: ['Committee'],
         }),
@@ -64,8 +65,9 @@ export const CommitteeApi = api.injectEndpoints({
 })
 
 export const {
-    useGetAllMemberQuery,
     useGetCommittesQuery,
+    useDeleteCommitteMutation,
+    useGetAllMemberQuery,
     useGetAllHodQuery,
     useCreateCommitteMutation,
     useAddInCommiteMutation

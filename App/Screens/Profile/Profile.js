@@ -5,7 +5,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import { ScrollView } from "react-native-gesture-handler";
 import CamerIcon from '../../Assets/Svgs/CamerIcon.svg';
 import EditIcon from '../../Assets/Svgs/EditIcon.svg';
-import { ApiServices, StorageManager, flashSuccessMessage, useGlobalContext } from '../../Services2'
+import {
+    ApiServices,
+    StorageManager,
+    flashSuccessMessage,
+    useGlobalContext
+} from '../../Services2'
 import { wp } from "../../Global";
 import { launchImageLibrary } from 'react-native-image-picker';
 import AntDesign from 'react-native-vector-icons/AntDesign'
@@ -13,7 +18,10 @@ import { ModalLoader } from "../../Components";
 
 
 export default function Profile(props) {
-    const { user, updateUser } = useGlobalContext()
+
+    const { user, updateUser }
+        = useGlobalContext()
+
     const { setData, storageKeys } = StorageManager
     const [saveChangeLoader, setSaveChangeLoader] = useState({
         visible: false,
@@ -53,7 +61,7 @@ export default function Profile(props) {
             mediaType: 'photo'
         }
         launchImageLibrary(options, (res) => {
-            if(!res.didCancel) {
+            if (!res.didCancel) {
                 setSaveChangeLoader({
                     visible: true,
                     message: 'Updating Image...'
@@ -63,37 +71,37 @@ export default function Profile(props) {
                 user.image = uri
 
                 var formdata = new FormData();
-                if(user?.firstName) {
+                if (user?.firstName) {
                     formdata.append("Fname", user?.Fname);
                 }
-                if(user?.Lname) {
+                if (user?.Lname) {
                     formdata.append("Lname", user?.Lname);
                 }
-                if(user?.cnic) {
+                if (user?.cnic) {
                     formdata.append("cnic", user?.cnic);
                 }
-                if(user?.mobile) {
+                if (user?.mobile) {
                     formdata.append("mobile", user?.mobile);
                 }
-                if(user?.address) {
+                if (user?.address) {
                     formdata.append("address", user?.address);
                 }
-                if(user?.Uid) {
+                if (user?.Uid) {
                     formdata.append("Uid", user?.Uid);
                 }
-                if(user?.email) {
+                if (user?.email) {
                     formdata.append("email", user?.email);
                 }
-                if(user?.dob) {
+                if (user?.dob) {
                     formdata.append("dob", user?.dob);
                 }
-                if(user?.role) {
+                if (user?.role) {
                     formdata.append("role", user?.role);
                 }
-                if(user?.password) {
+                if (user?.password) {
                     formdata.append("password", user?.password)
                 }
-                if(uri) {
+                if (uri) {
                     formdata.append("image", uri);
                 }
                 formdata.append("gender", 'gender');

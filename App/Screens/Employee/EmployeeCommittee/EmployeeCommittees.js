@@ -10,8 +10,9 @@ import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import { useDispatch, useSelector } from 'react-redux'
 import Usercircle from '../../../Assets/Svgs/Usercircle.svg';
 import { changeAddAtAssignedJobModal } from "../Store/EmployeeSlice";
-import AssignedJobModal from "./AssignedJobModal";
+import AssignedJobModal from "./EmployeeAssignedJob";
 import { useGetEmployeeAllCommitteesQuery } from "../Services/EmployeeApi";
+import { useGlobalContext } from "../../../Services2";
 
 
 function EmployeeCommittees(props) {
@@ -27,6 +28,7 @@ function EmployeeCommittees(props) {
         mode: 'onChange',
         defaultValues: defaultValues,
     });
+
     const {
         mainColor,
         mainLighterColor,
@@ -41,38 +43,20 @@ function EmployeeCommittees(props) {
         borderColor,
         blackcolor
     } = useSelector(state => state.styles)
-    const data1 = [
-        {
-            jobName: 'FYP Committee',
-            applicantName: "Haleema",
-            textcolor: mainColor,
-            color: "#5FAF67",
-            status: "Pending",
-        },
-        {
-            jobName: 'Guard Committee',
-            applicantName: "Qammar",
-            textcolor: greenColor,
-            state: "California",
-            color: "#5FAF67",
-            status: "Approved",
-        },
-        {
-            jobName: 'Employee Committee',
-            applicantName: "Saad",
-            textcolor: greenColor,
-            state: "California",
-            color: "#5FAF67",
-            status: "Rejected",
-        },
 
+    const { user }
+        = useGlobalContext()
 
-    ];
     const {
         data = [],
         isFetching,
-    } = useGetEmployeeAllCommitteesQuery();
-    console.log("AllCommitteess:::::::", data)
+    } = useGetEmployeeAllCommitteesQuery(user?.Uid)
+
+
+
+    console.log("user===>", user)
+    console.log("EmployeeCommittee:::::::", data)
+
     function AllAssets() {
         // return data
         // .filter(obj => obj.jobName == isJobPickerOpen)
@@ -115,11 +99,11 @@ function EmployeeCommittees(props) {
                                 width: "50%",
                                 fontWeight: "500"
                             }}>
-                                {"item.jobName"}
+                                {item.Committee.CommitteeTitle}
                             </Text>
                         </View>
                         <TouchableOpacity
-                            onPress={() => dispatch(changeAddAtAssignedJobModal(true))}
+                            onPress={() => props.navigation.navigate("EmployeeAssignedJob")}
                             style={{
                                 backgroundColor: mainColor,
                                 height: 30,
@@ -223,7 +207,6 @@ function EmployeeCommittees(props) {
                 </ScrollView>
                 <View style={{ backgroundColor: backgroundColor, height: 15 }} />
             </View>
-            <AssignedJobModal />
         </>
     );
 };

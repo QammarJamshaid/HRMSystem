@@ -86,7 +86,11 @@ function Attendence(props) {
     function renderItems({ item, index }) {
         return (
             <TouchableOpacity
-                onPress={() => props.navigation.navigate("AttendenceReport")}
+                onPress={() =>
+                    props.navigation.navigate("AttendenceReport", {
+                        Uid: item.Uid
+                    })
+                }
                 style={{
                     flex: 1, width: "90%", alignSelf: "center",
                     backgroundColor: backgroundColor,

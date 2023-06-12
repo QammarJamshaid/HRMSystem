@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useId, useState } from 'react';
 import {
     Text, View, TextInput,
-    TouchableOpacity, FlatList
+    TouchableOpacity, FlatList,
+    Image
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { useForm, Controller } from 'react-hook-form';
@@ -10,6 +11,8 @@ import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { ScrollView } from 'react-native-gesture-handler';
 import { ActivityIndicator, Divider } from 'react-native-paper';
 import { ms, mvs, s, vs } from 'react-native-size-matters';
+import { useGetAllMemberQuery } from './Services/CommitteeApi';
+import employeeImages from '../../../Global/EmployeeImages';
 
 function CommitteDetail(props) {
 
@@ -18,7 +21,7 @@ function CommitteDetail(props) {
         // MarketValue: "",
     }
     const dispatch = useDispatch()
-    const {name} = props.route.params || {}
+    const { item } = props.route.params || {}
     const {
         textColor,
         mainColor,
@@ -55,18 +58,20 @@ function CommitteDetail(props) {
 
 
     ]
-    // const {
-    //     data = [],
-    //     isFetching,
-    // } = useGetJobPostedDetailQuery();
-    // console.log("detail::::::", data)
+    const {
+        data = [],
+        isFetching,
+    } = useGetAllMemberQuery(item.Uid);
+    console.log("CommmitteeeItems::::::>", item)
 
     function AllHead({ item, index }) {
-        return jobDetailsItem.map((item, key) => {
-            // const { name, website, image } = item
+        return data.map((item, id) => {
+            const imageSource = employeeImages[item.image];
             return (
+
                 <TouchableOpacity
-                    onPress={() => props.navigation.navigate("CreateCommitte")}
+                    id={item.Uid}
+                    // onPress={() => props.navigation.navigate("CreateCommitte")}
                     style={{
                         height: s(90), width: s(135),
                         marginLeft: s(15),
@@ -79,25 +84,31 @@ function CommitteDetail(props) {
                             height: 2,
                         }, shadowOpacity: 0.25, shadowRadius: 3.84,
                         elevation: 5, borderRadius: 8, alignItems: "center",
-                         marginTop: 50
+                        marginTop: 50
                     }}>
                     <View style={{
-                        height: 65, width: 65, top: -25,
+                        height: 65, width: 65, top: -30,
                         borderRadius: 100, backgroundColor: mainColor,
                         alignItems: "center", justifyContent: "center"
                     }}>
+                        {item.image && imageSource ? (
+                            <Image
+                                source={imageSource}
+                                style={{ height: 65, width: 65, alignSelf: 'center', borderRadius: 100 }}
+                            />
+                        ) : null}
                         {/* <EmergencyStockIcon color={{ mainColor }} height={22} width={22} style={{}} /> */}
                     </View>
                     <View style={{
                         alignItems: "center",
-                        justifyContent: "center", 
-                        marginTop:-20
+                        justifyContent: "center",
+                        marginTop: -20
                     }}>
                         <Text style={{
                             fontWeight: "bold",
                             fontSize: 12, color: textOffColor
                         }}>
-                            {"Mr.Shahid Jamil"}
+                            {item.Fname + item.Lname}
                         </Text>
                     </View>
                     <View style={{
@@ -220,7 +231,7 @@ function CommitteDetail(props) {
                                     fontSize: 16,
                                     fontWeight: "bold"
                                 }}>
-                                    {name}
+                                    {item.fname}
                                 </Text>
                             </View>
                             <View style={{

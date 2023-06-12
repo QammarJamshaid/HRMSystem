@@ -351,15 +351,15 @@ export default function DrawerContent({ navigation, state }) {
                             flex: 1, justifyContent: "space-between",
                             flexDirection: "row"
                         }}>
-                            <View style={[{ justifyContent: "center", marginBottom: 18 }]}>
+                             <View style={[{ justifyContent: "center", marginBottom: 18 }]}>
                                 <Text style={{
                                     color: "#fff", marginLeft: 5,
                                     fontWeight: "bold", fontSize: 18
-                                }}>Haleema Sagheer</Text>
+                                }}>{user.Fname + user.Lname}</Text>
                                 <Text style={{
                                     color: "#fff", marginLeft: 5,
                                     fontWeight: "bold", fontSize: 13
-                                }}>HaleemaSagheer@gmail.com</Text>
+                                }}>{user.email}</Text>
                             </View>
                         </View>
                     </TouchableOpacity>
