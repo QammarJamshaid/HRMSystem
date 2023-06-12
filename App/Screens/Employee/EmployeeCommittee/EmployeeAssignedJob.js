@@ -71,22 +71,24 @@ function EmployeeAssignedJob(props) {
 
             return (
                 <>
-                    <View style={
-                        {
-                            backgroundColor: mainLighterColor,
-                            borderRadius: 10,
-                            width: "100%",
-                            alignSelf: "center",
-                            shadowOffset: {
-                                width: 0,
-                                height: 2,
-                            }, shadowOpacity: 0.25, shadowRadius: 3.84,
-                            elevation: 5,
-                            marginTop:15
-                            // flex: 1
-                            // height: search ? "80%" : "30%",
-                        }
-                    }>
+                    <TouchableOpacity
+                        onPress={() => props.navigation.navigate("EmployeeApplicantDetail")}
+                        style={
+                            {
+                                backgroundColor: mainLighterColor,
+                                borderRadius: 10,
+                                width: "100%",
+                                alignSelf: "center",
+                                shadowOffset: {
+                                    width: 0,
+                                    height: 2,
+                                }, shadowOpacity: 0.25, shadowRadius: 3.84,
+                                elevation: 5,
+                                marginTop: 15
+                                // flex: 1
+                                // height: search ? "80%" : "30%",
+                            }
+                        }>
                         <View
                             style={{
                                 // flexDirection: "row",
@@ -176,7 +178,7 @@ function EmployeeAssignedJob(props) {
                             </View>
                         </View>
                         <View style={{ marginBottom: 10 }} />
-                    </View>
+                    </TouchableOpacity>
 
                 </>
             )

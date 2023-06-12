@@ -1,4 +1,4 @@
-import DateTimePicker from '@react-native-community/datetimepicker';
+// import DateTimePicker from '@react-native-community/datetimepicker';
 import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import {
@@ -17,6 +17,7 @@ import AttendanceDetailModal from './AttendanceDetailModal';
 import { useGetEmployeeAttendanceQuery } from '../Services/EmployeeApi';
 import moment from 'moment';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 function EmployeeAttendanceReport(props) {
 
@@ -77,6 +78,23 @@ function EmployeeAttendanceReport(props) {
     const [date, setdate] = useState(new Date("2022-03-25"))
     const [showDatefrom, setshowDatefrom] = useState(false)
     const [datefrom, setdatefrom] = useState(new Date("2022-03-25"))
+
+    const [fromDate, setFromDate] = useState(false);
+    const [toDate, setToDate] = useState(false);
+
+    const showDatePicker = () => {
+        setFromDate(true);
+    };
+
+    const hideDatePicker = () => {
+        setFromDate(false);
+    };
+
+    const handleConfirmFrom = (date) => {
+        console.warn("A date has been picked: ", date);
+        setFromDate(false)
+    };
+
     function AllAssets() {
 
         let dataToRender = data
@@ -180,7 +198,7 @@ function EmployeeAttendanceReport(props) {
                             marginBottom: 10
                         }}
                     >
-                      <View style={{
+                        <View style={{
                             flexDirection: "row", justifyContent: "center",
                             alignItems: "center"
                         }}>
@@ -246,7 +264,7 @@ function EmployeeAttendanceReport(props) {
                                     }}
                                     render={({ field: { onChange, onBlur, value } }) => (
                                         <TouchableOpacity
-                                            onPress={showDatepicker}
+                                            onPress={() => setFromDate(true)}
                                             style={{
                                                 width: '100%', height: 35, justifyContent: "space-between",
                                                 alignSelf: "center", flexDirection: "row",
@@ -255,7 +273,19 @@ function EmployeeAttendanceReport(props) {
                                                 alignItems: "center",
                                                 backgroundColor: backgroundColor
                                             }}>
-                                            <DateTimePicker
+                                            <Text>
+                                                {moment(value).format("MMM DD, YYYY")}
+                                            </Text>
+                                            <DateTimePickerModal
+                                                isVisible={fromDate}
+                                                mode="date"
+                                                onConfirm={(date) => {
+                                                    onChange(date)
+                                                    setFromDate(false)
+                                                }}
+                                                onCancel={() => setFromDate(false)}
+                                            />
+                                            {/* <DateTimePicker
                                                 // minimumDate={new Date()}
                                                 value={value}
                                                 mode={'date'}
@@ -265,7 +295,7 @@ function EmployeeAttendanceReport(props) {
                                                     onChange(selectedDate)}
                                                 accentColor={textLightColor}
                                                 textColor={textLightColor}
-                                            />
+                                            /> */}
                                             <View style={{
                                                 width: '10%', height: 37, alignSelf: "center",
                                                 justifyContent: "center", alignItems: "center"
@@ -302,7 +332,7 @@ function EmployeeAttendanceReport(props) {
                                     }}
                                     render={({ field: { onChange, onBlur, value } }) => (
                                         <TouchableOpacity
-                                            onPress={showDatepicker}
+                                            onPress={() => setToDate(true)}
                                             style={{
                                                 width: '100%', height: 35, justifyContent: "space-between",
                                                 alignSelf: "center", flexDirection: "row",
@@ -311,7 +341,19 @@ function EmployeeAttendanceReport(props) {
                                                 alignItems: "center",
                                                 backgroundColor: backgroundColor
                                             }}>
-                                            <DateTimePicker
+                                            <Text>
+                                                {moment(value).format("MMM DD, YYYY")}
+                                            </Text>
+                                            <DateTimePickerModal
+                                                isVisible={toDate}
+                                                mode="date"
+                                                onConfirm={(date) => {
+                                                    onChange(date)
+                                                    setToDate(false)
+                                                }}
+                                                onCancel={() => setToDate(false)}
+                                            />
+                                            {/* <DateTimePicker
                                                 // minimumDate={new Date()}
                                                 value={value}
                                                 mode={'date'}
@@ -321,7 +363,7 @@ function EmployeeAttendanceReport(props) {
                                                     onChange(selectedDate)}
                                                 accentColor={textLightColor}
                                                 textColor={textLightColor}
-                                            />
+                                            /> */}
                                             <View style={{
                                                 width: '10%', height: 37, alignSelf: "center",
                                                 justifyContent: "center", alignItems: "center"

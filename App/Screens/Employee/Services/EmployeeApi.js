@@ -67,6 +67,26 @@ export const EmployeeApi = api.injectEndpoints({
             },
             providesTags: ['employeeAttendance'],
         }),
+        getApplicantDetails: builder.query({
+            query: (id) => {
+
+                return {
+                    url: baseUrl + `/JobApplication/JobApplicationHrSideGet?applicationid=${id}`
+                }
+            },
+            providesTags: ['employeeLeave'],
+        }),
+       submitApplicantDetail: builder.mutation({
+            query: (body) => {
+                console.log("body===>", body)
+                return {
+                    url: baseUrl + `/Remark/RemarkPost`,
+                    method: 'POST',
+                    body,
+                }
+            },
+            invalidatesTags: ['employeeLeave']
+        }),
     }),
 })
 export const {
@@ -76,4 +96,6 @@ export const {
     useGetEmployeeAllCommitteesQuery,
     useAddLeavePostMutation,
     useGetEmployeeAttendanceQuery,
+    useGetApplicantDetailsQuery,
+    useSubmitApplicantDetailMutation,
 } = EmployeeApi
