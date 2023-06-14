@@ -48,6 +48,14 @@ function Committe(props) {
         data = [],
         isFetching,
     } = useGetCommittesQuery();
+    const jobDetailsItem = [
+        {
+            Title: "Job Title :",
+            value: "React Native Developer",
+        },
+
+
+    ]
 
     console.log("useDeleteCommitteMutation===>", useDeleteCommitteMutation)
 
@@ -102,9 +110,10 @@ function Committe(props) {
                             </Text>
                         </View>
                         <TouchableOpacity
-                            onPress={() =>
-                                deleteCommitte(item.CommitteeId)
-                            }
+                            // onPress={() =>
+                            //     deleteCommitte(item.CommitteeId)
+                            // }
+                            onPress={() => props.navigation.navigate("CommitteDetail", { item })}
                             style={{
                                 backgroundColor: mainColor,
                                 height: 30,
@@ -124,7 +133,8 @@ function Committe(props) {
                                     fontWeight: 'bold',
                                     alignSelf: "center",
                                 }}>
-                                Delete
+                                    {/* Delete */}
+                               View
                             </Text>
                         </TouchableOpacity>
                     </TouchableOpacity>
@@ -198,7 +208,7 @@ function Committe(props) {
                         justifyContent: "space-between",
                         marginTop: 20, width: "95%", alignSelf: "center"
                     }}>
-                        <TouchableOpacity
+                        {/* <TouchableOpacity
                             onPress={() => props.navigation.navigate("CommitteHead")}
                             style={{
                                 backgroundColor: mainColor,
@@ -221,7 +231,7 @@ function Committe(props) {
                                 }}>
                                 Add Committee
                             </Text>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
 
                         <View style={{
                             backgroundColor: backgroundColor,

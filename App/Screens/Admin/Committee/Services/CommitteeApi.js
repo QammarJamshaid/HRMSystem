@@ -29,6 +29,14 @@ export const CommitteeApi = api.injectEndpoints({
             }),
             providesTags: ['Committee'],
         }),
+
+
+        // getAllSelectedCommitteeMember: builder.query({
+        //     query: () => ({
+        //         url: baseUrl + `/User/UserroleGet`
+        //     }),
+        //     providesTags: ['Committee'],
+        // }),
         getAllHod: builder.query({
             query: () => ({
                 url: baseUrl + `/User/HodroleGet`

@@ -71,6 +71,8 @@ import PendingLeaveApp from '../Employee/EmployeeLeave/PendingLeaveApp'
 import RejectedLeaveApp from '../Employee/EmployeeLeave/RejectedLeaveApp'
 import EmployeeAssignedJob from '../Employee/EmployeeCommittee/EmployeeAssignedJob'
 import EmployeeApplicantDetail from '../Employee/EmployeeCommittee/EmployeeApplicantDetail'
+import UpdateScoring from '../Admin/Committee/UpdateScoring'
+import SelectedMember from '../Admin/SelectedMembers/SelectedMember'
 
 const { height, width } = Dimensions.get('window')
 
@@ -399,6 +401,11 @@ const CommitteNav = () => (
             name="EmployeeDetail"
             component={EmployeeDetail}
         />
+        <Stack.Screen
+            options={{ headerShown: false }}
+            name="UpdateScoring"
+            component={UpdateScoring}
+        />
 
     </Stack.Navigator>
 )
@@ -504,12 +511,13 @@ function AdminTabNav(props) {
                 />
                 <BottomTab.Screen
                     name="JobsPost"
-                    component={AdminJobNav}
+                    // component={AdminJobNav}
+                    component={SelectedMember}
                     tabBarOptions={{
                     }}
                     options={{
 
-                        tabBarLabel: 'Job Post',
+                        tabBarLabel: 'Members',
                         tabBarIcon: ({ color }) => (
                             <MaterialCommunityIcons
                                 name="briefcase-plus"
@@ -1174,7 +1182,7 @@ export default App = () => {
 
     const getUser = async () => {
         const user = await StorageManager.getData(StorageManager.storageKeys.USER)
-        if(user) {
+        if (user) {
             updateUser(user)
         }
     }

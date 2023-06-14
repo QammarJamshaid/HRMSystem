@@ -38,26 +38,45 @@ function CommitteDetail(props) {
     const [jobDetail, setJobDetail] = useState(null)
     const [loader, setLoader] = useState(false)
 
+
+
     const jobDetailsItem = [
         {
             Title: "Job Title :",
             value: "React Native Developer",
+            // score:4
         },
         {
             Title: "Location :",
             value: "Rawalpindi",
+            // score:7
         },
         {
             Title: "Salary :",
             value: "50K to 80K",
+            // score:9
         },
         {
             Title: "Last Date :",
             value: "12/04/2024",
+            // score:6
+        },
+        {
+            Title: "Last Date :",
+            value: "12/04/2024",
+            // score:6
+        },
+        {
+            Title: "Last Date :",
+            value: "12/04/2024",
+            // score:6
         },
 
 
     ]
+    const {
+        detailsItem
+    } = useSelector(state => state.committee)
     const {
         data = [],
         isFetching,
@@ -65,13 +84,20 @@ function CommitteDetail(props) {
     console.log("CommmitteeeItems::::::>", item)
 
     function AllHead({ item, index }) {
-        return data.map((item, id) => {
+        return data.map((item, key) => {
+
+            if (key > 3)
+                return null
+
             const imageSource = employeeImages[item.image];
             return (
 
                 <TouchableOpacity
                     id={item.Uid}
-                    // onPress={() => props.navigation.navigate("CreateCommitte")}
+                    onPress={() => props.navigation.navigate("UpdateScoring", {
+                        item,
+                        id: detailsItem[(key % 4)]?.id
+                    })}
                     style={{
                         height: s(90), width: s(135),
                         marginLeft: s(15),
@@ -112,6 +138,26 @@ function CommitteDetail(props) {
                         </Text>
                     </View>
                     <View style={{
+                        // alignItems: "center",
+                        // justifyContent: "center",
+                        marginTop: 10, flexDirection: "row",
+                        justifyContent: "space-between"
+                    }}>
+                        <Text style={{
+                            fontWeight: "bold",
+                            fontSize: 12, color: textOffColor
+                        }}>
+                            {"Score:    "}
+                        </Text>
+                        <Text style={{
+                            fontWeight: "bold",
+                            fontSize: 12, color: textOffColor
+                        }}>
+                            {detailsItem[(key % 4)]?.score}
+                            {/* {detailsItem[Math.floor(Math.random() * 4)]?.score} */}
+                        </Text>
+                    </View>
+                    {/* <View style={{
                         paddingHorizontal: 10,
                         marginTop: 5,
                     }}>
@@ -137,7 +183,7 @@ function CommitteDetail(props) {
                                 Remove
                             </Text>
                         </TouchableOpacity>
-                    </View>
+                    </View> */}
                 </TouchableOpacity>
             )
         })
@@ -221,7 +267,7 @@ function CommitteDetail(props) {
                             borderRadius: 8,
                         }}>
                             <View style={{
-                                marginTop: 20,
+                                // marginTop: 20,
                                 marginBottom: 10,
                                 paddingHorizontal: 10,
                                 alignSelf: "center",
@@ -238,11 +284,17 @@ function CommitteDetail(props) {
                                 flexDirection: "row", marginTop: 10,
                                 paddingHorizontal: 10,
                             }}>
-                                <Text style={{
+                                {/* <Text style={{
                                     color: borderColor, fontSize: 14,
                                     fontWeight: "bold", width: 140
                                 }}>
                                     {"Committee Head:"}
+                                </Text> */}
+                                <Text style={{
+                                    color: borderColor, fontSize: 14,
+                                    fontWeight: "bold", width: 180
+                                }}>
+                                    {"Committee Chairman:"}
                                 </Text>
                                 <Text style={{
                                     color: textColor, fontSize: 14,
@@ -256,7 +308,7 @@ function CommitteDetail(props) {
                                 paddingHorizontal: 10,
                                 marginBottom: 20
                             }}>
-                                <TouchableOpacity
+                                {/* <TouchableOpacity
                                     onPress={() => props.navigation.navigate("AllMembers")}
                                     style={{
                                         backgroundColor: mainColor,
@@ -277,7 +329,7 @@ function CommitteDetail(props) {
                                         }}>
                                         Add Member
                                     </Text>
-                                </TouchableOpacity>
+                                </TouchableOpacity> */}
                             </View>
                         </View>
 
